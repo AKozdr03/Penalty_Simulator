@@ -1,0 +1,37 @@
+# Copyright (C) 2023  AGH University of Science and Technology
+# MTM UEC2
+# Author: Piotr Kaczmarczyk
+#
+# Description:
+# List of files and directories not to be tracked by git.
+# They will be removed when cleaning the project directory.
+
+fpga/build
+fpga/.Xil
+fpga/vivado*
+fpga/xvlog*
+fpga/xelab*
+fpga/xsim*
+fpga/.hbs
+
+sim/build
+sim/.Xil
+sim/vivado*
+sim/axsim.sh
+sim/webtalk*
+sim/xvlog*
+sim/xelab*
+sim/xsim*
+sim/*.wdb
+sim/.hbs
+
+vivado*
+xvlog*
+xelab*
+xsim*
+
+dvt_build.log
+.dvt/
+
+xcelium.d
+xrun.log

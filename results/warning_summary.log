@@ -1,0 +1,80 @@
+Warnings, critical warnings and errors from synthesis and implementation
+
+Created: 2024-05-09 20:53:00
+
+----SYNTHESIS----
+WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [rtl/vga_timing.sv:16]
+WARNING: [Synth 8-6014] Unused sequential element set_x.inc_reg was removed.  [rtl/mouse_vhd/MouseCtl.vhd:450]
+WARNING: [Synth 8-6014] Unused sequential element set_x.x_inter_reg was removed.  [rtl/mouse_vhd/MouseCtl.vhd:456]
+WARNING: [Synth 8-6014] Unused sequential element set_y.inc_reg was removed.  [rtl/mouse_vhd/MouseCtl.vhd:514]
+WARNING: [Synth 8-6014] Unused sequential element set_y.y_inter_reg was removed.  [rtl/mouse_vhd/MouseCtl.vhd:520]
+WARNING: [Synth 8-87] always_comb on 'rect_state_reg' did not result in combinational logic [rtl/draw/draw_rect_ctl.sv:68]
+WARNING: [Synth 8-87] always_comb on 'data_reg' did not result in combinational logic [rtl/rom/char_16x16.sv:23]
+WARNING: [Synth 8-7129] Port in\.rgb[11] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[10] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[9] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[8] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[7] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[6] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[5] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[4] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[3] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[2] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[1] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[0] in module delay_rect is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[11] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[10] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[9] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[8] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[7] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[6] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[5] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[4] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[3] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[2] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[1] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[0] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[11] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[10] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[9] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[8] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[7] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[6] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[5] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[4] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-327] inferring latch for variable 'rect_state_reg' [rtl/draw/draw_rect_ctl.sv:68]
+WARNING: [Synth 8-327] inferring latch for variable 'data_reg' [rtl/rom/char_16x16.sv:23]
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port in\.rgb[11] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[10] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[9] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[8] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[7] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[6] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[5] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[4] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[3] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[2] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[1] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[0] in module draw_bg is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[11] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[10] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[9] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[8] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[7] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[6] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[5] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[4] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-3332] Sequential element (u_top_vga/u_draw_rect_ctl/rect_state_reg[2]) is unused and will be removed from module top_vga_basys3.
+
+----IMPLEMENTATION----
+WARNING: [DRC PDRC-153] Gated clock check: Net u_top_vga/u_char_16x16/data__0 is a gated clock net sourced by a combinational pin u_top_vga/u_char_16x16/data_reg[6]_i_2/O, cell u_top_vga/u_char_16x16/data_reg[6]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net u_top_vga/u_draw_rect_ctl/rect_state_reg[1]_i_2_n_0 is a gated clock net sourced by a combinational pin u_top_vga/u_draw_rect_ctl/rect_state_reg[1]_i_2/O, cell u_top_vga/u_draw_rect_ctl/rect_state_reg[1]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.

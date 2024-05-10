@@ -1,0 +1,13 @@
+# Copyright (C) 2024  AGH University of Science and Technology
+# MTM UEC2
+# Author: Andrzej Kozdrowski
+#
+# Description:
+# List of files defining the modules used during the test.
+
+
+sv work ../../rtl/vga_pkg.sv \
+        ../../rtl/vga_if.sv \
+        ../../rtl/draw/draw_rect_ctl.sv \
+        draw_rect_ctl_tb.sv
+
