@@ -1,4 +1,4 @@
-# uec2_example_project_RnD
+# Penalty_Simulator Game
 
 ## Klonowanie repozytorium
 
