@@ -1,13 +1,5 @@
 # Penalty_Simulator Game
 
-## Klonowanie repozytorium
-
-```bash
-git clone git@github.com:agh-riscv/uec2_lab1
-```
-
-**Wszystkie komendy należy wywoływać z głównego folderu projektu** (w tym wypadku `uec2_lab1`).\
-_Każdy plik w projekcie posiada nagłówek z krótkim opisem jego funkcji._
 
 ## Inicjalizacja środowiska
 
