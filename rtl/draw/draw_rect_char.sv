@@ -11,7 +11,7 @@ module draw_rect_char (
  
     vga_if.out out,
     vga_if.in in,
-
+    
     input logic [0:7] char_pixels,
     input  logic clk,
     input  logic rst,
