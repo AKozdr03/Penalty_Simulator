@@ -8,6 +8,10 @@
  * MTM UEC2
  * Piotr Kaczmarczyk
  *
+ * 2023  AGH University of Science and Technology
+ * MTM UEC2
+ * Aron Lampart, Andrzej Kozdrowski
+ *
  * Description:
  * The project top module.
  */
