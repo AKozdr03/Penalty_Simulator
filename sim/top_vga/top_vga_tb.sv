@@ -7,7 +7,8 @@
  * 2023  AGH University of Science and Technology
  * MTM UEC2
  * Piotr Kaczmarczyk
- *
+ * Andrzej Kozdrowski
+ * 
  * Description:
  * Testbench for top_vga.
  * Thanks to the tiff_writer module, an expected image
@@ -29,8 +30,9 @@ module top_vga_tb;
  *  Local parameters
  */
 
-localparam CLK_PERIOD = 25;     // 40 MHz
-localparam CLK100_PERIOD = 10;
+localparam CLK_PERIOD = 200;     // 65 MHz
+
+localparam CLK100_PERIOD = 10;  //100 MHz
 
 /**
  * Local variables and signals
@@ -47,7 +49,7 @@ wire [3:0] r, g, b;
 
 initial begin
     clk = 1'b0;
-    forever #(CLK_PERIOD/2) clk = ~clk;
+    forever #(CLK_PERIOD/26) clk = ~clk;
 end
 
 initial begin

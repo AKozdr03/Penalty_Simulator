@@ -2,9 +2,9 @@
  * Copyright (C) 2023  AGH University of Science and Technology
  * MTM UEC2
  * Author: Piotr Kaczmarczyk
- *
+ * Modified: Andrzej Kozdrowski
  * Description:
- * Vga timing controller.
+ * Vga timing controller for vga 1024x768.
  */
 
 `timescale 1 ns / 1 ps
@@ -55,9 +55,9 @@ always_ff @(posedge clk) begin
 end
 
 always_comb begin 
-    if(out.hcount == H_COUNT_TOT) begin
+    if(out.hcount == H_COUNT_TOT - 1) begin
         hcount_nxt = '0; 
-        if (out.vcount == V_COUNT_TOT) begin
+        if (out.vcount == V_COUNT_TOT - 1) begin
             vcount_nxt = '0;
         end
         else begin

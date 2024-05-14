@@ -1,7 +1,7 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
-#
+# Modified: Andrzej Kozdrowski
 # Description:
 # List of files defining the modules used during the test.
 # Specify the file paths relative to THIS file.

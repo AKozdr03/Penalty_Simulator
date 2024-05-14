@@ -62,7 +62,7 @@ assign JA1 = pclk_mirror;
  clk_wiz_0_clk_wiz CLK (
     .clk (clk),
     .clk100MHz (clk100MHz),
-    .clk40MHz (pclk),
+    .clk65MHz (pclk),
     .locked
 
  );

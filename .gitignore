@@ -2,6 +2,7 @@
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
 #
+# Modified: Andrzej Kozdrowski 
 # Description:
 # List of files and directories not to be tracked by git.
 # They will be removed when cleaning the project directory.
@@ -32,6 +33,8 @@ xsim*
 
 dvt_build.log
 .dvt/
+.vscode/
+dvt_build.txt
 
 xcelium.d
 xrun.log
