@@ -20,7 +20,7 @@ localparam H_COUNT_TOT = 1344; // 1056
 localparam H_SYNC_START = 1048; // 840
 localparam H_BLNK_START = 1024; // 800
 localparam H_SYNC_END = 1184; // 968
-localparam H_BLNK_END = 1184; //1056
+localparam H_BLNK_END = 1344; //1056
 
 // vertical 
 localparam V_COUNT_TOT = 806; // 628  

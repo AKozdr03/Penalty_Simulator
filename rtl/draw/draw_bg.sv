@@ -62,31 +62,7 @@ always_comb begin : bg_comb_blk
         else if (in.hcount == 0)                // - left edge:
             rgb_nxt = 12'h0_f_0;                // - - make a green line.
         else if (in.hcount == HOR_PIXELS - 1)   // - right edge:
-            rgb_nxt = 12'h0_0_f;                // - - make a blue line.
-        // LETTER A
-        else if (in.hcount == 330 && in.vcount >= 250 && in.vcount <= 350) begin // I left
-            rgb_nxt = 12'h0_f_0;
-        end
-        else if (in.hcount == 380 && in.vcount >= 250 && in.vcount <= 350) begin // I right
-            rgb_nxt = 12'h0_f_0;
-        end
-        else if (in.vcount == 250 && in.hcount >= 330 && in.hcount <= 380) begin // - down
-            rgb_nxt = 12'h0_f_0;
-        end
-        else if (in.vcount == 280 && in.hcount >= 330 && in.hcount <= 380) begin // -up
-            rgb_nxt = 12'h0_f_0;
-        end
-
-        //LETTER K
-        else if (in.hcount == 420 && in.vcount >= 250 && in.vcount <= 350) begin  // I
-            rgb_nxt = 12'h0_f_0;
-        end
-        else if ((in.hcount == in.vcount + 120) && in.vcount >= 300 && in.vcount <= 350) begin // incline down, 120 is offset of this line
-            rgb_nxt = 12'h0_f_0;
-        end   
-        else if ((in.hcount == VER_PIXELS - in.vcount + 120) && in.vcount >= 250 && in.vcount <= 300) begin // incline up, 120 is offset of this line
-            rgb_nxt = 12'h0_f_0;
-        end      
+            rgb_nxt = 12'h0_0_f;                // - - make a blue line.    
         else                                    // The rest of active display pixels:
             rgb_nxt = 12'h8_8_8;                // - fill with gray.
     end
