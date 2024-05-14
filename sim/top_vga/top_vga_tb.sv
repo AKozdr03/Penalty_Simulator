@@ -4,7 +4,7 @@
  * Author: prof. Eric Crabilla
  *
  * Modified by:
- * 2023  AGH University of Science and Technology
+ * 2024  AGH University of Science and Technology
  * MTM UEC2
  * Piotr Kaczmarczyk
  * Andrzej Kozdrowski
@@ -30,7 +30,7 @@ module top_vga_tb;
  *  Local parameters
  */
 
-localparam CLK_PERIOD = 200;     // 65 MHz
+localparam CLK_PERIOD = (200/13);     // 65 MHz I believe XD
 
 localparam CLK100_PERIOD = 10;  //100 MHz
 
@@ -49,7 +49,7 @@ wire [3:0] r, g, b;
 
 initial begin
     clk = 1'b0;
-    forever #(CLK_PERIOD/26) clk = ~clk;
+    forever #(CLK_PERIOD/2) clk = ~clk;
 end
 
 initial begin
@@ -75,8 +75,8 @@ top_vga dut (
 );
 
 tiff_writer #(
-    .XDIM(16'd1056),
-    .YDIM(16'd628),
+    .XDIM(16'd1344),
+    .YDIM(16'd806),
     .FILE_DIR("../../results")
 ) u_tiff_writer (
     .clk(clk),
