@@ -48,9 +48,9 @@ wire [6:0] char_code;
  */
 
 // Interfaces
- vga_if vga_timing();
- vga_if vga_bg();
- vga_if vga_ms();
+vga_if vga_timing();
+vga_if vga_bg();
+vga_if vga_ms();
 vga_if vga_char();
 
 assign vs = vga_ms.vsync;

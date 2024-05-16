@@ -3,13 +3,17 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
-#
+# Modified: Andrzej Kozdrowski
 # Description:
 # Initialize enviorment for working with the project.
 
 export ROOT_DIR=$(pwd)
 export PATH=tools:${PATH}
 export VIVADO_DIR=$(which vivado | sed "s/bin\/vivado//")
+
+cd tools/
+chmod +x *.sh   #Give permission to user
+cd ../
 
 # Create local git repository - required for scripts
 if [[ ! -d .git ]]; then
