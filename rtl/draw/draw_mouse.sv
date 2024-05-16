@@ -4,7 +4,7 @@
  * Author: Andrzej Kozdrowski
  *
  * Description:
- * Draw rectangle.
+ * Draw mouse cursor.
  */
 
  module draw_mouse (

@@ -13,10 +13,10 @@
 #                   Project details                   #
 #-----------------------------------------------------#
 # Project name                                  -- EDIT
-set project_name vga_project
+set project_name Penalty_Simulator
 
 # Top module name                               -- EDIT
-set top_module top_vga_basys3
+set top_module top_basys3
 
 # FPGA device
 set target xc7a35tcpg236-1
@@ -36,20 +36,16 @@ set sv_files {
 
     ../rtl/vga_pkg.sv
     ../rtl/vga_if.sv
-    ../rtl/rom/image_rom.sv
     ../rtl/delay_pos.sv
-    ../rtl/delay_rect.sv
     ../rtl/delay_char.sv
     ../rtl/rom/font_rom.sv
     ../rtl/rom/char_16x16.sv
     ../rtl/vga_timing.sv
-    ../rtl/draw/draw_rect_ctl.sv
     ../rtl/draw/draw_bg.sv
-    ../rtl/draw/draw_rect.sv
     ../rtl/draw/draw_rect_char.sv
     ../rtl/draw/draw_mouse.sv
     ../rtl/top_vga.sv
-    rtl/top_vga_basys3.sv
+    rtl/top_basys3.sv
 }
 
 # Specify Verilog design files location         -- EDIT
@@ -66,6 +62,6 @@ set vhdl_files {
 }
 
 # Specify files for a memory initialization     -- EDIT
-set mem_files {
-    ../rtl/rom/image_rom.data
-}
+#set mem_files {
+#
+#}

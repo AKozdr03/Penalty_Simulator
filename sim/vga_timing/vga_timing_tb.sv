@@ -18,7 +18,7 @@ import vga_pkg::*;
  *  Local parameters
  */
 
-localparam CLK_PERIOD = 25;     // 40 MHz
+localparam CLK_PERIOD = (200/13);     // 65 MHz
 
 
 /**

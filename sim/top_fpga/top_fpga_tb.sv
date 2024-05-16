@@ -56,7 +56,7 @@ end
  * Submodules instances
  */
 
-top_vga_basys3 dut (
+top_basys3 dut (
     .PS2Clk(),
     .PS2Data(),
     .clk(clk),

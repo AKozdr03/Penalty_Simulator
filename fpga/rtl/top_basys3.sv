@@ -14,7 +14,7 @@
 
 `timescale 1 ns / 1 ps
 
-module top_vga_basys3 (
+module top_basys3 (
     input  wire clk,
     inout wire PS2Clk,
     inout wire PS2Data,

@@ -12,18 +12,14 @@
 sv work ../../rtl/vga_pkg.sv \
         ../../rtl/vga_if.sv \
         ../../rtl/delay_pos.sv \
-        ../../rtl/delay_rect.sv \
-        ../../rtl/rom/image_rom.sv \
         ../../rtl/rom/font_rom.sv \
-        ../../rtl/rom/char_16x16.sv
+        ../../rtl/rom/char_16x16.sv \
         ../../rtl/vga_timing.sv \
         ../../rtl/draw/draw_bg.sv \
-        ../../rtl/draw/draw_rect_ctl.sv \
-        ../../rtl/draw/draw_rect.sv \
         ../../rtl/draw/draw_rect_char.sv \
         ../../rtl/draw/draw_mouse.sv \
         ../../rtl/top_vga.sv \
-        ../../fpga/rtl/top_vga_basys3.sv \
+        ../../fpga/rtl/top_basys3.sv \
         ../common/tiff_writer.sv \
         top_fpga_tb.sv
 
