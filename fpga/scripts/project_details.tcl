@@ -36,8 +36,7 @@ set sv_files {
 
     ../rtl/vga_pkg.sv
     ../rtl/vga_if.sv
-    ../rtl/delay_pos.sv
-    ../rtl/delay_char.sv
+    ../rtl/delay.sv
     ../rtl/rom/font_rom.sv
     ../rtl/rom/char_16x16.sv
     ../rtl/vga_timing.sv

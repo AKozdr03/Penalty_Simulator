@@ -1,7 +1,7 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
-#
+# Modified: Andrzej Kozdrowski
 # Description:
 # List of files defining the modules used during the test.
 # Specify the file paths relative to THIS file.
@@ -14,8 +14,7 @@ sv work ../../rtl/vga_pkg.sv \
         ../../rtl/vga_timing.sv \
         ../../rtl/rom/font_rom.sv \
         ../../rtl/rom/char_16x16.sv \
-        ../../rtl/delay_pos.sv \
-        ../../rtl/delay_char.sv \
+        ../../rtl/delay.sv \
         ../../rtl/draw/draw_bg.sv \
         ../../rtl/draw/draw_rect_char.sv \
         ../../rtl/draw/draw_mouse.sv \

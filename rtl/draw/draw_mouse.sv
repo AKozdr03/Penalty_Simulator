@@ -16,7 +16,18 @@
     vga_if.out out_mouse
 );
 
-import vga_pkg::*;
+logic [11:0] xpos_delay;
+logic [11:0] ypos_delay;
+
+delay#(        
+    .WIDTH(24),
+    .CLK_DEL(1)) 
+u_delay_pos(
+    .clk,
+    .rst,
+    .din({xpos, ypos}),
+    .dout({xpos_delay, ypos_delay})
+);
 
 MouseDisplay u_Mouse_Display(
     .pixel_clk(clk),
@@ -24,8 +35,8 @@ MouseDisplay u_Mouse_Display(
     .rgb_in (in_mouse.rgb),
     .rgb_out (out_mouse.rgb),
     .vcount (in_mouse.vcount),
-    .xpos,
-    .ypos,
+    .xpos(xpos_delay),
+    .ypos(ypos_delay),
     .hcount (in_mouse.hcount),
     .enable_mouse_display_out()
 );

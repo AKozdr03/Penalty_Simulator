@@ -37,8 +37,6 @@ module top_vga (
  */
 wire [11:0] xpos;
 wire [11:0] ypos;
-wire [11:0] xpos_delay;
-wire [11:0] ypos_delay;
 wire [7:0] char_pixels;
 wire [7:0] char_xy;
 wire [3:0] char_line;
@@ -93,23 +91,13 @@ MouseCtl u_MouseCtl(
     .value(),
     .zpos()
 );
-
-delay_pos u_delay_pos(
-    .xpos_in (xpos),
-    .clk,
-    .rst,
-    .ypos_in (ypos),
-    .xpos_out (xpos_delay),
-    .ypos_out (ypos_delay)
-);
-
 draw_mouse u_draw_mouse(
     .clk,
     .rst,
     .in_mouse (vga_char),
     .out_mouse (vga_ms),
-    .xpos (xpos_delay),
-    .ypos (ypos_delay)
+    .xpos,
+    .ypos
 );
 
 

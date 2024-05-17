@@ -62,7 +62,7 @@ end
 vga_timing dut(
     .clk,
     .rst,
-    .out (vga_timing)
+    .out()
 );
 
 /**
