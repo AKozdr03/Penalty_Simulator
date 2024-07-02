@@ -13,6 +13,7 @@ export VIVADO_DIR=$(which vivado | sed "s/bin\/vivado//")
 
 cd tools/
 chmod +x *.sh   #Give permission to user
+chmod +x *.tcl
 cd ../
 
 # Create local git repository - required for scripts
