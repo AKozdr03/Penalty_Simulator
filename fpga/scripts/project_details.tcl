@@ -42,6 +42,11 @@ set sv_files {
     ../rtl/draw/draw_mouse.sv
     ../rtl/draw/draw_keeper.sv
     ../rtl/draw/draw_ball.sv
+    ../rtl/uart/uart.sv
+    ../rtl/uart/uart_tx.sv
+    ../rtl/uart/uart_rx.sv
+    ../rtl/uart/fifo.sv
+    ../rtl/uart/mod_m_counter.sv
     ../rtl/screens/start_screen.sv
     ../rtl/screens/end_screen.sv
     ../rtl/screens/keeper_screen.sv
