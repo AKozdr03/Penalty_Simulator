@@ -186,16 +186,16 @@ architecture Behavioral of Ps2Interface is
 -- Values are valid for a 100MHz clk. Please adjust for other
 -- frequencies if necessary!
 
--- For 60MHz - 1tick = 16,67ns
+-- For 65MHz - 1tick = 15.38ns
 
 -- upper limit for 100us delay counter.
--- 5999 * 16,67ns = 100us
-constant DELAY_100US : std_logic_vector(13 downto 0):= "01011101101111";
-                                                 -- 5999 clock periods
+-- 6502 * 15.38ns = 100us
+constant DELAY_100US : std_logic_vector(13 downto 0):= "01100101100110";
+                                                 -- 6502 clock periods
 -- upper limit for 20us delay counter.
--- 1200 * 16,67ns = 20us
-constant DELAY_20US  : std_logic_vector(10 downto 0) := "10010110000";
-                                                  -- 1200 clock periods
+-- 1300 * 15.38ns = 20us
+constant DELAY_20US  : std_logic_vector(10 downto 0) := "10100010100";
+                                                  -- 1300 clock periods
 -- upper limit for 63clk delay counter.
 constant DELAY_63CLK : std_logic_vector(6 downto 0)  := "1111111";
                                                     -- 63 clock periods
