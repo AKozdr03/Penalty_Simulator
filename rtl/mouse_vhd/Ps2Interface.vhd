@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------
 -- ps2interface.vhd
 ------------------------------------------------------------------------
--- Author : Ulrich Zoltán
+-- Author : Ulrich Zoltï¿½n
 --          Copyright 2006 Digilent, Inc.
 ------------------------------------------------------------------------
 -- This file contains the implementation of a generic bidirectional
@@ -186,14 +186,16 @@ architecture Behavioral of Ps2Interface is
 -- Values are valid for a 100MHz clk. Please adjust for other
 -- frequencies if necessary!
 
+-- For 60MHz - 1tick = 16,67ns
+
 -- upper limit for 100us delay counter.
--- 10000 * 10ns = 100us
-constant DELAY_100US : std_logic_vector(13 downto 0):= "10011100010000";
-                                                 -- 10000 clock periods
+-- 5999 * 16,67ns = 100us
+constant DELAY_100US : std_logic_vector(13 downto 0):= "01011101101111";
+                                                 -- 5999 clock periods
 -- upper limit for 20us delay counter.
--- 2000 * 10ns = 20us
-constant DELAY_20US  : std_logic_vector(10 downto 0) := "11111010000";
-                                                  -- 2000 clock periods
+-- 1200 * 16,67ns = 20us
+constant DELAY_20US  : std_logic_vector(10 downto 0) := "10010110000";
+                                                  -- 1200 clock periods
 -- upper limit for 63clk delay counter.
 constant DELAY_63CLK : std_logic_vector(6 downto 0)  := "1111111";
                                                     -- 63 clock periods

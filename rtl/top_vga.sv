@@ -74,7 +74,7 @@ draw_bg u_draw_bg (
 );
 
 MouseCtl u_MouseCtl(
-    .clk (clk100MHz),
+    .clk,
     .rst,
     .ps2_clk,
     .ps2_data,
