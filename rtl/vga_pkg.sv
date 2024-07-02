@@ -1,8 +1,8 @@
 /**
- * Copyright (C) 2023  AGH University of Science and Technology
+ * Copyright (C) 2024  AGH University of Science and Technology
  * MTM UEC2
  * Author: Piotr Kaczmarczyk
- * Modified: Andrzej Kozdrowski
+ * Modified: Andrzej Kozdrowski, Aron Lampart
  * Description:
  * Package with vga related constants.
  */
@@ -29,14 +29,6 @@ localparam V_BLNK_START = 768;
 localparam V_SYNC_END = 777;
 localparam V_BLNK_END = 806;
 
-//rect dimensions
-localparam RECT_WIDTH = 64;
-localparam RECT_LENGTH = 48;
-localparam RECT_COLOR = 12'h0_0_f;
-
-// char position
-localparam CHAR_X_POS = 600;
-localparam CHAR_Y_POS = 100;
 
 endpackage
 
