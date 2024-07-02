@@ -38,3 +38,7 @@ dvt_build.txt
 
 xcelium.d
 xrun.log
+
+
+results/top_basys3.bit
+results/warning_summary.log
