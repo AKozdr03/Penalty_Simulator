@@ -3,7 +3,7 @@ Warnings, critical warnings and errors from synthesis and implementation
 Created: 2024-05-18 17:47:50
 
 ----SYNTHESIS----
-WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [E:/Penalty_Simulator/rtl/vga_timing.sv:16]
+WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [C:/Users/anonim/Desktop/Penalty_Simulator/rtl/vga_timing.sv:16]
 WARNING: [Synth 8-7129] Port in\.rgb[11] in module draw_bg is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[10] in module draw_bg is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[9] in module draw_bg is either unconnected or has no load
@@ -28,8 +28,8 @@ WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnec
 WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk100MHz in module top_vga is either unconnected or has no load
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 
 ----IMPLEMENTATION----
-WARNING: [Route 35-328] Router estimated timing not met.
-CRITICAL WARNING: [Timing 38-282] The design failed to meet the timing requirements. Please see the timing summary report for details on the timing violations.
+CLEAR :)
