@@ -36,16 +36,11 @@ module top_basys3 (
 
 wire clk100MHz;
 
-wire locked;
 wire pclk;
 wire pclk_mirror;
 
 (* KEEP = "TRUE" *)
 (* ASYNC_REG = "TRUE" *)
-logic [7:0] safe_start = 0;
-// For details on synthesis attributes used above, see AMD Xilinx UG 901:
-// https://docs.xilinx.com/r/en-US/ug901-vivado-synthesis/Synthesis-Attributes
-
 
 /**
  * Signals assignments
@@ -63,7 +58,7 @@ assign JA1 = pclk_mirror;
     .clk (clk),
     .clk100MHz (clk100MHz),
     .clk65MHz (pclk),
-    .locked
+    .locked()
 
  );
  
@@ -83,7 +78,7 @@ ODDR pclk_oddr (
  *  Project functional top module
  */
 
-top_vga u_top_vga (
+top_game u_top_game (
     .ps2_clk (PS2Clk),
     .ps2_data (PS2Data),
     .clk100MHz (clk100MHz),

@@ -7,7 +7,7 @@
  * Package with vga related constants.
  */
 
-package vga_pkg;
+package game_pkg;
 
 // Parameters for VGA Display 1024 x 768 @ 60fps using a 65 MHz clock;
 localparam HOR_PIXELS = 1024;

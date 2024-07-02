@@ -1,8 +1,8 @@
 /**
- * Copyright (C) 2023  AGH University of Science and Technology
+ * Copyright (C) 2024  AGH University of Science and Technology
  * MTM UEC2
  * Author: Piotr Kaczmarczyk
- * Modified: Andrzej Kozdrowski
+ * Modified: Andrzej Kozdrowski, Aron Lampart
  * Description:
  * Vga timing controller for vga 1024x768.
  */
@@ -13,11 +13,11 @@ module vga_timing (
     input  logic clk,
     input  logic rst,
     
-    vga_if.out out
+    game_if.out out
 
 );
 
-import vga_pkg::*;
+import game_pkg::*;
 
 
 /**

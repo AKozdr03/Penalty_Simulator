@@ -1,8 +1,8 @@
 /**
- * Copyright (C) 2023  AGH University of Science and Technology
+ * Copyright (C) 2024  AGH University of Science and Technology
  * MTM UEC2
  * Author: Piotr Kaczmarczyk
- *
+ * Modified: Aron Lampart, Andrzej Kozdrowski
  * Description:
  * Draw background.
  */
@@ -13,11 +13,11 @@
 module draw_bg (
     input  logic clk,
     input  logic rst,
-    vga_if.in in,
-    vga_if.out out
+    game_if.in in,
+    game_if.out out
 );
 
-import vga_pkg::*;
+import game_pkg::*;
 
 
 /**

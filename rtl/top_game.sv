@@ -18,7 +18,7 @@
 
 `timescale 1 ns / 1 ps
 
-module top_vga (
+module top_game (
     input  logic clk,
     input  logic clk100MHz,
     input  logic rst,
@@ -37,19 +37,16 @@ module top_vga (
  */
 wire [11:0] xpos;
 wire [11:0] ypos;
-wire [7:0] char_pixels;
-wire [7:0] char_xy;
-wire [3:0] char_line;
-wire [6:0] char_code;
+
 /**
  * Signals assignments
  */
 
 // Interfaces
-vga_if vga_timing();
-vga_if vga_bg();
-vga_if vga_ms();
-vga_if vga_char();
+game_if vga_timing();
+game_if vga_bg();
+game_if vga_ms();
+game_if vga_char();
 
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
@@ -91,6 +88,7 @@ MouseCtl u_MouseCtl(
     .value(),
     .zpos()
 );
+
 draw_mouse u_draw_mouse(
     .clk,
     .rst,
@@ -101,27 +99,5 @@ draw_mouse u_draw_mouse(
 );
 
 
-font_rom u_font_rom(
-    .clk,
-    .addr({char_code[6:0], char_line[3:0]}),
-    .char_line_pixels(char_pixels)
-);
-
-
-draw_rect_char u_draw_rect_char(
-    .clk,
-    .rst,
-    .in (vga_bg),
-    .out(vga_char),
-    .char_line,
-    .char_xy,
-    .char_pixels
-);
-
-char_16x16 u_char_16x16(
-    .clk,
-    .char_code,
-    .char_xy
-);
 
 endmodule

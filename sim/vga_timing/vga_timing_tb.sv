@@ -11,7 +11,7 @@
 
 module vga_timing_tb;
 
-import vga_pkg::*;
+import game_pkg::*;
 
 
 /**

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2024  AGH University of Science and Technology
  * MTM UEC2
- * Author: Andrzej Kozdrowski
+ * Author: Andrzej Kozdrowski, Aron Lampart
  *
  * Description:
  * Draw mouse cursor.
@@ -12,8 +12,8 @@
     input  logic rst,
     input logic [11:0] xpos,
     input logic [11:0] ypos,  
-    vga_if.in in_mouse,
-    vga_if.out out_mouse
+    game_if.in in_mouse,
+    game_if.out out_mouse
 );
 
 logic [11:0] xpos_delay;
