@@ -1,7 +1,7 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
-#
+# Modified: Aron Lampart, Andrzej Kozdrowski
 # Description:
 # Project detiles required for generate_bitstream.tcl
 # Make sure that project_name, top_module and target are correct.
@@ -27,8 +27,7 @@ set target xc7a35tcpg236-1
 # Specify .xdc files location                   -- EDIT
 set xdc_files {
     constraints/clk_wiz_0.xdc
-    constraints/clk_wiz_0_late.xdc
-    constraints/top_vga_basys3.xdc
+    constraints/top_game_basys3.xdc
 }
 
 # Specify SystemVerilog design files location   -- EDIT
@@ -51,6 +50,13 @@ set sv_files {
     ../rtl/screens/end_screen.sv
     ../rtl/screens/keeper_screen.sv
     ../rtl/screens/shooter_screen.sv
+    ../rtl/rom/winner_rom.sv
+    ../rtl/rom/start_rom.sv
+    ../rtl/rom/shooter_rom.sv
+    ../rtl/rom/looser_rom.sv
+    ../rtl/rom/keeper_rom.sv
+    ../rtl/rom/goalkeeper_rom.sv
+    ../rtl/rom/ball_rom.sv
     ../rtl/output_selectror.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv

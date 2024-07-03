@@ -34,7 +34,6 @@ module top_basys3 (
  * Local variables and signals
  */
 
-wire clk100MHz;
 
 wire pclk;
 wire pclk_mirror;
@@ -56,7 +55,7 @@ assign JA1 = pclk_mirror;
 
  clk_wiz_0_clk_wiz CLK (
     .clk (clk),
-    .clk100MHz (clk100MHz),
+    .clk100MHz (),
     .clk65MHz (pclk),
     .locked()
 
@@ -81,7 +80,6 @@ ODDR pclk_oddr (
 top_game u_top_game (
     .ps2_clk (PS2Clk),
     .ps2_data (PS2Data),
-    .clk100MHz (clk100MHz),
     .clk(pclk),
     .rst(btnC),
     .r(vgaRed),

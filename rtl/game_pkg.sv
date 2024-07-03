@@ -29,6 +29,12 @@ localparam V_BLNK_START = 768;
 localparam V_SYNC_END = 777;
 localparam V_BLNK_END = 806;
 
+// enums required for game
+typedef enum {START, KEEPER, SHOOTER, WINNER, LOSER} g_state;
+typedef enum {SOLO, MULTI} g_mode;
+
+g_state game_state;
+g_mode game_mode;
 
 endpackage
 
