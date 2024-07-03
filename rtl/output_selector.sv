@@ -21,7 +21,7 @@
 
 import game_pkg::*;
 
-game_if out_sel;
+game_if out_sel();
 
 always_ff @(posedge clk) begin
     if (rst) begin
@@ -48,22 +48,30 @@ always_ff @(posedge clk) begin
  always_comb begin
     case(game_state)
         START: begin
-            out_sel = in_start;
+            out_sel.hblnk = in_start.hblnk;
+            out_sel.hcount = in_start.hcount;
+            out_sel.hsync = in_start.hsync;
+            out_sel.rgb = in_start.rgb;
+            out_sel.vblnk = in_start.vblnk;
+            out_sel.vcount = in_start.vcount;
+            out_sel.vsync = in_start.vsync;
         end
         KEEPER: begin
-            out_sel = in_keeper;
+            //out_sel = in_keeper;
         end
         SHOOTER: begin
-            out_sel = in_shooter;
+            //out_sel = in_shooter;
         end
         WINNER: begin
-            out_sel = in_winner;
+            //out_sel = in_winner;
         end
         LOOSER: begin
-            out_sel = in_looser;
+            //out_sel = in_looser;
         end
         default:
-            out_sel = in_start;
+        begin
+
+        end
     endcase
 end
       

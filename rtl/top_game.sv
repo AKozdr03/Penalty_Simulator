@@ -47,6 +47,11 @@ game_if vga_timing();
 game_if vga_bg();
 game_if vga_ms();
 game_if vga_screen();
+game_if vga_start_screen();
+game_if vga_keeper_screen();
+game_if vga_shooter_screen();
+game_if vga_winner_screen();
+game_if vga_looser_screen();
 
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
@@ -98,13 +103,23 @@ draw_mouse u_draw_mouse(
     .ypos
 );
 
+output_selector u_output_selector(
+    .clk,
+    .rst,
+    .in_keeper(vga_keeper_screen),
+    .in_looser(vga_looser_screen),
+    .in_shooter(vga_shooter_screen),
+    .in_start(vga_start_screen),
+    .in_winner(vga_winner_screen),
+    .out(vga_screen)
+);
 start_screen u_start_screen(
     .clk,
     .rst,
     .pixel_addr(pixel_addr_start),
     .rgb_pixel(rgb_pixel_start),
     .in(vga_bg),
-    .out(vga_screen)
+    .out(vga_start_screen)
 );
 
 start_rom u_start_rom(

@@ -22,8 +22,8 @@
 	logic [DATA_WIDTH-1:0] rom [2**ADDR_WIDTH-1:0]; // rom memory
 
 	initial
-		$readmemh("../data/start_screen.data", rom);
-
+		$readmemh("../../rtl/data/start_screen.dat", rom);
+	
 	always_ff @(posedge clk) begin : rom_read_blk
 		dout <= rom[addrA];
 	end

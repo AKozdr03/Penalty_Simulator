@@ -18,6 +18,7 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/rom/start_rom.sv \
         ../../rtl/screens/start_screen.sv \
         ../../rtl/top_game.sv \
+        ../../rtl/output_selector.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\

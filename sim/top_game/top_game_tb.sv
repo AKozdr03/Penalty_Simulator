@@ -25,7 +25,7 @@
 
 module top_game_tb;
 
-
+import game_pkg::*;
 /**
  *  Local parameters
  */
@@ -94,7 +94,7 @@ initial begin
     rst = 1'b0;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;
-
+    game_state = START;
     $display("If simulation ends before the testbench");
     $display("completes, use the menu option to run all.");
     $display("Prepare to wait a long time...");
