@@ -30,11 +30,16 @@ localparam V_SYNC_END = 777;
 localparam V_BLNK_END = 806;
 
 // enums required for game
-typedef enum {START, KEEPER, SHOOTER, WINNER, LOSER} g_state;
+typedef enum {START, KEEPER, SHOOTER, WINNER, LOOSER} g_state;
 typedef enum {SOLO, MULTI} g_mode;
 
 g_state game_state;
+g_state game_state_nxt;
 g_mode game_mode;
+
+// screen parameters
+localparam SCREEN_WIDTH = 768;
+localparam SCREEN_LENGTH = 1024;
 
 endpackage
 
