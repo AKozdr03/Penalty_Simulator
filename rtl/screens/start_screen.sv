@@ -21,8 +21,8 @@ import game_pkg::*;
 // Local variables
 logic [11:0] rgb_nxt;
 logic [19:0] addr_nxt;
-logic [9:0] imag_x;
-logic [9:0] imag_y;
+logic [10:0] imag_x;
+logic [10:0] imag_y;
 
 always_ff @(posedge clk) begin
    if (rst) begin

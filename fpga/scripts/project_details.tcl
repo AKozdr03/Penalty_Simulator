@@ -76,6 +76,12 @@ set vhdl_files {
 }
 
 # Specify files for a memory initialization     -- EDIT
-#set mem_files {
-#
-#}
+set mem_files {
+    ../rtl/data/ball.dat
+    ../rtl/data/keeper_pov.dat
+    ../rtl/data/keeper.dat
+    ../rtl/data/lose_screen.dat
+    ../rtl/data/shooter_pov.dat
+    ../rtl/data/start_screen.dat
+    ../rtl/data/win_screen.dat
+}

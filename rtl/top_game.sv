@@ -45,7 +45,7 @@ wire [11:0] ypos;
 game_if vga_timing();
 game_if vga_bg();
 game_if vga_ms();
-game_if vga_char();
+game_if vga_screen();
 
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
@@ -91,12 +91,19 @@ MouseCtl u_MouseCtl(
 draw_mouse u_draw_mouse(
     .clk,
     .rst,
-    .in_mouse (vga_char),
+    .in_mouse (vga_screen),
     .out_mouse (vga_ms),
     .xpos,
     .ypos
 );
 
-
+start_screen u_start_screen(
+    .clk,
+    .rst,
+    .pixel_addr(),
+    .rgb_pixel(),
+    .in(vga_bg),
+    .out(vga_screen)
+);
 
 endmodule
