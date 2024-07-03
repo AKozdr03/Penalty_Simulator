@@ -9,18 +9,17 @@
 # https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
 
 
-sv work ../../rtl/vga_pkg.sv \
-        ../../rtl/vga_if.sv \
+sv work ../../rtl/game_pkg.sv \
+        ../../rtl/game_if.sv \
         ../../rtl/vga_timing.sv \
-        ../../rtl/rom/font_rom.sv \
-        ../../rtl/rom/char_16x16.sv \
         ../../rtl/delay.sv \
         ../../rtl/draw/draw_bg.sv \
-        ../../rtl/draw/draw_rect_char.sv \
         ../../rtl/draw/draw_mouse.sv \
-        ../../rtl/top_vga.sv \
+        ../../rtl/rom/start_rom.sv \
+        ../../rtl/screens/start_screen.sv \
+        ../../rtl/top_game.sv \
         ../common/tiff_writer.sv \
-        top_vga_tb.sv
+        top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\
         ../../rtl/mouse_vhd/MouseDisplay.vhd\
         ../../rtl/mouse_vhd/Ps2Interface.vhd\

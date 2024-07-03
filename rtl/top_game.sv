@@ -36,7 +36,8 @@ module top_game (
  */
 wire [11:0] xpos;
 wire [11:0] ypos;
-
+wire [11:0] rgb_pixel_start;
+wire [19:0] pixel_addr_start;
 /**
  * Signals assignments
  */
@@ -100,10 +101,16 @@ draw_mouse u_draw_mouse(
 start_screen u_start_screen(
     .clk,
     .rst,
-    .pixel_addr(),
-    .rgb_pixel(),
+    .pixel_addr(pixel_addr_start),
+    .rgb_pixel(rgb_pixel_start),
     .in(vga_bg),
     .out(vga_screen)
+);
+
+start_rom u_start_rom(
+    .clk,
+    .addrA(pixel_addr_start),
+    .dout(rgb_pixel_start)
 );
 
 endmodule

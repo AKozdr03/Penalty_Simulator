@@ -23,7 +23,7 @@
 
 `timescale 1 ns / 1 ps
 
-module top_vga_tb;
+module top_game_tb;
 
 
 /**
@@ -61,8 +61,7 @@ end
  * Submodules instances
  */
 
-top_vga dut (
-    .clk100MHz(clk100MHz),
+top_game dut (
     .ps2_clk(),
     .ps2_data(),
     .clk(clk),
