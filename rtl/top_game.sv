@@ -1,13 +1,4 @@
 /**
- * San Jose State University
- * EE178 Lab #4
- * Author: prof. Eric Crabilla
- *
- * Modified by:
- * 2023  AGH University of Science and Technology
- * MTM UEC2
- * Piotr Kaczmarczyk
- *
  * 2024  AGH University of Science and Technology
  * MTM UEC2
  * Aron Lampart, Andrzej Kozdrowski
@@ -34,16 +25,14 @@ module top_game (
 /**
  * Local variables and signals
  */
-wire [11:0] xpos;
-wire [11:0] ypos;
-wire [11:0] rgb_pixel_start;
-wire [19:0] pixel_addr_start;
+wire [11:0] xpos, ypos;
+wire [11:0] rgb_pixel_start, rgb_pixel_keeper, rgb_pixel_winner, rgb_pixel_looser ,rgb_pixel_shooter;
+wire [19:0] pixel_addr_start, pixel_addr_keeper, pixel_addr_winner, pixel_addr_looser, pixel_addr_shooter;
 /**
  * Signals assignments
  */
 
 // Interfaces
-game_if vga_timing();
 game_if vga_bg();
 game_if vga_ms();
 game_if vga_screen();
@@ -65,13 +54,6 @@ assign {r,g,b} = vga_ms.rgb;
 vga_timing u_vga_timing (
     .clk,
     .rst,
-    .out (vga_timing)
-);
-
-draw_bg u_draw_bg (
-    .clk,
-    .rst,
-    .in (vga_timing),
     .out (vga_bg)
 );
 
@@ -126,6 +108,66 @@ start_rom u_start_rom(
     .clk,
     .addrA(pixel_addr_start),
     .dout(rgb_pixel_start)
+);
+
+keeper_screen u_keeper_screen(
+    .clk,
+    .rst,
+    .pixel_addr(pixel_addr_keeper),
+    .rgb_pixel(rgb_pixel_keeper),
+    .in(vga_bg),
+    .out(vga_keeper_screen)
+);
+
+keeper_rom u_keeper_rom(
+    .clk,
+    .addrA(pixel_addr_keeper),
+    .dout(rgb_pixel_keeper)
+);
+
+shooter_screen u_shooter_screen(
+    .clk,
+    .rst,
+    .pixel_addr(pixel_addr_shooter),
+    .rgb_pixel(rgb_pixel_shooter),
+    .in(vga_bg),
+    .out(vga_shooter_screen)
+);
+
+shooter_rom u_shooter_rom(
+    .clk,
+    .addrA(pixel_addr_shooter),
+    .dout(rgb_pixel_shooter)
+);
+
+winner_screen u_winner_screen(
+    .clk,
+    .rst,
+    .pixel_addr(pixel_addr_winner),
+    .rgb_pixel(rgb_pixel_winner),
+    .in(vga_bg),
+    .out(vga_winner_screen)
+);
+
+winner_rom u_winner_rom(
+    .clk,
+    .addrA(pixel_addr_winner),
+    .dout(rgb_pixel_winner)
+);
+
+looser_screen u_looser_screen(
+    .clk,
+    .rst,
+    .pixel_addr(pixel_addr_looser),
+    .rgb_pixel(rgb_pixel_looser),
+    .in(vga_bg),
+    .out(vga_looser_screen)
+);
+
+looser_rom u_looser_rom(
+    .clk,
+    .addrA(pixel_addr_looser),
+    .dout(rgb_pixel_looser)
 );
 
 endmodule

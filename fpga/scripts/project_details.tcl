@@ -37,7 +37,6 @@ set sv_files {
     ../rtl/game_if.sv
     ../rtl/delay.sv
     ../rtl/vga_timing.sv
-    ../rtl/draw/draw_bg.sv
     ../rtl/draw/draw_mouse.sv
     ../rtl/draw/draw_keeper.sv
     ../rtl/draw/draw_ball.sv
@@ -47,7 +46,8 @@ set sv_files {
     ../rtl/uart/fifo.sv
     ../rtl/uart/mod_m_counter.sv
     ../rtl/screens/start_screen.sv
-    ../rtl/screens/end_screen.sv
+    ../rtl/screens/winner_screen.sv
+    ../rtl/screens/looser_screen.sv
     ../rtl/screens/keeper_screen.sv
     ../rtl/screens/shooter_screen.sv
     ../rtl/rom/winner_rom.sv

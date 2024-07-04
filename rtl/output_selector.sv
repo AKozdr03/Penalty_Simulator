@@ -46,6 +46,7 @@ always_ff @(posedge clk) begin
  end
 
  always_comb begin
+    game_state_nxt = LOOSER;
     case(game_state)
         START: begin
             out_sel.hblnk = in_start.hblnk;
@@ -66,17 +67,41 @@ always_ff @(posedge clk) begin
             out_sel.vsync = in_keeper.vsync;
         end
         SHOOTER: begin
-            //out_sel = in_shooter;
+            out_sel.hblnk = in_shooter.hblnk;
+            out_sel.hcount = in_shooter.hcount;
+            out_sel.hsync = in_shooter.hsync;
+            out_sel.rgb = in_shooter.rgb;
+            out_sel.vblnk = in_shooter.vblnk;
+            out_sel.vcount = in_shooter.vcount;
+            out_sel.vsync = in_shooter.vsync;
         end
         WINNER: begin
-            //out_sel = in_winner;
+            out_sel.hblnk = in_winner.hblnk;
+            out_sel.hcount = in_winner.hcount;
+            out_sel.hsync = in_winner.hsync;
+            out_sel.rgb = in_winner.rgb;
+            out_sel.vblnk = in_winner.vblnk;
+            out_sel.vcount = in_winner.vcount;
+            out_sel.vsync = in_winner.vsync;
         end
         LOOSER: begin
-            //out_sel = in_looser;
+            out_sel.hblnk = in_looser.hblnk;
+            out_sel.hcount = in_looser.hcount;
+            out_sel.hsync = in_looser.hsync;
+            out_sel.rgb = in_looser.rgb;
+            out_sel.vblnk = in_looser.vblnk;
+            out_sel.vcount = in_looser.vcount;
+            out_sel.vsync = in_looser.vsync;
         end
         default:
         begin
-
+            out_sel.hblnk = in_start.hblnk;
+            out_sel.hcount = in_start.hcount;
+            out_sel.hsync = in_start.hsync;
+            out_sel.rgb = in_start.rgb;
+            out_sel.vblnk = in_start.vblnk;
+            out_sel.vcount = in_start.vcount;
+            out_sel.vsync = in_start.vsync;
         end
     endcase
 end

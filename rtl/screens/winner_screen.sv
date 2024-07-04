@@ -3,19 +3,20 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Start screen controler.
+ * Winner screen controler.
  */
 
- module start_screen(
-   input wire clk,
-   input wire rst,
-   input wire [11:0] rgb_pixel,
+ module winner_screen(
+    input wire clk,
+    input wire rst,
+    input wire [11:0] rgb_pixel,
+ 
+    game_if.in in,
+    game_if.out out,
+    output logic [19:0] pixel_addr
 
-   game_if.in in,
-   game_if.out out,
-   output logic [19:0] pixel_addr
 );
-
+       
 import game_pkg::*;
 
 // Local variables
@@ -51,7 +52,7 @@ delay #(
    .CLK_DEL(2),
    .WIDTH(26)
 )
-u_rgb_start_delay(
+u_rgb_winner_delay(
    .clk,
    .rst,
    .din({in.hblnk, in.hcount, in.hsync, in.vblnk, in.vcount, in.vsync}),
@@ -64,5 +65,5 @@ always_comb begin
    addr_nxt = imag_y * SCREEN_WIDTH + imag_x;
    rgb_nxt = rgb_pixel;
 end
-
+  
 endmodule

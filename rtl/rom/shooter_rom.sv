@@ -22,7 +22,7 @@
 	logic [DATA_WIDTH-1:0] rom [2**ADDR_WIDTH-1:0]; // rom memory
 
 	initial
-		$readmemh("../data/shooter_pov.data", rom);
+		$readmemh("../../rtl/data/shooter_pov.dat", rom);
 
 	always_ff @(posedge clk) begin : rom_read_blk
 		dout <= rom[addrA];

@@ -13,10 +13,17 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/game_if.sv \
         ../../rtl/vga_timing.sv \
         ../../rtl/delay.sv \
-        ../../rtl/draw/draw_bg.sv \
         ../../rtl/draw/draw_mouse.sv \
         ../../rtl/rom/start_rom.sv \
+        ../../rtl/rom/keeper_rom.sv \
+        ../../rtl/rom/shooter_rom.sv \
+        ../../rtl/rom/winner_rom.sv \
+        ../../rtl/rom/looser_rom.sv \
         ../../rtl/screens/start_screen.sv \
+        ../../rtl/screens/keeper_screen.sv \
+        ../../rtl/screens/shooter_screen.sv \
+        ../../rtl/screens/winner_screen.sv \
+        ../../rtl/screens/looser_screen.sv \
         ../../rtl/top_game.sv \
         ../../rtl/output_selector.sv \
         ../common/tiff_writer.sv \
