@@ -57,7 +57,13 @@ always_ff @(posedge clk) begin
             out_sel.vsync = in_start.vsync;
         end
         KEEPER: begin
-            //out_sel = in_keeper;
+            out_sel.hblnk = in_keeper.hblnk;
+            out_sel.hcount = in_keeper.hcount;
+            out_sel.hsync = in_keeper.hsync;
+            out_sel.rgb = in_keeper.rgb;
+            out_sel.vblnk = in_keeper.vblnk;
+            out_sel.vcount = in_keeper.vcount;
+            out_sel.vsync = in_keeper.vsync;
         end
         SHOOTER: begin
             //out_sel = in_shooter;

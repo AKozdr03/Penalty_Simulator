@@ -23,6 +23,8 @@ logic [11:0] rgb_nxt;
 logic [19:0] addr_nxt;
 logic [10:0] imag_x;
 logic [10:0] imag_y;
+logic [10:0] hcount_d, vcount_d;
+logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
 always_ff @(posedge clk) begin
    if (rst) begin
@@ -35,16 +37,26 @@ always_ff @(posedge clk) begin
        out.rgb    <= '0;
       pixel_addr <= '0;
    end else begin
-       out.vcount <= in.vcount;
-       out.vsync  <= in.vsync;
-       out.vblnk  <= in.vblnk;
-       out.hcount <= in.hcount;
-       out.hsync  <= in.hsync;
-       out.hblnk  <= in.hblnk;
+       out.vcount <= vcount_d;
+       out.vsync  <= vsync_d;
+       out.vblnk  <= vblnk_d;
+       out.hcount <= hcount_d;
+       out.hsync  <= hsync_d;
+       out.hblnk  <= hblnk_d;
        out.rgb    <= rgb_nxt;
        pixel_addr <= addr_nxt;
    end
 end
+delay #(
+   .CLK_DEL(2),
+   .WIDTH(26)
+)
+u_rgb_delay(
+   .clk,
+   .rst,
+   .din({in.hblnk, in.hcount, in.hsync, in.vblnk, in.vcount, in.vsync}),
+   .dout({hblnk_d,hcount_d,hsync_d, vblnk_d, vcount_d, vsync_d})
+);
 
 always_comb begin
    imag_y = in.vcount;

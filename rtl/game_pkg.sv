@@ -38,8 +38,8 @@ g_state game_state_nxt;
 g_mode game_mode;
 
 // screen parameters
-localparam SCREEN_WIDTH = 768;
-localparam SCREEN_LENGTH = 1024;
+localparam SCREEN_WIDTH = 1024;
+localparam SCREEN_LENGTH = 768;
 
 endpackage
 
