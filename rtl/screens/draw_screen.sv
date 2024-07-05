@@ -3,10 +3,10 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Shooter screen controler.
+ * Keeper screen controler.
  */
 
- module shooter_screen(
+ module draw_screen(
     input wire clk,
     input wire rst,
     input wire [11:0] rgb_pixel,
@@ -14,9 +14,10 @@
     game_if.in in,
     game_if.out out,
     output logic [19:0] pixel_addr
-);
-   
-import game_pkg::*;
+
+ );
+
+ import game_pkg::*;
 
  // Local variables
  logic [11:0] rgb_nxt;
@@ -51,7 +52,7 @@ import game_pkg::*;
     .CLK_DEL(2),
     .WIDTH(26)
  )
- u_rgb_shooter_delay(
+ u_rgb_keeper_delay(
     .clk,
     .rst,
     .din({in.hblnk, in.hcount, in.hsync, in.vblnk, in.vcount, in.vsync}),
@@ -64,4 +65,6 @@ import game_pkg::*;
     addr_nxt = imag_y * SCREEN_WIDTH + imag_x;
     rgb_nxt = rgb_pixel;
  end
-endmodule
+ 
+
+ endmodule

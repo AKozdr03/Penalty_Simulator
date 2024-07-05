@@ -45,11 +45,8 @@ set sv_files {
     ../rtl/uart/uart_rx.sv
     ../rtl/uart/fifo.sv
     ../rtl/uart/mod_m_counter.sv
-    ../rtl/screens/start_screen.sv
-    ../rtl/screens/winner_screen.sv
-    ../rtl/screens/looser_screen.sv
-    ../rtl/screens/keeper_screen.sv
-    ../rtl/screens/shooter_screen.sv
+    ../rtl/screens/screen_selector.sv
+    ../rtl/screens/draw_screen.sv
     ../rtl/rom/winner_rom.sv
     ../rtl/rom/start_rom.sv
     ../rtl/rom/shooter_rom.sv
@@ -57,7 +54,7 @@ set sv_files {
     ../rtl/rom/keeper_rom.sv
     ../rtl/rom/goalkeeper_rom.sv
     ../rtl/rom/ball_rom.sv
-    ../rtl/output_selectror.sv
+    ../rtl/output_selector.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }
