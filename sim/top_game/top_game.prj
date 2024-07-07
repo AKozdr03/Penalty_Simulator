@@ -20,7 +20,6 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/rom/winner_rom.sv \
         ../../rtl/rom/looser_rom.sv \
         ../../rtl/screens/draw_screen.sv \
-        ../../rtl/screens/screen_selector.sv \
         ../../rtl/top_game.sv \
         ../../rtl/output_selector.sv \
         ../common/tiff_writer.sv \

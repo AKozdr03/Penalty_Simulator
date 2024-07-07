@@ -3,29 +3,22 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Keeper screen controler.
+ * Module drawing the background.
  */
 
  module draw_screen(
     input wire clk,
     input wire rst,
-    input wire [11:0] rgb_pixel,
- 
     game_if.in in,
-    game_if.out out,
-    output logic [19:0] pixel_addr
-
+    game_if.out out
  );
 
  import game_pkg::*;
 
  // Local variables
  logic [11:0] rgb_nxt;
- logic [19:0] addr_nxt;
- logic [10:0] imag_x;
- logic [10:0] imag_y;
- logic [10:0] hcount_d, vcount_d;
- logic hblnk_d, vblnk_d, hsync_d, vsync_d;
+ logic [10:0] hcount_nxt, vcount_nxt;
+ logic hblnk_nxt, vblnk_nxt, hsync_nxt, vsync_nxt;
  
  always_ff @(posedge clk) begin
     if (rst) begin
@@ -36,35 +29,29 @@
         out.hsync  <= '0;
         out.hblnk  <= '0;
         out.rgb    <= '0;
-       pixel_addr <= '0;
     end else begin
-        out.vcount <= vcount_d;
-        out.vsync  <= vsync_d;
-        out.vblnk  <= vblnk_d;
-        out.hcount <= hcount_d;
-        out.hsync  <= hsync_d;
-        out.hblnk  <= hblnk_d;
+        out.vcount <= vcount_nxt;
+        out.vsync  <= vsync_nxt;
+        out.vblnk  <= vblnk_nxt;
+        out.hcount <= hcount_nxt;
+        out.hsync  <= hsync_nxt;
+        out.hblnk  <= hblnk_nxt;
         out.rgb    <= rgb_nxt;
-        pixel_addr <= addr_nxt;
     end
  end
- delay #(
-    .CLK_DEL(2),
-    .WIDTH(26)
- )
- u_rgb_keeper_delay(
-    .clk,
-    .rst,
-    .din({in.hblnk, in.hcount, in.hsync, in.vblnk, in.vcount, in.vsync}),
-    .dout({hblnk_d,hcount_d,hsync_d, vblnk_d, vcount_d, vsync_d})
- );
- 
- always_comb begin
-    imag_y = in.vcount;
-    imag_x = in.hcount;
-    addr_nxt = imag_y * SCREEN_WIDTH + imag_x;
-    rgb_nxt = rgb_pixel;
+
+ always_comb begin : data_passed_through
+   vcount_nxt = in.vcount ;
+   vsync_nxt = in.vsync ;
+   vblnk_nxt = in.vblnk ;
+   hcount_nxt = in.hcount ;
+   hsync_nxt = in.hsync ;
+   hblnk_nxt = in.hblnk ;
  end
  
+ always_comb begin : drawing_loop
+   if(in.vcount > 300 && in.vcount < 500 ) rgb_nxt = BLACK ;
+   else rgb_nxt = WHITE ;
+ end
 
  endmodule

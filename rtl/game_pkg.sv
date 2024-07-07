@@ -41,5 +41,9 @@ g_mode game_mode;
 localparam SCREEN_WIDTH = 1024;
 localparam SCREEN_LENGTH = 768;
 
+//rgb colours
+localparam WHITE = 12'hf_f_f;
+localparam BLACK = 12'h0_0_0;
+
 endpackage
 

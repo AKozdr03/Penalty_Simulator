@@ -1,9 +1,9 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-07-05 19:03:03
+Created: 2024-07-05 21:08:20
 
 ----SYNTHESIS----
-WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [C:/Users/anonim/Desktop/Penalty_Simulator/rtl/vga_timing.sv:16]
+WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [C:/Users/aa1ro/OneDrive/Pulpit/Penalty_Simulator/rtl/vga_timing.sv:16]
 WARNING: [Synth 8-7129] Port in\.rgb[11] in module draw_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[10] in module draw_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[9] in module draw_screen is either unconnected or has no load
@@ -29,6 +29,18 @@ WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnec
 WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port out\.rgb[11] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[10] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[9] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[8] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[7] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[6] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[5] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[4] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
+WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-5835] Resources of type BRAM have been overutilized. Used = 576, Available = 100. Will try to implement using LUT-RAM. 
 
 ----IMPLEMENTATION----

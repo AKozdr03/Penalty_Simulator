@@ -80,21 +80,12 @@ draw_mouse u_draw_mouse(
     .ypos
 );
 
+
 draw_screen u_draw_screen(
     .clk,
     .rst,
     .in(vga_bg),
-    .out(vga_screen),
-    .pixel_addr(addr),
-    .rgb_pixel
+    .out(vga_screen)
 );
-
-screen_selector u_screen_selector(
-    .clk,
-    .rst,
-    .addr_in(addr),
-    .rgb_pixel
-);
-
 
 endmodule
