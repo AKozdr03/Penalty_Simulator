@@ -3,13 +3,13 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Module drawing the background.
+ * Module drawing the background for gk pov.
  */
 
- module draw_screen(
+ module draw_screen_gk(
     input wire clk,
     input wire rst,
-    game_if.in in,
+    timing_if.in in,
     game_if.out out
  );
 
@@ -50,17 +50,12 @@
  end
  
  always_comb begin : drawing_loop
-  //left goalpost
-  if(  (     (in.hcount >= POST_OUTER_EDGE  && in.hcount < POST_INNER_EDGE) 
-  &&        (in.vcount >= POST_TOP_EDGE    && in.vcount < POST_BOTTOM_EDGE) ) 
-  //right goalpost
-  ||(  (in.hcount > HOR_PIXELS - POST_INNER_EDGE  && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE) 
-  &&        (in.vcount >= POST_TOP_EDGE                 && in.vcount < POST_BOTTOM_EDGE)  ) 
-  //crossbar
-  ||(  (in.hcount >= POST_OUTER_EDGE   && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE) 
-  &&        (in.vcount >= CROSSBAR_TOP_EDGE && in.vcount < CROSSBAR_BOTTOM_EDGE)  ) )
+  //goal
+  if(  (     (in.hcount >= POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - POST_OUTER_EDGE) 
+  &&        (in.vcount >= POST_TOP_EDGE    && in.vcount < POST_BOTTOM_EDGE) )
+  && !((in.hcount >= POST_INNER_EDGE && in.hcount <= HOR_PIXELS - POST_INNER_EDGE) && (in.vcount >= CROSSBAR_BOTTOM_EDGE    && in.vcount < POST_BOTTOM_EDGE)))
     rgb_nxt = GREY_GOALPOST ;
-
+    
   //net vertical
   else if((  (in.hcount >= POST_OUTER_EDGE && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE && !((in.hcount - POST_OUTER_EDGE) % (NET_WIDTH)))
   &&        (in.vcount < CROSSBAR_TOP_EDGE) )

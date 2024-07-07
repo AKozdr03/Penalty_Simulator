@@ -26,14 +26,12 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
-wire [19:0] addr;
-wire [11:0] rgb_pixel;
 /**
  * Signals assignments
  */
 
 // Interfaces
-game_if vga_bg();
+timing_if vga_timing();
 game_if vga_ms();
 game_if vga_screen();
 
@@ -49,7 +47,7 @@ assign {r,g,b} = vga_ms.rgb;
 vga_timing u_vga_timing (
     .clk,
     .rst,
-    .out(vga_bg)
+    .out(vga_timing)
 );
 
 MouseCtl u_MouseCtl(
@@ -81,10 +79,10 @@ draw_mouse u_draw_mouse(
 );
 
 
-draw_screen u_draw_screen(
+draw_screen_gk u_draw_screen(
     .clk,
     .rst,
-    .in(vga_bg),
+    .in(vga_timing),
     .out(vga_screen)
 );
 

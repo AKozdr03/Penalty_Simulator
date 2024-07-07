@@ -45,7 +45,7 @@ set sv_files {
     ../rtl/uart/uart_rx.sv
     ../rtl/uart/fifo.sv
     ../rtl/uart/mod_m_counter.sv
-    ../rtl/screens/draw_screen.sv
+    ../rtl/screens/draw_screen_gk.sv
     ../rtl/rom/winner_rom.sv
     ../rtl/rom/start_rom.sv
     ../rtl/rom/shooter_rom.sv

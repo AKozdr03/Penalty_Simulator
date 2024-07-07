@@ -16,3 +16,12 @@ interface game_if;
     modport out (output vcount, hcount, rgb, vsync, vblnk, hsync, hblnk);
 
 endinterface
+
+interface timing_if;
+    logic [10:0] vcount, hcount;
+    logic vsync, vblnk, hsync, hblnk;
+
+    modport in (input vcount, hcount, vsync, vblnk, hsync, hblnk);
+    modport out (output vcount, hcount, vsync, vblnk, hsync, hblnk);
+
+endinterface
