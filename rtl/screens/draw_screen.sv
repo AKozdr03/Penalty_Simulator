@@ -40,7 +40,6 @@
     end
  end
 
- /*
  always_comb begin : data_passed_through
    vcount_nxt = in.vcount ;
    vsync_nxt = in.vsync ;
@@ -49,56 +48,48 @@
    hsync_nxt = in.hsync ;
    hblnk_nxt = in.hblnk ;
  end
-   */
  
  always_comb begin : drawing_loop
   //left goalpost
-  if(       (in.hcount >= POST_OUTER_EDGE  && in.hcount < POST_INNER_EDGE) 
+  if(  (     (in.hcount >= POST_OUTER_EDGE  && in.hcount < POST_INNER_EDGE) 
   &&        (in.vcount >= POST_TOP_EDGE    && in.vcount < POST_BOTTOM_EDGE) ) 
-    rgb_nxt = GREY_GOALPOST ;
   //right goalpost
-  else if(  (in.hcount > HOR_PIXELS - POST_INNER_EDGE  && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE) 
+  ||(  (in.hcount > HOR_PIXELS - POST_INNER_EDGE  && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE) 
   &&        (in.vcount >= POST_TOP_EDGE                 && in.vcount < POST_BOTTOM_EDGE)  ) 
-    rgb_nxt = GREY_GOALPOST ;
   //crossbar
-  else if(  (in.hcount >= POST_OUTER_EDGE   && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE) 
-  &&        (in.vcount >= CROSSBAR_TOP_EDGE && in.vcount < CROSSBAR_BOTTOM_EDGE)  ) 
+  ||(  (in.hcount >= POST_OUTER_EDGE   && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE) 
+  &&        (in.vcount >= CROSSBAR_TOP_EDGE && in.vcount < CROSSBAR_BOTTOM_EDGE)  ) )
     rgb_nxt = GREY_GOALPOST ;
+
   //net vertical
-  else if(  (in.hcount >= POST_OUTER_EDGE && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE && !((in.hcount - POST_OUTER_EDGE) % (NET_WIDTH)))
+  else if((  (in.hcount >= POST_OUTER_EDGE && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE && !((in.hcount - POST_OUTER_EDGE) % (NET_WIDTH)))
   &&        (in.vcount < CROSSBAR_TOP_EDGE) )
-    rgb_nxt = WHITE_NET ;
   //net left 45deg
-  else if(  in.hcount == ((POST_OUTER_EDGE - (in.vcount + 24) % NET_WIDTH)) // +24 is offset nessesary because I said so
+  ||    (  in.hcount == ((POST_OUTER_EDGE - (in.vcount + 24) % NET_WIDTH)) // +24 is offset nessesary because I said so
   &&        (in.vcount >= POST_TOP_EDGE && in.vcount <= (POST_BOTTOM_EDGE + 3)) )
-    rgb_nxt = WHITE_NET ;
   //net right 45deg
-  else if(  (SCREEN_WIDTH - in.hcount) == ((POST_OUTER_EDGE - (in.vcount + 24) % NET_WIDTH)) // +24 is offset nessesary because I said so
-  &&        (in.vcount >= POST_TOP_EDGE && in.vcount <= (POST_BOTTOM_EDGE + 3)) )
+  ||(  (SCREEN_WIDTH - in.hcount) == ((POST_OUTER_EDGE - (in.vcount + 24) % NET_WIDTH)) // +24 is offset nessesary because I said so
+  &&        (in.vcount >= POST_TOP_EDGE && in.vcount <= (POST_BOTTOM_EDGE + 3)) ))
       rgb_nxt = WHITE_NET ;
+
   //goal line
-  else if(  in.vcount >= (POST_BOTTOM_EDGE - 6)  && in.vcount < POST_BOTTOM_EDGE  )
-    rgb_nxt = WHITE_LINES ;
+  else if((  in.vcount >= (POST_BOTTOM_EDGE - 6)  && in.vcount < POST_BOTTOM_EDGE  )
   //6 yard line
-  else if(  in.vcount >= SIX_YARD_LINE  && in.vcount < (SIX_YARD_LINE + 3)  )
-    rgb_nxt = WHITE_LINES ;
+  ||(  in.vcount >= SIX_YARD_LINE  && in.vcount < (SIX_YARD_LINE + 3)  )
   //penalty spot
-  else if(  (((in.vcount - 450) * (in.vcount - 450))/50 + ((in.hcount - (SCREEN_WIDTH / 2)) * (in.hcount - (SCREEN_WIDTH / 2)))/300) <= 1  )
+  ||( in.hcount >= ((SCREEN_WIDTH / 2) - 15) && in.hcount <= ((SCREEN_WIDTH / 2) + 15)) 
+  && ( in.vcount >= 445 && in.vcount <= 455 ) 
+  ||( in.hcount >= ((SCREEN_WIDTH / 2) - 10) && in.hcount <= ((SCREEN_WIDTH / 2) + 10)) 
+  && ( in.vcount >= 442 && in.vcount <= 458 ) )
     rgb_nxt = WHITE_LINES ;
+
   //grass
   else if(in.vcount > GRASS_HEIGHT) 
     rgb_nxt = GREEN_GRASS ;
+
   //sky
   else 
     rgb_nxt = BLUE_BG ;
-  
-  //other
-  vcount_nxt = in.vcount ;
-  vsync_nxt = in.vsync ;
-  vblnk_nxt = in.vblnk ;
-  hcount_nxt = in.hcount ;
-  hsync_nxt = in.hsync ;
-  hblnk_nxt = in.hblnk ;
 
  end
 
