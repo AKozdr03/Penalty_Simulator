@@ -42,8 +42,26 @@ localparam SCREEN_WIDTH = 1024;
 localparam SCREEN_LENGTH = 768;
 
 //rgb colours
-localparam WHITE = 12'hf_f_f;
-localparam BLACK = 12'h0_0_0;
+localparam WHITE_LINES = 12'hf_f_f ;
+localparam WHITE_NET = 12'hd_d_f ;
+localparam BLACK = 12'h0_0_0 ;
+localparam GREY_GOALPOST = 12'hC_C_C ;
+localparam GREEN_GRASS = 12'h0_7_0 ;
+localparam BLUE_BG = 12'h7_9_F ;
+
+//bg gk params
+localparam POST_OUTER_EDGE = 20 ;
+localparam POST_INNER_EDGE = 35 ;
+localparam POST_TOP_EDGE = 100 ;
+localparam POST_BOTTOM_EDGE = 650 ;
+
+localparam CROSSBAR_TOP_EDGE = 100 ;
+localparam CROSSBAR_BOTTOM_EDGE = 115 ;
+
+localparam NET_WIDTH = 41 ;
+localparam GRASS_HEIGHT = 380 ;
+
+localparam SIX_YARD_LINE = 500 ;
 
 endpackage
 

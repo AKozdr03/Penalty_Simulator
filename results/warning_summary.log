@@ -1,9 +1,8 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-07-05 21:08:20
+Created: 2024-07-07 22:20:01
 
 ----SYNTHESIS----
-WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [C:/Users/aa1ro/OneDrive/Pulpit/Penalty_Simulator/rtl/vga_timing.sv:16]
 WARNING: [Synth 8-7129] Port in\.rgb[11] in module draw_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[10] in module draw_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[9] in module draw_screen is either unconnected or has no load
@@ -16,36 +15,46 @@ WARNING: [Synth 8-7129] Port in\.rgb[3] in module draw_screen is either unconnec
 WARNING: [Synth 8-7129] Port in\.rgb[2] in module draw_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[1] in module draw_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[0] in module draw_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[11] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[10] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[9] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[8] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[7] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[6] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[5] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[4] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-WARNING: [Synth 8-7129] Port out\.rgb[11] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[10] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[9] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[8] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[7] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[6] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[5] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[4] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-5835] Resources of type BRAM have been overutilized. Used = 576, Available = 100. Will try to implement using LUT-RAM. 
+WARNING: [Synth 8-7129] Port in\.rgb[11] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[10] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[9] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[8] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[7] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[6] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[5] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[4] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[3] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[2] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[1] in module draw_screen is either unconnected or has no load
+WARNING: [Synth 8-7129] Port in\.rgb[0] in module draw_screen is either unconnected or has no load
 
 ----IMPLEMENTATION----
-ERROR: [DRC UTLZ-1] Resource utilization: RAMB18 and RAMB36/FIFO over-utilized in Top Level Design (This design requires more RAMB18 and RAMB36/FIFO cells than are available in the target device. This design requires 576 of such cell types but only 100 compatible sites are available in the target device. Please analyze your synthesis results and constraints to ensure the design is mapped to Xilinx primitives as expected. If so, please consider targeting a larger device.)
-ERROR: [DRC UTLZ-1] Resource utilization: RAMB36/FIFO over-utilized in Top Level Design (This design requires more RAMB36/FIFO cells than are available in the target device. This design requires 288 of such cell types but only 50 compatible sites are available in the target device. Please analyze your synthesis results and constraints to ensure the design is mapped to Xilinx primitives as expected. If so, please consider targeting a larger device.)
-ERROR: [DRC UTLZ-1] Resource utilization: RAMB36E1 over-utilized in Top Level Design (This design requires more RAMB36E1 cells than are available in the target device. This design requires 288 of such cell types but only 50 compatible sites are available in the target device. Please analyze your synthesis results and constraints to ensure the design is mapped to Xilinx primitives as expected. If so, please consider targeting a larger device.)
-ERROR: [Vivado_Tcl 4-23] Error(s) found during DRC. Placer not run.
-ERROR: [Common 17-39] 'place_design' failed due to earlier errors.
+WARNING: [Route 35-328] Router estimated timing not met.
+CRITICAL WARNING: [Timing 38-282] The design failed to meet the timing requirements. Please see the timing summary report for details on the timing violations.
+WARNING: [Device 21-9320] Failed to find the Oracle tile group with name 'HSR_BOUNDARY_TOP'. This is required for Clock regions and Virtual grid.
+WARNING: [Device 21-2174] Failed to initialize Virtual grid.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4 input u_top_game/u_draw_screen/rgb_nxt4/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4 input u_top_game/u_draw_screen/rgb_nxt4/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__0 input u_top_game/u_draw_screen/rgb_nxt4__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__0 input u_top_game/u_draw_screen/rgb_nxt4__0/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__1 input u_top_game/u_draw_screen/rgb_nxt4__1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__1 input u_top_game/u_draw_screen/rgb_nxt4__1/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__2 input u_top_game/u_draw_screen/rgb_nxt4__2/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__2 input u_top_game/u_draw_screen/rgb_nxt4__2/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__3 input u_top_game/u_draw_screen/rgb_nxt4__3/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__3 input u_top_game/u_draw_screen/rgb_nxt4__3/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__4 input u_top_game/u_draw_screen/rgb_nxt4__4/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPIP-1] Input pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__4 input u_top_game/u_draw_screen/rgb_nxt4__4/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+WARNING: [DRC DPOP-1] PREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4 output u_top_game/u_draw_screen/rgb_nxt4/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+WARNING: [DRC DPOP-1] PREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__0 output u_top_game/u_draw_screen/rgb_nxt4__0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+WARNING: [DRC DPOP-1] PREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__1 output u_top_game/u_draw_screen/rgb_nxt4__1/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+WARNING: [DRC DPOP-1] PREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__2 output u_top_game/u_draw_screen/rgb_nxt4__2/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+WARNING: [DRC DPOP-1] PREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__3 output u_top_game/u_draw_screen/rgb_nxt4__3/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+WARNING: [DRC DPOP-1] PREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__4 output u_top_game/u_draw_screen/rgb_nxt4__4/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+WARNING: [DRC DPOP-2] MREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4 multiplier stage u_top_game/u_draw_screen/rgb_nxt4/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+WARNING: [DRC DPOP-2] MREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__0 multiplier stage u_top_game/u_draw_screen/rgb_nxt4__0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+WARNING: [DRC DPOP-2] MREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__1 multiplier stage u_top_game/u_draw_screen/rgb_nxt4__1/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+WARNING: [DRC DPOP-2] MREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__2 multiplier stage u_top_game/u_draw_screen/rgb_nxt4__2/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+WARNING: [DRC DPOP-2] MREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__3 multiplier stage u_top_game/u_draw_screen/rgb_nxt4__3/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+WARNING: [DRC DPOP-2] MREG Output pipelining: DSP u_top_game/u_draw_screen/rgb_nxt4__4 multiplier stage u_top_game/u_draw_screen/rgb_nxt4__4/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.

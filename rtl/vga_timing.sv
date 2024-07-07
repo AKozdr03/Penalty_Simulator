@@ -23,12 +23,9 @@ import game_pkg::*;
 /**
  * Local variables and signals
  */
-logic [10:0] vcount_nxt;
-logic [10:0] hcount_nxt;
-logic vsync_nxt;
-logic hsync_nxt;
-logic vblnk_nxt;
-logic hblnk_nxt;
+logic [11:0] rgb_nxt;
+logic [10:0] vcount_nxt, hcount_nxt;
+logic vsync_nxt, hsync_nxt, vblnk_nxt, hblnk_nxt;
 
 /**
  * Internal logic
@@ -43,6 +40,7 @@ always_ff @(posedge clk) begin
         out.hcount <= '0;
         out.hsync <= '0;
         out.hblnk <= '0;
+        out.rgb <= '0;
     end
     else begin
         out.vcount <= vcount_nxt;
@@ -51,6 +49,7 @@ always_ff @(posedge clk) begin
         out.hcount <= hcount_nxt;
         out.hsync <= hsync_nxt;
         out.hblnk <= hblnk_nxt;
+        out.rgb <= rgb_nxt;
     end
 end
 
@@ -97,5 +96,7 @@ always_comb begin
     else begin
         hblnk_nxt = '0;
     end
+
+    rgb_nxt = 12'h0_0_0;
 end
 endmodule
