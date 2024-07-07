@@ -46,7 +46,7 @@ always_ff @(posedge clk) begin
  end
 
  always_comb begin
-    game_state_nxt = LOOSER;
+
     case(game_state)
         START: begin
             out_sel.hblnk = in_start.hblnk;

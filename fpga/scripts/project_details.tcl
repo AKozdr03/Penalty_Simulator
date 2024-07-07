@@ -57,7 +57,7 @@ set sv_files {
     ../rtl/rom/keeper_rom.sv
     ../rtl/rom/goalkeeper_rom.sv
     ../rtl/rom/ball_rom.sv
-    ../rtl/output_selectror.sv
+    ../rtl/output_selector.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }
