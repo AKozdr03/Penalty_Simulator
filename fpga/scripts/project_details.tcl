@@ -34,6 +34,7 @@ set xdc_files {
 set sv_files {
 
     ../rtl/game_pkg.sv
+    ../rtl/draw_pkg.sv
     ../rtl/game_if.sv
     ../rtl/delay.sv
     ../rtl/vga_timing.sv

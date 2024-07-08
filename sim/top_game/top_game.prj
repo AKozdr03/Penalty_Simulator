@@ -10,6 +10,7 @@
 
 
 sv work ../../rtl/game_pkg.sv \
+        ../../rtl/draw_pkg.sv \
         ../../rtl/game_if.sv \
         ../../rtl/vga_timing.sv \
         ../../rtl/delay.sv \
@@ -19,10 +20,11 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/rom/shooter_rom.sv \
         ../../rtl/rom/winner_rom.sv \
         ../../rtl/rom/looser_rom.sv \
-        ../../rtl/screens/draw_screen.sv \
+        ../../rtl/screens/draw_screen_gk.sv \
+         ../../rtl/screens/draw_screen_shooter.sv \
         ../../rtl/top_game.sv \
         ../../rtl/output_selector.sv \
-        ../../rtl/game_state_sel.sv
+        ../../rtl/game_state_sel.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\

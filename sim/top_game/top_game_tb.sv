@@ -38,7 +38,7 @@ localparam CLK100_PERIOD = 10;  //100 MHz
  * Local variables and signals
  */
 
-logic clk, rst, clk100MHz;
+logic clk, rst, clk100MHz, solo_enable;
 wire vs, hs;
 wire [3:0] r, g, b;
 
@@ -70,7 +70,8 @@ top_game dut (
     .hs(hs),
     .r(r),
     .g(g),
-    .b(b)
+    .b(b),
+    .solo_enable(solo_enable)
 );
 
 tiff_writer #(
@@ -91,6 +92,7 @@ tiff_writer #(
  */
 
 initial begin
+    solo_enable = 1;
     rst = 1'b0;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;

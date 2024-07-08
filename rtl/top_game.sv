@@ -80,8 +80,16 @@ draw_mouse u_draw_mouse(
     .ypos
 );
 
-
+/*
 draw_screen_gk u_draw_screen(
+    .clk,
+    .rst,
+    .in(vga_timing)
+    .out(vga_screen)
+);
+*/
+
+draw_screen_shooter u_draw_screen_shooter(
     .clk,
     .rst,
     .in(vga_timing),

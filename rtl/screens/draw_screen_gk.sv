@@ -14,6 +14,7 @@
  );
 
  import game_pkg::*;
+ import draw_pkg::*;
 
  // Local variables
  logic [11:0] rgb_nxt;
@@ -51,26 +52,26 @@
  
  always_comb begin : drawing_loop
   //goal
-  if(  (     (in.hcount >= POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - POST_OUTER_EDGE) 
-  &&        (in.vcount >= POST_TOP_EDGE    && in.vcount < POST_BOTTOM_EDGE) )
-  && !((in.hcount >= POST_INNER_EDGE && in.hcount <= HOR_PIXELS - POST_INNER_EDGE) && (in.vcount >= CROSSBAR_BOTTOM_EDGE    && in.vcount < POST_BOTTOM_EDGE)))
+  if(  (     (in.hcount >= GK_POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - GK_POST_OUTER_EDGE) 
+  &&        (in.vcount >= GK_POST_TOP_EDGE    && in.vcount < GK_POST_BOTTOM_EDGE) )
+  && !((in.hcount >= GK_POST_INNER_EDGE && in.hcount <= HOR_PIXELS - GK_POST_INNER_EDGE) && (in.vcount >= GK_CROSSBAR_BOTTOM_EDGE    && in.vcount < GK_POST_BOTTOM_EDGE)))
     rgb_nxt = GREY_GOALPOST ;
     
   //net vertical
-  else if((  (in.hcount >= POST_OUTER_EDGE && in.hcount <= HOR_PIXELS - POST_OUTER_EDGE && !((in.hcount - POST_OUTER_EDGE) % (NET_WIDTH)))
-  &&        (in.vcount < CROSSBAR_TOP_EDGE) )
+  else if((  (in.hcount >= GK_POST_OUTER_EDGE && in.hcount <= HOR_PIXELS - GK_POST_OUTER_EDGE && !((in.hcount - GK_POST_OUTER_EDGE) % (GK_NET_WIDTH)))
+  &&        (in.vcount < GK_CROSSBAR_TOP_EDGE) )
   //net left 45deg
-  ||    (  in.hcount == ((POST_OUTER_EDGE - (in.vcount + 24) % NET_WIDTH)) // +24 is offset nessesary because I said so
-  &&        (in.vcount >= POST_TOP_EDGE && in.vcount <= (POST_BOTTOM_EDGE + 3)) )
+  ||    (  in.hcount == ((GK_POST_OUTER_EDGE - (in.vcount + 24) % GK_NET_WIDTH)) // +24 is offset nessesary because I said so
+  &&        (in.vcount >= GK_POST_TOP_EDGE && in.vcount <= GK_POST_BOTTOM_EDGE + 3)) 
   //net right 45deg
-  ||(  (SCREEN_WIDTH - in.hcount) == ((POST_OUTER_EDGE - (in.vcount + 24) % NET_WIDTH)) // +24 is offset nessesary because I said so
-  &&        (in.vcount >= POST_TOP_EDGE && in.vcount <= (POST_BOTTOM_EDGE + 3)) ))
+  ||(  (SCREEN_WIDTH - in.hcount) == ((GK_POST_OUTER_EDGE - (in.vcount + 24) % GK_NET_WIDTH)) // +24 is offset nessesary because I said so
+  &&        (in.vcount >= GK_POST_TOP_EDGE && in.vcount <= (GK_POST_BOTTOM_EDGE + 3)) ))
       rgb_nxt = WHITE_NET ;
 
   //goal line
-  else if((  in.vcount >= (POST_BOTTOM_EDGE - 6)  && in.vcount < POST_BOTTOM_EDGE  )
+  else if((  in.vcount >= (GK_POST_BOTTOM_EDGE - 6)  && in.vcount < GK_POST_BOTTOM_EDGE  )
   //6 yard line
-  ||(  in.vcount >= SIX_YARD_LINE  && in.vcount < (SIX_YARD_LINE + 3)  )
+  ||(  in.vcount >= GK_SIX_YARD_LINE  && in.vcount < (GK_SIX_YARD_LINE + 3)  )
   //penalty spot
   ||( in.hcount >= ((SCREEN_WIDTH / 2) - 15) && in.hcount <= ((SCREEN_WIDTH / 2) + 15)) 
   && ( in.vcount >= 445 && in.vcount <= 455 ) 
@@ -79,7 +80,7 @@
     rgb_nxt = WHITE_LINES ;
 
   //grass
-  else if(in.vcount > GRASS_HEIGHT) 
+  else if(in.vcount > GK_GRASS_HEIGHT) 
     rgb_nxt = GREEN_GRASS ;
 
   //sky
