@@ -18,6 +18,13 @@ localparam GREY_BAND = 12'h7_7_7;
 localparam GREEN_GRASS = 12'h0_7_0 ;
 localparam BLUE_BG = 12'h7_9_F ;
 
+localparam WHITE_START = 12'hC_D_D ;
+localparam RED_START = 12'hC_0_2 ;
+localparam BLUE_START = 12'h0_3_8 ;
+localparam GREEN_START = 12'h0_8_4 ;
+localparam YELLOW_START = 12'hE_C_0 ;
+localparam BLACK_START = 12'h2_2_2 ;
+
 //bg gk screen
 localparam GK_POST_OUTER_EDGE = 20 ;
 localparam GK_POST_INNER_EDGE = 35 ;
@@ -50,7 +57,8 @@ localparam SH_SIX_YARD_LINE = 670 ;
 localparam SH_SIX_YARD_LINE_EDGE = 50 ;
 localparam SH_LINE_WIDTH = 5 ;
 
-//other screens
+//start screen
+localparam ST_STRIPE_WIDTH = 41 ;
+localparam ST_STRIPE_HEIGHT = 150 ;
 
-
-endpackage
+ endpackage

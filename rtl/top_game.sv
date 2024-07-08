@@ -88,22 +88,22 @@ draw_screen_gk u_draw_screen(
     .out(vga_screen)
 );
 */
-///*
+/*
 draw_screen_shooter u_draw_screen_shooter(
     .clk,
     .rst,
     .in(vga_timing),
     .out(vga_screen)
 );
-//*/
-/*
+*/
+
 draw_screen_start u_draw_screen_start(
     .clk,
     .rst,
     .in(vga_timing),
     .out(vga_screen)
 );
-*/
+
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
