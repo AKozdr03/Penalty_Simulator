@@ -1,58 +1,9 @@
 Warnings, critical warnings and errors from synthesis and implementation
 
-Created: 2024-07-05 15:37:01
+Created: 2024-07-07 16:19:26
 
 ----SYNTHESIS----
 WARNING: [Synth 8-3848] Net out\.rgb in module/entity vga_timing does not have driver. [E:/Penalty_Simulator/rtl/vga_timing.sv:16]
-WARNING: [Synth 8-3848] Net game_state_nxt in module/entity output_selector does not have driver. [E:/Penalty_Simulator/rtl/game_pkg.sv:37]
-WARNING: [Synth 8-7129] Port in\.rgb[11] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[10] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[9] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[8] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[7] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[6] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[5] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[4] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[3] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[2] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[1] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[0] in module looser_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[11] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[10] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[9] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[8] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[7] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[6] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[5] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[4] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[3] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[2] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[1] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[0] in module winner_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[11] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[10] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[9] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[8] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[7] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[6] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[5] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[4] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[3] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[2] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[1] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[0] in module shooter_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[11] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[10] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[9] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[8] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[7] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[6] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[5] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[4] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[3] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[2] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[1] in module keeper_screen is either unconnected or has no load
-WARNING: [Synth 8-7129] Port in\.rgb[0] in module keeper_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[11] in module start_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[10] in module start_screen is either unconnected or has no load
 WARNING: [Synth 8-7129] Port in\.rgb[9] in module start_screen is either unconnected or has no load
@@ -78,39 +29,6 @@ WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnec
 WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-WARNING: [Synth 8-7129] Port out\.rgb[11] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[10] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[9] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[8] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[7] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[6] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[5] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[4] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[3] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[2] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[1] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-7129] Port out\.rgb[0] in module vga_timing is either unconnected or has no load
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_keeper_rom/dout_reg_mux_sel_a_pos_0__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_keeper_rom/dout_reg_mux_sel_a_pos_1__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_keeper_rom/dout_reg_mux_sel_a_pos_2__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_keeper_rom/dout_reg_mux_sel_a_pos_3__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_shooter_rom/dout_reg_mux_sel_a_pos_0__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_shooter_rom/dout_reg_mux_sel_a_pos_1__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_shooter_rom/dout_reg_mux_sel_a_pos_2__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_shooter_rom/dout_reg_mux_sel_a_pos_3__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_winner_rom/dout_reg_mux_sel_a_pos_0__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_winner_rom/dout_reg_mux_sel_a_pos_1__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_winner_rom/dout_reg_mux_sel_a_pos_2__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_winner_rom/dout_reg_mux_sel_a_pos_3__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_looser_rom/dout_reg_mux_sel_a_pos_0__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_looser_rom/dout_reg_mux_sel_a_pos_1__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_looser_rom/dout_reg_mux_sel_a_pos_2__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-3332] Sequential element (u_top_game/u_looser_rom/dout_reg_mux_sel_a_pos_3__10) is unused and will be removed from module top_basys3.
-WARNING: [Synth 8-5835] Resources of type BRAM have been overutilized. Used = 576, Available = 100. Will try to implement using LUT-RAM. 
 
 ----IMPLEMENTATION----
-ERROR: [DRC UTLZ-1] Resource utilization: RAMB18 and RAMB36/FIFO over-utilized in Top Level Design (This design requires more RAMB18 and RAMB36/FIFO cells than are available in the target device. This design requires 576 of such cell types but only 100 compatible sites are available in the target device. Please analyze your synthesis results and constraints to ensure the design is mapped to Xilinx primitives as expected. If so, please consider targeting a larger device.)
-ERROR: [DRC UTLZ-1] Resource utilization: RAMB36/FIFO over-utilized in Top Level Design (This design requires more RAMB36/FIFO cells than are available in the target device. This design requires 288 of such cell types but only 50 compatible sites are available in the target device. Please analyze your synthesis results and constraints to ensure the design is mapped to Xilinx primitives as expected. If so, please consider targeting a larger device.)
-ERROR: [DRC UTLZ-1] Resource utilization: RAMB36E1 over-utilized in Top Level Design (This design requires more RAMB36E1 cells than are available in the target device. This design requires 288 of such cell types but only 50 compatible sites are available in the target device. Please analyze your synthesis results and constraints to ensure the design is mapped to Xilinx primitives as expected. If so, please consider targeting a larger device.)
-ERROR: [Vivado_Tcl 4-23] Error(s) found during DRC. Placer not run.
-ERROR: [Common 17-39] 'place_design' failed due to earlier errors.
+CLEAR :)
