@@ -9,15 +9,16 @@
  package draw_pkg;
 
 //rgb colours
-localparam WHITE_LINES = 12'hf_f_f ;
-localparam WHITE_NET = 12'hd_d_f ;
+localparam WHITE_LINES = 12'hF_F_F ;
+localparam WHITE_NET = 12'hD_D_F ;
+localparam WHITE_BG = 12'hF_F_F ;
 localparam BLACK = 12'h0_0_0 ;
 localparam GREY_GOALPOST = 12'hC_C_C ;
 localparam GREY_BAND = 12'h7_7_7;
 localparam GREEN_GRASS = 12'h0_7_0 ;
 localparam BLUE_BG = 12'h7_9_F ;
 
-//bg gk params
+//bg gk screen
 localparam GK_POST_OUTER_EDGE = 20 ;
 localparam GK_POST_INNER_EDGE = 35 ;
 localparam GK_POST_TOP_EDGE = 100 ;
@@ -31,7 +32,7 @@ localparam GK_GRASS_HEIGHT = 380 ;
 
 localparam GK_SIX_YARD_LINE = 500 ;
 
-//bg shooter pkg
+//bg shooter screen
 localparam SH_POST_OUTER_EDGE = 145 ;
 localparam SH_POST_INNER_EDGE = 155 ;
 localparam SH_POST_TOP_EDGE = 190 ;
@@ -48,6 +49,8 @@ localparam SH_BANNER_TOP = 400 ;
 localparam SH_SIX_YARD_LINE = 670 ;
 localparam SH_SIX_YARD_LINE_EDGE = 50 ;
 localparam SH_LINE_WIDTH = 5 ;
+
+//other screens
 
 
 endpackage

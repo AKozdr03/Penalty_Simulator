@@ -61,7 +61,7 @@
   
   //net vertical
   else if((  (in.hcount >= SH_POST_INNER_EDGE && in.hcount <= HOR_PIXELS - SH_POST_INNER_EDGE && !((in.hcount - SH_POST_INNER_EDGE) % (SH_NET_WIDTH)))
-  &&        (in.vcount > SH_CROSSBAR_BOTTOM_EDGE && in.vcount < SH_GRASS_HEIGHT) ) )
+  &&        (in.vcount > SH_CROSSBAR_BOTTOM_EDGE && in.vcount <= SH_GRASS_HEIGHT) ) )
     rgb_nxt = WHITE_NET ;
   //net vertical
   else if((  (in.hcount >= SH_POST_INNER_EDGE && in.hcount <= HOR_PIXELS - SH_POST_INNER_EDGE)

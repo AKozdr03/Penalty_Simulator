@@ -21,7 +21,8 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/rom/winner_rom.sv \
         ../../rtl/rom/looser_rom.sv \
         ../../rtl/screens/draw_screen_gk.sv \
-         ../../rtl/screens/draw_screen_shooter.sv \
+        ../../rtl/screens/draw_screen_shooter.sv \
+        ../../rtl/screens/draw_screen_start.sv \
         ../../rtl/top_game.sv \
         ../../rtl/output_selector.sv \
         ../../rtl/game_state_sel.sv \
