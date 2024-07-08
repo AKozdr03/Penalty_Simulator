@@ -40,7 +40,6 @@ xcelium.d
 xrun.log
 
 
-results/top_basys3.bit
-results/warning_summary.log
-results/frame000.tif
-results/frame001.tif
+*.bit
+*.log
+*.tif
