@@ -7,6 +7,8 @@
 # List of files and directories not to be tracked by git.
 # They will be removed when cleaning the project directory.
 
+*.bit
+*.log
 fpga/build
 fpga/.Xil
 fpga/vivado*
@@ -38,8 +40,3 @@ dvt_build.txt
 
 xcelium.d
 xrun.log
-
-
-*.bit
-*.log
-*.tif
