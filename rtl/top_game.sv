@@ -12,6 +12,7 @@
 module top_game (
     input  logic clk,
     input  logic rst,
+    input  logic solo_enable,
     inout  logic ps2_clk,
     inout  logic ps2_data,
     output logic vs,
@@ -26,6 +27,7 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
+wire left_clicked;
 /**
  * Signals assignments
  */
@@ -57,7 +59,7 @@ MouseCtl u_MouseCtl(
     .ps2_data,
     .xpos,
     .ypos,
-    .left(),
+    .left(left_clicked),
     .middle(),
     .new_event(),
     .right(),
@@ -84,6 +86,15 @@ draw_screen_gk u_draw_screen(
     .rst,
     .in(vga_timing),
     .out(vga_screen)
+);
+
+game_state_sel u_game_state_sel(
+    .clk,
+    .rst,
+    .is_scored(),
+    .left_clicked,
+    .score(),
+    .solo_enable
 );
 
 endmodule

@@ -22,6 +22,7 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/screens/draw_screen.sv \
         ../../rtl/top_game.sv \
         ../../rtl/output_selector.sv \
+        ../../rtl/game_state_sel.sv
         ../common/tiff_writer.sv \
         top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\

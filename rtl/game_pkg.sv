@@ -36,6 +36,7 @@ typedef enum bit [0:0] {SOLO, MULTI} g_mode;
 g_state game_state;
 g_state game_state_nxt;
 g_mode game_mode;
+g_mode game_mode_nxt;
 
 // screen parameters
 localparam SCREEN_WIDTH = 1024;
