@@ -34,8 +34,13 @@ wire left_clicked;
 
 // Interfaces
 timing_if vga_timing();
-game_if vga_ms();
-game_if vga_screen();
+
+control_if control_state_in();
+control_if control_state_out();
+control_if control_sc_sel();
+
+vga_if vga_ms();
+vga_if vga_screen();
 
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
@@ -80,37 +85,23 @@ draw_mouse u_draw_mouse(
     .ypos
 );
 
-
-// draw_screen_gk u_draw_screen(
-//     .clk,
-//     .rst,
-//     .in(vga_timing),
-//     .out(vga_screen)
-// );
-
-/*
-draw_screen_shooter u_draw_screen_shooter(
+screen_selector u_screen_selector(
     .clk,
     .rst,
+    .in_control(control_state_out),
+    .out_control(control_sc_sel),
     .in(vga_timing),
     .out(vga_screen)
 );
-*/
 
-draw_screen_start u_draw_screen_start(
-    .clk,
-    .rst,
-    .in(vga_timing),
-    .out(vga_screen)
-);
 
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
     .left_clicked,
     .solo_enable,
-    .in_control(),
-    .out_control()
+    .in_control(control_state_in),
+    .out_control(control_state_out)
 );
 
 endmodule

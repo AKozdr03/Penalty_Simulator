@@ -10,7 +10,7 @@
     input wire clk,
     input wire rst,
 
-    vga_if.in in,
+    timing_if.in in,
     vga_if.out out,
 
     control_if.in in_control,
@@ -29,6 +29,29 @@ vga_if in_start();
 vga_if out_sel();
 
 // submodules
+
+draw_screen_start u_draw_screen_start(
+    .clk,
+    .rst,
+    .in,
+    .out(in_start)
+);
+
+draw_screen_gk u_draw_screen(
+    .clk,
+    .rst,
+    .in,
+    .out(in_keeper)
+);
+
+
+draw_screen_shooter u_draw_screen_shooter(
+    .clk,
+    .rst,
+    .in,
+    .out(in_shooter)
+);
+
 
 
 always_ff @(posedge clk) begin : data_passed_through

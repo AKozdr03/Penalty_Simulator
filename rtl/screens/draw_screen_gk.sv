@@ -14,6 +14,7 @@
  );
 
  import game_pkg::*;
+ import vga_pkg::*;
  import draw_pkg::*;
 
  // Local variables

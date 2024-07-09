@@ -33,9 +33,10 @@ set xdc_files {
 # Specify SystemVerilog design files location   -- EDIT
 set sv_files {
 
-    ../rtl/game_pkg.sv
-    ../rtl/draw_pkg.sv
-    ../rtl/game_if.sv
+    ../rtl/constants/game_pkg.sv
+    ../rtl/constants/draw_pkg.sv
+    ../rtl/constants/vga_pkg.sv
+    ../rtl/constants/game_if.sv
     ../rtl/delay.sv
     ../rtl/vga_timing.sv
     ../rtl/draw/draw_mouse.sv

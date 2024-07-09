@@ -8,9 +8,9 @@
  * MTM UEC2
  * Piotr Kaczmarczyk
  * Andrzej Kozdrowski
- * 
+ * Aron Lampart
  * Description:
- * Testbench for top_vga.
+ * Testbench for top_game.
  * Thanks to the tiff_writer module, an expected image
  * produced by the project is exported to a tif file.
  * Since the vs signal is connected to the go input of

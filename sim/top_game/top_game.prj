@@ -1,7 +1,7 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
-# Modified: Andrzej Kozdrowski
+# Modified: Andrzej Kozdrowski, Aron Lampart
 # Description:
 # List of files defining the modules used during the test.
 # Specify the file paths relative to THIS file.
@@ -9,9 +9,10 @@
 # https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
 
 
-sv work ../../rtl/game_pkg.sv \
-        ../../rtl/draw_pkg.sv \
-        ../../rtl/game_if.sv \
+sv work ../../rtl/constants/game_pkg.sv \
+        ../../rtl/constants/draw_pkg.sv \
+        ../../rtl/constants/vga_pkg.sv \
+        ../../rtl/constants/game_if.sv \
         ../../rtl/vga_timing.sv \
         ../../rtl/delay.sv \
         ../../rtl/draw/draw_mouse.sv \

@@ -71,7 +71,7 @@ always_comb begin : next_game_state_controller
                 KEEPER: begin
                     if(in_control.is_scored) begin // is_scored, round_counter, score is information from another module that you can go to another state
                         if(in_control.round_counter == 4'd4) begin
-                            if(in_control.score >= 3'd3) begin // score will be reseted in score module
+                            if(in_control.score >= 3'd3) begin // score and round_counter are reseted in score module
                                 game_state_nxt = WINNER;
                             end
                             else begin 
