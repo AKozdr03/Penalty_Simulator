@@ -88,8 +88,16 @@ draw_mouse u_draw_mouse(
 //     .out(vga_screen)
 // );
 
-
+/*
 draw_screen_shooter u_draw_screen_shooter(
+    .clk,
+    .rst,
+    .in(vga_timing),
+    .out(vga_screen)
+);
+*/
+
+draw_screen_start u_draw_screen_start(
     .clk,
     .rst,
     .in(vga_timing),
