@@ -112,6 +112,7 @@ always_comb begin : next_game_state_controller
 
         end
         MULTI: begin
+            game_state_nxt = START;
         // there will be next state controller for multi later :)
         end
     endcase
