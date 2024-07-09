@@ -10,7 +10,7 @@
     input wire clk,
     input wire rst,
     timing_if.in in,
-    game_if.out out
+    vga_if.out out
  );
 
  import game_pkg::*;

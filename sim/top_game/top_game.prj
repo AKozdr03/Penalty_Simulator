@@ -23,7 +23,7 @@ sv work ../../rtl/game_pkg.sv \
         ../../rtl/screens/draw_screen_gk.sv \
          ../../rtl/screens/draw_screen_shooter.sv \
         ../../rtl/top_game.sv \
-        ../../rtl/control/output_selector.sv \
+        ../../rtl/control/screen_selector.sv \
         ../../rtl/control/game_state_sel.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv

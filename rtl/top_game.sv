@@ -99,10 +99,10 @@ draw_screen_shooter u_draw_screen_shooter(
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
-    .is_scored(),
     .left_clicked,
-    .score(),
-    .solo_enable
+    .solo_enable,
+    .in_control(),
+    .out_control()
 );
 
 endmodule

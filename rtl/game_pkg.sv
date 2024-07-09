@@ -33,11 +33,6 @@ localparam V_BLNK_END = 806;
 typedef enum bit [2:0] {START, KEEPER, SHOOTER, WINNER, LOOSER} g_state;
 typedef enum bit [0:0] {SOLO, MULTI} g_mode;
 
-g_state game_state;
-g_state game_state_nxt;
-g_mode game_mode;
-g_mode game_mode_nxt;
-
 // screen parameters
 localparam SCREEN_WIDTH = 1024;
 localparam SCREEN_LENGTH = 768;
