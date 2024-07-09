@@ -3,10 +3,10 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Looser screen rom.
+ * Gloves rom.
  */
 
- module looser_rom
+ module gloves_rom
 	#(parameter
 		ADDR_WIDTH = 20,
 		DATA_WIDTH = 12
@@ -22,7 +22,7 @@
 	logic [DATA_WIDTH-1:0] rom [2**ADDR_WIDTH-1:0]; // rom memory
 
 	initial
-		$readmemh("../../rtl/data/lose_screen.dat", rom);
+		$readmemh("../../rtl/data/gloves.dat", rom);
 
 	always_ff @(posedge clk) begin : rom_read_blk
 		dout <= rom[addrA];

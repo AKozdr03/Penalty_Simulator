@@ -42,6 +42,8 @@ set sv_files {
     ../rtl/draw/draw_mouse.sv
     ../rtl/draw/draw_keeper.sv
     ../rtl/draw/draw_ball.sv
+    ../rtl/draw/draw_gloves.sv
+    ../rtl/draw/draw_char.sv
     ../rtl/uart/uart.sv
     ../rtl/uart/uart_tx.sv
     ../rtl/uart/uart_rx.sv
@@ -50,15 +52,15 @@ set sv_files {
     ../rtl/screens/draw_screen_gk.sv
     ../rtl/screens/draw_screen_shooter.sv
     ../rtl/screens/draw_screen_start.sv
-    ../rtl/rom/winner_rom.sv
-    ../rtl/rom/start_rom.sv
-    ../rtl/rom/shooter_rom.sv
-    ../rtl/rom/looser_rom.sv
-    ../rtl/rom/keeper_rom.sv
     ../rtl/rom/goalkeeper_rom.sv
     ../rtl/rom/ball_rom.sv
+    ../rtl/rom/gloves_rom.sv
     ../rtl/control/screen_selector.sv
     ../rtl/control/game_state_sel.sv
+    ../rtl/control/mouse_control.sv
+    ../rtl/control/score_control.sv
+    ../rtl/control/ball_control.sv
+    ../rtl/control/uart_decoder.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }
