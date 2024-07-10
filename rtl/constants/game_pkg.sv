@@ -16,4 +16,7 @@ typedef enum bit [0:0] {SOLO, MULTI} g_mode;
 localparam SCREEN_WIDTH = 1024;
 localparam SCREEN_LENGTH = 768;
 
+//gloves parameters
+localparam GLOVES_LENGTH = 100;
+localparam GLOVES_WIDTH = 100;
 endpackage

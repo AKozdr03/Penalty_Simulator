@@ -38,6 +38,7 @@ timing_if vga_timing();
 control_if control_state_in();
 control_if control_state_out();
 control_if control_sc_sel();
+control_if control_sc_sel2();
 
 vga_if vga_ms();
 vga_if vga_screen();
@@ -76,13 +77,31 @@ MouseCtl u_MouseCtl(
     .zpos()
 );
 
-draw_mouse u_draw_mouse(
+// draw_mouse u_draw_mouse(
+//     .clk,
+//     .rst,
+//     .in_mouse (vga_screen),
+//     .out_mouse (vga_ms),
+//     .xpos,
+//     .ypos
+// );
+wire [11:0] rgb_test;
+wire [19:0] addr_nxt;
+draw_gloves u_draw_gloves(
     .clk,
     .rst,
-    .in_mouse (vga_screen),
-    .out_mouse (vga_ms),
+    .in(vga_screen),
+    .out(vga_ms),
     .xpos,
-    .ypos
+    .ypos,
+    .pixel_addr(addr_nxt),
+    .rgb_pixel(rgb_test)
+);
+
+gloves_rom u_gloves_rom(
+    .clk,
+    .addrA(addr_nxt),
+    .dout(rgb_test)
 );
 
 screen_selector u_screen_selector(

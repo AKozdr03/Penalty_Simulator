@@ -116,7 +116,7 @@ always_comb begin : next_game_state_controller
         // there will be next state controller for multi later :)
         end
     endcase
-
+    
 end
 
 endmodule

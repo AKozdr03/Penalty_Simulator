@@ -34,14 +34,14 @@ draw_screen_start u_draw_screen_start(
     .clk,
     .rst,
     .in,
-    .out(in_start)
+    .out(in_keeper) //for tests it is changed
 );
 
 draw_screen_gk u_draw_screen(
     .clk,
     .rst,
     .in,
-    .out(in_keeper)
+    .out(in_start)
 );
 
 
