@@ -35,6 +35,7 @@ logic [10:0] imag_y;
 logic [11:0] rgb_d;
 logic [10:0] hcount_d, vcount_d;
 logic hblnk_d, vblnk_d, hsync_d, vsync_d;
+
 //assigns
 
 assign x_start = xpos;
@@ -65,6 +66,7 @@ always_ff @(posedge clk) begin : data_passed_through
         pixel_addr <= addr_nxt;
     end
  end
+
  delay #(
     .CLK_DEL(2),
     .WIDTH(38)
@@ -86,8 +88,13 @@ always_ff @(posedge clk) begin : data_passed_through
     else begin
         addr_nxt = '0;
     end
-    if((in.hcount >= x_start) && (in.hcount < x_end) && (in.vcount >= y_start  && in.vcount < y_end) ) begin
-        rgb_nxt = rgb_pixel;
+    if((in.hcount >= x_start) && (in.hcount < x_end) && (in.vcount >= y_start)  && (in.vcount < y_end) ) begin
+        if(rgb_pixel == BLACK) begin // this is to delete background of gloves image
+            rgb_nxt = rgb_d;
+        end
+        else begin
+            rgb_nxt = rgb_pixel;
+        end
     end
     else begin
         rgb_nxt = rgb_d;

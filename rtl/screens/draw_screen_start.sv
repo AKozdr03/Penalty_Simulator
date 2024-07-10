@@ -51,45 +51,48 @@
  end
  
  always_comb begin : drawing_loop
-  if(   (in.hcount < ST_STRIPE_WIDTH)
+  if((in.hblnk == 1) || (in.vblnk == 1))
+    rgb_nxt = BLACK;
+  //background
+  else if( (in.vcount >= ST_STRIPE_HEIGHT && in.vcount <= (SCREEN_LENGTH - ST_STRIPE_HEIGHT)))
+    rgb_nxt = WHITE_START; 
+  else if(   (in.hcount < ST_STRIPE_WIDTH)
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 9) && in.hcount < (ST_STRIPE_WIDTH * 10))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 11) && in.hcount < (ST_STRIPE_WIDTH * 12))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 14) && in.hcount < (ST_STRIPE_WIDTH * 15))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 21) && in.hcount < (ST_STRIPE_WIDTH * 22)) )
     rgb_nxt = YELLOW_START;
 
-  if(   (in.hcount >= ST_STRIPE_WIDTH && in.hcount < (ST_STRIPE_WIDTH * 2))
+  else if(   (in.hcount >= ST_STRIPE_WIDTH && in.hcount < (ST_STRIPE_WIDTH * 2))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 5) && in.hcount < (ST_STRIPE_WIDTH * 6))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 8) && in.hcount < (ST_STRIPE_WIDTH * 9))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 13) && in.hcount < (ST_STRIPE_WIDTH * 14))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 19) && in.hcount < (ST_STRIPE_WIDTH * 20))
   ||    (in.hcount >= ST_STRIPE_WIDTH * 24) )
     rgb_nxt = RED_START;
-  if(   (in.hcount >= (ST_STRIPE_WIDTH * 6) && in.hcount < (ST_STRIPE_WIDTH * 7))
+  else if(   (in.hcount >= (ST_STRIPE_WIDTH * 6) && in.hcount < (ST_STRIPE_WIDTH * 7))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 15) && in.hcount < (ST_STRIPE_WIDTH * 16))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 20) && in.hcount < (ST_STRIPE_WIDTH * 21)) )
     rgb_nxt = BLUE_START;
   
-  if(   (in.hcount >= (ST_STRIPE_WIDTH * 3) && in.hcount < (ST_STRIPE_WIDTH * 4))
+  else if(   (in.hcount >= (ST_STRIPE_WIDTH * 3) && in.hcount < (ST_STRIPE_WIDTH * 4))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 12) && in.hcount < (ST_STRIPE_WIDTH * 13))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 18) && in.hcount < (ST_STRIPE_WIDTH * 19))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 23) && in.hcount < (ST_STRIPE_WIDTH * 24)) )
     rgb_nxt = GREEN_START;
 
-  if(   (in.hcount >= (ST_STRIPE_WIDTH * 2) && in.hcount < (ST_STRIPE_WIDTH * 3))
+  else if(   (in.hcount >= (ST_STRIPE_WIDTH * 2) && in.hcount < (ST_STRIPE_WIDTH * 3))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 10) && in.hcount < (ST_STRIPE_WIDTH * 11))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 16) && in.hcount < (ST_STRIPE_WIDTH * 17)) )
     rgb_nxt = BLACK_START;
 
-  if(   (in.hcount >= (ST_STRIPE_WIDTH * 4) && in.hcount < (ST_STRIPE_WIDTH * 5))
+  else if(   (in.hcount >= (ST_STRIPE_WIDTH * 4) && in.hcount < (ST_STRIPE_WIDTH * 5))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 7) && in.hcount < (ST_STRIPE_WIDTH * 8))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 17) && in.hcount < (ST_STRIPE_WIDTH * 18))
   ||    (in.hcount >= (ST_STRIPE_WIDTH * 22) && in.hcount < (ST_STRIPE_WIDTH * 23)) )
     rgb_nxt = WHITE_START;
-
-  //background
-  if( (in.vcount >= ST_STRIPE_HEIGHT && in.vcount <= (SCREEN_LENGTH - ST_STRIPE_HEIGHT)))
-    rgb_nxt = WHITE_START; 
+  else 
+    rgb_nxt = BLACK;
 
  end
 

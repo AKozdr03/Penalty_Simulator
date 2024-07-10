@@ -52,8 +52,10 @@
  end
  
  always_comb begin : drawing_loop
+  if((in.hblnk == 1) || (in.vblnk == 1))
+  rgb_nxt = BLACK;
   //goal
-  if(  (     (in.hcount >= GK_POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - GK_POST_OUTER_EDGE) 
+  else if(  (     (in.hcount >= GK_POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - GK_POST_OUTER_EDGE) 
   &&        (in.vcount >= GK_POST_TOP_EDGE    && in.vcount < GK_POST_BOTTOM_EDGE) )
   && !((in.hcount >= GK_POST_INNER_EDGE && in.hcount <= HOR_PIXELS - GK_POST_INNER_EDGE) && (in.vcount >= GK_CROSSBAR_BOTTOM_EDGE    && in.vcount < GK_POST_BOTTOM_EDGE)))
     rgb_nxt = GREY_GOALPOST ;
