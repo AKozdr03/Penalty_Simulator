@@ -40,3 +40,7 @@ dvt_build.txt
 
 xcelium.d
 xrun.log
+
+results\*.bit
+results\*.tif
+results\*.log
