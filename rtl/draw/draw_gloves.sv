@@ -80,15 +80,15 @@ always_ff @(posedge clk) begin : data_passed_through
  
  always_comb begin : gloves_drawing
 
-    if((in.hcount >= x_start) && (in.hcount < x_end) && (in.vcount >= y_start) && (in.hcount < y_end)) begin
-        imag_y = in.vcount - ypos;
-        imag_x = in.hcount - xpos;
+    if((in.hcount + 50 >= x_start) && (in.hcount + 50 < x_end) && (in.vcount + 50 >= y_start) && (in.vcount + 50 < y_end)) begin
+        imag_y = in.vcount - ypos + 50;
+        imag_x = in.hcount - xpos + 50;
         addr_nxt = imag_y * GLOVES_WIDTH + imag_x;
     end
     else begin
         addr_nxt = '0;
     end
-    if((in.hcount >= x_start) && (in.hcount < x_end) && (in.vcount >= y_start)  && (in.vcount < y_end) ) begin
+    if((in.hcount + 50 >= x_start) && (in.hcount + 50 < x_end) && (in.vcount + 50 >= y_start)  && (in.vcount + 50 < y_end) ) begin
         if(rgb_pixel == BLACK) begin // this is to delete background of gloves image
             rgb_nxt = rgb_d;
         end
