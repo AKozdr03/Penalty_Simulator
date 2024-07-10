@@ -96,8 +96,16 @@ draw_screen_shooter u_draw_screen_shooter(
     .out(vga_screen)
 );
 */
-
+/*
 draw_screen_start u_draw_screen_start(
+    .clk,
+    .rst,
+    .in(vga_timing),
+    .out(vga_screen)
+);
+*/
+
+draw_screen_winner u_draw_screen_winner(
     .clk,
     .rst,
     .in(vga_timing),

@@ -61,4 +61,10 @@ localparam SH_LINE_WIDTH = 5 ;
 localparam ST_STRIPE_WIDTH = 41 ;
 localparam ST_STRIPE_HEIGHT = 150 ;
 
+//end screen
+localparam END_RECT_OUTER_HEIGHT = 150 ;
+localparam END_RECT_OUTER_WIDTH = 170 ;
+localparam END_RECT_INNER_HEIGHT = 200 ;
+localparam END_RECT_INNER_WIDTH = 220 ;
+
  endpackage
