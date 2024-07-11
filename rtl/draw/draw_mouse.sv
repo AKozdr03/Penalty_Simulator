@@ -12,8 +12,8 @@
     input  logic rst,
     input logic [11:0] xpos,
     input logic [11:0] ypos,  
-    game_if.in in_mouse,
-    game_if.out out_mouse
+    vga_if.in in_mouse,
+    vga_if.out out_mouse
 );
 
 logic [11:0] xpos_delay;

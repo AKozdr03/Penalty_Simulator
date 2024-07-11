@@ -33,14 +33,17 @@ set xdc_files {
 # Specify SystemVerilog design files location   -- EDIT
 set sv_files {
 
-    ../rtl/game_pkg.sv
-    ../rtl/draw_pkg.sv
-    ../rtl/game_if.sv
+    ../rtl/constants/game_pkg.sv
+    ../rtl/constants/draw_pkg.sv
+    ../rtl/constants/vga_pkg.sv
+    ../rtl/constants/game_if.sv
     ../rtl/delay.sv
     ../rtl/vga_timing.sv
     ../rtl/draw/draw_mouse.sv
     ../rtl/draw/draw_keeper.sv
     ../rtl/draw/draw_ball.sv
+    ../rtl/draw/draw_gloves.sv
+    ../rtl/draw/draw_char.sv
     ../rtl/uart/uart.sv
     ../rtl/uart/uart_tx.sv
     ../rtl/uart/uart_rx.sv
@@ -49,16 +52,15 @@ set sv_files {
     ../rtl/screens/draw_screen_gk.sv
     ../rtl/screens/draw_screen_shooter.sv
     ../rtl/screens/draw_screen_start.sv
-    ../rtl/screens/draw_screen_winner.sv
-    ../rtl/rom/winner_rom.sv
-    ../rtl/rom/start_rom.sv
-    ../rtl/rom/shooter_rom.sv
-    ../rtl/rom/looser_rom.sv
-    ../rtl/rom/keeper_rom.sv
     ../rtl/rom/goalkeeper_rom.sv
     ../rtl/rom/ball_rom.sv
-    ../rtl/output_selector.sv
-    ../rtl/game_state_sel.sv
+    ../rtl/rom/gloves_rom.sv
+    ../rtl/control/screen_selector.sv
+    ../rtl/control/game_state_sel.sv
+    ../rtl/control/mouse_control.sv
+    ../rtl/control/score_control.sv
+    ../rtl/control/ball_control.sv
+    ../rtl/control/uart_decoder.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }
@@ -79,10 +81,7 @@ set vhdl_files {
 # Specify files for a memory initialization     -- EDIT
 set mem_files {
     ../rtl/data/ball.dat
-    ../rtl/data/keeper_pov.dat
     ../rtl/data/keeper.dat
     ../rtl/data/lose_screen.dat
-    ../rtl/data/shooter_pov.dat
-    ../rtl/data/start_screen.dat
     ../rtl/data/win_screen.dat
 }

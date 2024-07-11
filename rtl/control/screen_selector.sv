@@ -3,27 +3,58 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Output controler.
+ * Screen controler.
  */
 
- module output_selector(
+ module screen_selector( 
     input wire clk,
     input wire rst,
 
-    game_if.in in_keeper,
-    game_if.in in_shooter,
-    game_if.in in_winner,
-    game_if.in in_looser,
-    game_if.in in_start,
+    timing_if.in in,
+    vga_if.out out,
 
-    game_if.out out
+    control_if.in in_control,
+    control_if.out out_control
 );
 
 import game_pkg::*;
 
-game_if out_sel();
+// Interfaces
+vga_if in_keeper();
+vga_if in_shooter();
+vga_if in_winner();
+vga_if in_looser();
+vga_if in_start();
 
-always_ff @(posedge clk) begin
+vga_if out_sel();
+
+// submodules
+
+draw_screen_start u_draw_screen_start(
+    .clk,
+    .rst,
+    .in,
+    .out(in_keeper) //for tests it is changed
+);
+
+draw_screen_gk u_draw_screen(
+    .clk,
+    .rst,
+    .in,
+    .out(in_start)
+);
+
+
+draw_screen_shooter u_draw_screen_shooter(
+    .clk,
+    .rst,
+    .in,
+    .out(in_shooter)
+);
+
+
+
+always_ff @(posedge clk) begin : data_passed_through
     if (rst) begin
         out.vcount <= '0;
         out.vsync  <= '0;
@@ -32,7 +63,13 @@ always_ff @(posedge clk) begin
         out.hsync  <= '0;
         out.hblnk  <= '0;
         out.rgb    <= '0;
-        game_state <= START;
+
+        out_control.is_scored <= '0;
+        out_control.round_counter <= '0;
+        out_control.score <= '0;
+        out_control.game_mode <= MULTI;
+        out_control.game_state <= START;
+
     end else begin
         out.vcount <= out_sel.vcount;
         out.vsync  <= out_sel.vsync;
@@ -41,13 +78,18 @@ always_ff @(posedge clk) begin
         out.hsync  <= out_sel.hsync;
         out.hblnk  <= out_sel.hblnk;
         out.rgb    <= out_sel.rgb;
-        game_state <= game_state_nxt;
+    
+        out_control.is_scored <= in_control.is_scored;
+        out_control.round_counter <= in_control.round_counter;
+        out_control.score <= in_control.score;
+        out_control.game_mode <= in_control.game_mode;
+        out_control.game_state <= in_control.game_state;       
     end
  end
 
- always_comb begin
-    game_state_nxt = LOOSER;
-    case(game_state)
+ always_comb begin : screen_selected_control
+    
+    case(in_control.game_state)
         START: begin
             out_sel.hblnk = in_start.hblnk;
             out_sel.hcount = in_start.hcount;

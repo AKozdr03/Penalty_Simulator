@@ -10,10 +10,11 @@
     input wire clk,
     input wire rst,
     timing_if.in in,
-    game_if.out out
+    vga_if.out out
  );
 
  import game_pkg::*;
+ import vga_pkg::*;
  import draw_pkg::*;
 
  // Local variables
@@ -51,8 +52,10 @@
  end
  
  always_comb begin : drawing_loop
+  if((in.hblnk == 1) || (in.vblnk == 1))
+    rgb_nxt = BLACK;
   //goal
-  if(  (     (in.hcount >= SH_POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - SH_POST_OUTER_EDGE) 
+  else if(  (     (in.hcount >= SH_POST_OUTER_EDGE  && in.hcount < HOR_PIXELS - SH_POST_OUTER_EDGE) 
   &&        (in.vcount >= SH_POST_TOP_EDGE    && in.vcount < SH_POST_BOTTOM_EDGE) )
   &&  !((in.hcount >= SH_POST_INNER_EDGE && in.hcount <= HOR_PIXELS - SH_POST_INNER_EDGE) 
       && (in.vcount > SH_CROSSBAR_BOTTOM_EDGE    && in.vcount < SH_POST_BOTTOM_EDGE)))

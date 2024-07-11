@@ -34,8 +34,14 @@ wire left_clicked;
 
 // Interfaces
 timing_if vga_timing();
-game_if vga_ms();
-game_if vga_screen();
+
+control_if control_state_in();
+control_if control_state_out();
+control_if control_sc_sel();
+control_if control_sc_sel2();
+
+vga_if vga_ms();
+vga_if vga_screen();
 
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
@@ -71,43 +77,38 @@ MouseCtl u_MouseCtl(
     .zpos()
 );
 
-draw_mouse u_draw_mouse(
+// draw_mouse u_draw_mouse(
+//     .clk,
+//     .rst,
+//     .in_mouse (vga_screen),
+//     .out_mouse (vga_ms),
+//     .xpos,
+//     .ypos
+// );
+wire [11:0] rgb_test;
+wire [19:0] addr_nxt;
+draw_gloves u_draw_gloves(
     .clk,
     .rst,
-    .in_mouse (vga_screen),
-    .out_mouse (vga_ms),
+    .in(vga_screen),
+    .out(vga_ms),
     .xpos,
-    .ypos
+    .ypos,
+    .pixel_addr(addr_nxt),
+    .rgb_pixel(rgb_test)
 );
 
-/*
-draw_screen_gk u_draw_screen(
+gloves_rom u_gloves_rom(
     .clk,
-    .rst,
-    .in(vga_timing)
-    .out(vga_screen)
+    .addrA(addr_nxt),
+    .dout(rgb_test)
 );
-*/
-/*
-draw_screen_shooter u_draw_screen_shooter(
-    .clk,
-    .rst,
-    .in(vga_timing),
-    .out(vga_screen)
-);
-*/
-/*
-draw_screen_start u_draw_screen_start(
-    .clk,
-    .rst,
-    .in(vga_timing),
-    .out(vga_screen)
-);
-*/
 
-draw_screen_winner u_draw_screen_winner(
+screen_selector u_screen_selector(
     .clk,
     .rst,
+    .in_control(control_state_out),
+    .out_control(control_sc_sel),
     .in(vga_timing),
     .out(vga_screen)
 );
@@ -115,10 +116,10 @@ draw_screen_winner u_draw_screen_winner(
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
-    .is_scored(),
     .left_clicked,
-    .score(),
-    .solo_enable
+    .solo_enable,
+    .in_control(control_state_in),
+    .out_control(control_state_out)
 );
 
 endmodule
