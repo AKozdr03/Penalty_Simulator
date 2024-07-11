@@ -39,7 +39,7 @@ localparam CLK100_PERIOD = 10;  //100 MHz
  * Local variables and signals
  */
 
-logic clk, rst, clk100MHz;
+logic clk, rst, clk100MHz, solo_enable;
 wire vs, hs;
 wire [3:0] r, g, b;
 
@@ -72,7 +72,7 @@ top_game dut (
     .r(r),
     .g(g),
     .b(b),
-    .solo_enable()
+    .solo_enable(solo_enable)
 );
 
 tiff_writer #(
@@ -96,6 +96,7 @@ initial begin
     rst = 1'b0;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;
+    # 30 solo_enable = 1'b1;
     $display("If simulation ends before the testbench");
     $display("completes, use the menu option to run all.");
     $display("Prepare to wait a long time...");

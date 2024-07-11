@@ -27,7 +27,7 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
-wire left_clicked;
+wire left_clicked, connect_corrected;
 /**
  * Signals assignments
  */
@@ -99,11 +99,18 @@ screen_selector u_screen_selector(
     .out(vga_screen)
 );
 
+uart_decoder u_uart_decoder(
+    .clk,
+    .rst,
+    .connect_corrected,
+    .keeper_pos()
+);
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
     .left_clicked,
     .solo_enable,
+    .connect_corrected,
     .in_control(control_state_in),
     .out_control(control_state_out)
 );

@@ -73,8 +73,8 @@ always_ff @(posedge clk) begin : data_passed_through
         out_control.score <= '0;
         out_control.game_mode <= MULTI;
         out_control.game_state <= START;
-
-    end else begin
+    end 
+    else begin
         out.vcount <= out_sel.vcount;
         out.vsync  <= out_sel.vsync;
         out.vblnk  <= out_sel.vblnk;
