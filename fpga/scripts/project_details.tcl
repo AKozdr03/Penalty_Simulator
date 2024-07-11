@@ -52,6 +52,7 @@ set sv_files {
     ../rtl/screens/draw_screen_gk.sv
     ../rtl/screens/draw_screen_shooter.sv
     ../rtl/screens/draw_screen_start.sv
+    ../rtl/screens/draw_screen_end.sv
     ../rtl/rom/goalkeeper_rom.sv
     ../rtl/rom/ball_rom.sv
     ../rtl/rom/gloves_rom.sv
@@ -82,6 +83,5 @@ set vhdl_files {
 set mem_files {
     ../rtl/data/ball.dat
     ../rtl/data/keeper.dat
-    ../rtl/data/lose_screen.dat
-    ../rtl/data/win_screen.dat
+    ../rtl/data/gloves.dat
 }

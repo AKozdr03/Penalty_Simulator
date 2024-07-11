@@ -26,7 +26,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/screens/draw_screen_gk.sv \
         ../../rtl/screens/draw_screen_shooter.sv \
         ../../rtl/screens/draw_screen_start.sv \
-        ../../rtl/screens/draw_screen_winner.sv \
+        ../../rtl/screens/draw_screen_end.sv \
         ../../rtl/top_game.sv \
         ../../rtl/control/screen_selector.sv \
         ../../rtl/control/game_state_sel.sv \

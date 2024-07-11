@@ -77,16 +77,10 @@ MouseCtl u_MouseCtl(
     .zpos()
 );
 
-// draw_mouse u_draw_mouse(
-//     .clk,
-//     .rst,
-//     .in_mouse (vga_screen),
-//     .out_mouse (vga_ms),
-//     .xpos,
-//     .ypos
-// );
+
 wire [11:0] rgb_test;
 wire [19:0] addr_nxt;
+
 draw_gloves u_draw_gloves(
     .clk,
     .rst,
