@@ -38,7 +38,6 @@ timing_if vga_timing();
 control_if control_state_in();
 control_if control_state_out();
 control_if control_sc_sel();
-control_if control_mouse_ctr();
 
 vga_if vga_ms();
 vga_if vga_screen();
@@ -86,7 +85,7 @@ mouse_control u_mouse_control(
     .in(vga_screen),
     .out(vga_ms),
     .in_control(control_sc_sel),
-    .out_control(control_mouse_ctr)
+    .out_control(control_state_in)
 );
 
 

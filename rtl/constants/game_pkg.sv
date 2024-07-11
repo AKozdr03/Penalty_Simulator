@@ -13,10 +13,10 @@ typedef enum bit [2:0] {START, KEEPER, SHOOTER, WINNER, LOOSER} g_state;
 typedef enum bit [0:0] {SOLO, MULTI} g_mode;
 
 // screen parameters
-localparam SCREEN_WIDTH = 1024;
-localparam SCREEN_LENGTH = 768;
+localparam SCREEN_WIDTH = 11'd1024;
+localparam SCREEN_LENGTH = 10'd768;
 
 //gloves parameters
-localparam GLOVES_LENGTH = 100;
-localparam GLOVES_WIDTH = 100;
+localparam GLOVES_LENGTH = 7'd100;
+localparam GLOVES_WIDTH = 7'd100;
 endpackage
