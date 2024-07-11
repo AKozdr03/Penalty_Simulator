@@ -22,8 +22,7 @@ import game_pkg::*;
 // Interfaces
 vga_if in_keeper();
 vga_if in_shooter();
-vga_if in_winner();
-vga_if in_looser();
+vga_if in_end();
 vga_if in_start();
 
 vga_if out_sel();
@@ -52,7 +51,12 @@ draw_screen_shooter u_draw_screen_shooter(
     .out(in_shooter)
 );
 
-
+draw_screen_end u_draw_screen_end(
+    .clk,
+    .rst,
+    .in,
+    .out(in_end)
+);
 
 always_ff @(posedge clk) begin : data_passed_through
     if (rst) begin
@@ -118,22 +122,22 @@ always_ff @(posedge clk) begin : data_passed_through
             out_sel.vsync = in_shooter.vsync;
         end
         WINNER: begin
-            out_sel.hblnk = in_winner.hblnk;
-            out_sel.hcount = in_winner.hcount;
-            out_sel.hsync = in_winner.hsync;
-            out_sel.rgb = in_winner.rgb;
-            out_sel.vblnk = in_winner.vblnk;
-            out_sel.vcount = in_winner.vcount;
-            out_sel.vsync = in_winner.vsync;
+            out_sel.hblnk = in_end.hblnk;
+            out_sel.hcount = in_end.hcount;
+            out_sel.hsync = in_end.hsync;
+            out_sel.rgb = in_end.rgb;
+            out_sel.vblnk = in_end.vblnk;
+            out_sel.vcount = in_end.vcount;
+            out_sel.vsync = in_end.vsync;
         end
         LOOSER: begin
-            out_sel.hblnk = in_looser.hblnk;
-            out_sel.hcount = in_looser.hcount;
-            out_sel.hsync = in_looser.hsync;
-            out_sel.rgb = in_looser.rgb;
-            out_sel.vblnk = in_looser.vblnk;
-            out_sel.vcount = in_looser.vcount;
-            out_sel.vsync = in_looser.vsync;
+            out_sel.hblnk = in_end.hblnk;
+            out_sel.hcount = in_end.hcount;
+            out_sel.hsync = in_end.hsync;
+            out_sel.rgb = in_end.rgb;
+            out_sel.vblnk = in_end.vblnk;
+            out_sel.vcount = in_end.vcount;
+            out_sel.vsync = in_end.vsync;
         end
         default:
         begin
