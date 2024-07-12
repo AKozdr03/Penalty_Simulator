@@ -43,10 +43,20 @@ control_if control_sc_sel2();
 vga_if vga_ms();
 vga_if vga_screen();
 
+//for testing of write_text
+/*
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
 assign {r,g,b} = vga_ms.rgb;
-
+*/
+vga_if vga_txt();
+assign vs = vga_txt.vsync;
+assign hs = vga_txt.hsync;
+assign {r,g,b} = vga_txt.rgb;
+wire [7:0] char_xy ;
+wire [6:0] char_code ;
+wire [3:0] char_line ;
+wire [7:0] char_pixels ;
 
 /**
  * Submodules instances
@@ -114,6 +124,29 @@ game_state_sel u_game_state_sel(
     .solo_enable,
     .in_control(control_state_in),
     .out_control(control_state_out)
+);
+
+write_text u_write_text (
+    .clk,
+    .rst,
+    .char_pixels,
+    .char_xy,
+    .char_line,
+    .in(vga_ms),
+    .out(vga_txt)
+);
+
+font_rom u_font_rom (
+    .clk,
+    .char_line,
+    .char_code,
+    .char_line_pixels(char_pixels)
+);
+
+char_rom_16x16 u_char_rom_16x16(
+    .clk,
+    .char_xy,
+    .char_code
 );
 
 endmodule

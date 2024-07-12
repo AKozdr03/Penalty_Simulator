@@ -34,6 +34,9 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/control/mouse_control.sv \
         ../../rtl/control/uart_decoder.sv \
         ../../rtl/control/score_control.sv \
+        ../../rtl/text/char_rom_16x16.sv \
+        ../../rtl/text/font_rom.sv \
+        ../../rtl/text/write_text.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\
