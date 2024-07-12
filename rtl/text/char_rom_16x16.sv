@@ -12,7 +12,7 @@
 module char_rom_16x16
     (
         input  logic        clk,
-        input  logic  [7:0] char_xy,         
+        input  logic  [11:0] char_xy, //org [7:0]   
         output logic  [6:0] char_code // pixels of the character line
     );
 
@@ -24,33 +24,35 @@ module char_rom_16x16
         char_code <= data ;
     always_comb begin
         case(char_xy)
-            8'h00: data = "Z"; 
-            8'h01: data = "e"; 
-            8'h02: data = "b"; 
-            8'h03: data = "e"; 
-            8'h04: data = "r"; 
-            8'h05: data = "k"; 
-            8'h06: data = "a"; 
-            8'h07: data = ","; 
-            8'h08: data = "b"; 
-            8'h09: data = "o"; 
-            8'h0a: data = "c"; 
-            8'h0b: data = "z"; 
-            8'h0c: data = "e"; 
-            8'h0d: data = "k"; 
-            8'h0e: data = ""; 
-            8'h0f: data = ""; 
-            8'h10: data = "w"; 
-            8'h11: data = "o"; 
-            8'h12: data = "l"; 
-            8'h13: data = "o"; 
-            8'h14: data = "w"; 
-            8'h15: data = "i"; 
-            8'h16: data = "n"; 
-            8'h17: data = "a"; 
-            8'h18: data = ","; 
-            8'h19: data = ""; 
-            8'h1a: data = ""; 
+            12'h000: data = "Z"; 
+            12'h001: data = "e"; 
+            12'h002: data = "b"; 
+            12'h003: data = "e"; 
+            12'h004: data = "r"; 
+            12'h005: data = "k"; 
+            12'h006: data = "a"; 
+            12'h007: data = ","; 
+            12'h008: data = "b"; 
+            12'h009: data = "o"; 
+            12'h00a: data = "c"; 
+            12'h00b: data = "z"; 
+            12'h00c: data = "e"; 
+            12'h00d: data = "k"; 
+            12'h00e: data = ""; 
+            12'h00f: data = ""; 
+            12'h110: data = "w"; 
+            12'h111: data = "o"; 
+            12'h112: data = "l"; 
+            12'h113: data = "o"; 
+            12'h114: data = "w"; 
+            12'h115: data = "i"; 
+            12'h116: data = "n"; 
+            12'h117: data = "a"; 
+            12'h118: data = ","; 
+            12'h119: data = ""; 
+            default: data = "t"; 
+            //8'h1a: data = ""; 
+            /*
             8'h1b: data = ""; 
             8'h1c: data = ""; 
             8'h1d: data = ""; 
@@ -280,6 +282,7 @@ module char_rom_16x16
             8'hfd: data = 7'h20; // 
             8'hfe: data = 7'h20; // 
             8'hff: data = 7'h20; // 
+            */
         endcase
     end
 endmodule

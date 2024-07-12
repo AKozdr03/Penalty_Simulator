@@ -52,7 +52,7 @@ vga_if vga_txt();
 assign vs = vga_txt.vsync;
 assign hs = vga_txt.hsync;
 assign {r,g,b} = vga_txt.rgb;
-wire [7:0] char_xy ;
+wire [11:0] char_xy ; //org 7:0
 wire [6:0] char_code ;
 wire [3:0] char_line ;
 wire [7:0] char_pixels ;

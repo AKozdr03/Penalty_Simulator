@@ -62,6 +62,9 @@ set sv_files {
     ../rtl/control/score_control.sv
     ../rtl/control/ball_control.sv
     ../rtl/control/uart_decoder.sv
+    ../rtl/text/write_text.sv
+    ../rtl/text/font_rom.sv
+    ../rtl/text/char_rom_16x16.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }
