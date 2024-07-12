@@ -9,7 +9,7 @@
 module game_state_sel(
     input wire clk, rst,
     input wire left_clicked,
-    input wire solo_enable,
+    input wire solo_enable,// connect_corrected,
 
     control_if.in in_control,
     control_if.out out_control
@@ -44,11 +44,7 @@ always_comb begin : next_game_mode_controller
             game_mode_nxt = SOLO;
         end
         else begin
-            case(in_control.game_state)
-                SOLO: game_mode_nxt = SOLO;
-                MULTI: game_mode_nxt = MULTI;
-                default: game_mode_nxt = MULTI;
-            endcase
+            game_mode_nxt = in_control.game_mode;
         end
     end
     else begin
@@ -109,11 +105,28 @@ always_comb begin : next_game_state_controller
                     game_state_nxt = START;
                 end
             endcase
-
         end
         MULTI: begin
+            // case(in_control.game_state) 
+            //     START: begin
+            //         if(left_clicked && connect_corrected) begin
+            //             game_state_nxt = KEEPER;
+            //         end
+            //         else begin
+            //             game_state_nxt = START;
+            //         end
+            //     end
+
+            // endcase
+            /*
+            if (connect_corrected) begin
+                game_state_nxt = START;
+            end
+            else begin
             game_state_nxt = START;
-        // there will be next state controller for multi later :)
+            end
+            */
+           game_state_nxt = START ;
         end
     endcase
     

@@ -27,7 +27,7 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
-wire left_clicked;
+wire left_clicked, connect_corrected;
 /**
  * Signals assignments
  */
@@ -38,7 +38,6 @@ timing_if vga_timing();
 control_if control_state_in();
 control_if control_state_out();
 control_if control_sc_sel();
-control_if control_sc_sel2();
 
 vga_if vga_ms();
 vga_if vga_screen();
@@ -88,25 +87,18 @@ MouseCtl u_MouseCtl(
 );
 
 
-wire [11:0] rgb_test;
-wire [19:0] addr_nxt;
-
-draw_gloves u_draw_gloves(
+mouse_control u_mouse_control(
     .clk,
     .rst,
-    .in(vga_screen),
-    .out(vga_ms),
     .xpos,
     .ypos,
-    .pixel_addr(addr_nxt),
-    .rgb_pixel(rgb_test)
+    .in(vga_screen),
+    .out(vga_ms),
+    .in_control(control_sc_sel),
+    .out_control(control_state_in)
 );
 
-gloves_rom u_gloves_rom(
-    .clk,
-    .addrA(addr_nxt),
-    .dout(rgb_test)
-);
+
 
 screen_selector u_screen_selector(
     .clk,
@@ -117,11 +109,18 @@ screen_selector u_screen_selector(
     .out(vga_screen)
 );
 
+/*uart_decoder u_uart_decoder(
+    .clk,
+    .rst,
+    .connect_corrected,
+    .keeper_pos()
+);*/
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
     .left_clicked,
     .solo_enable,
+    //.connect_corrected,
     .in_control(control_state_in),
     .out_control(control_state_out)
 );

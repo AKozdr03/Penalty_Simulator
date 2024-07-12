@@ -19,11 +19,17 @@
 
 import game_pkg::*;
 
+//Local variables
+logic is_scored_d;
+logic [3:0] round_counter_d;
+logic [2:0] score_d;
+g_state game_state_d;
+g_mode game_mode_d;
+
 // Interfaces
 vga_if in_keeper();
 vga_if in_shooter();
-vga_if in_winner();
-vga_if in_looser();
+vga_if in_end();
 vga_if in_start();
 
 vga_if out_sel();
@@ -52,7 +58,25 @@ draw_screen_shooter u_draw_screen_shooter(
     .out(in_shooter)
 );
 
+draw_screen_end u_draw_screen_end(
+    .clk,
+    .rst,
+    .in,
+    .out(in_end)
+);
 
+delay #(
+    .CLK_DEL(1),
+    .WIDTH(12)
+ )
+ u_vga_delay(
+    .clk,
+    .rst,
+    .din({in_control.is_scored, in_control.round_counter, in_control.score, in_control.game_mode, in_control.game_state}),
+    .dout({is_scored_d, round_counter_d, score_d, game_state_d, game_mode_d})
+ );
+
+ //logic 
 
 always_ff @(posedge clk) begin : data_passed_through
     if (rst) begin
@@ -69,8 +93,8 @@ always_ff @(posedge clk) begin : data_passed_through
         out_control.score <= '0;
         out_control.game_mode <= MULTI;
         out_control.game_state <= START;
-
-    end else begin
+    end 
+    else begin
         out.vcount <= out_sel.vcount;
         out.vsync  <= out_sel.vsync;
         out.vblnk  <= out_sel.vblnk;
@@ -86,6 +110,8 @@ always_ff @(posedge clk) begin : data_passed_through
         out_control.game_state <= in_control.game_state;       
     end
  end
+
+
 
  always_comb begin : screen_selected_control
     
@@ -118,22 +144,22 @@ always_ff @(posedge clk) begin : data_passed_through
             out_sel.vsync = in_shooter.vsync;
         end
         WINNER: begin
-            out_sel.hblnk = in_winner.hblnk;
-            out_sel.hcount = in_winner.hcount;
-            out_sel.hsync = in_winner.hsync;
-            out_sel.rgb = in_winner.rgb;
-            out_sel.vblnk = in_winner.vblnk;
-            out_sel.vcount = in_winner.vcount;
-            out_sel.vsync = in_winner.vsync;
+            out_sel.hblnk = in_end.hblnk;
+            out_sel.hcount = in_end.hcount;
+            out_sel.hsync = in_end.hsync;
+            out_sel.rgb = in_end.rgb;
+            out_sel.vblnk = in_end.vblnk;
+            out_sel.vcount = in_end.vcount;
+            out_sel.vsync = in_end.vsync;
         end
         LOOSER: begin
-            out_sel.hblnk = in_looser.hblnk;
-            out_sel.hcount = in_looser.hcount;
-            out_sel.hsync = in_looser.hsync;
-            out_sel.rgb = in_looser.rgb;
-            out_sel.vblnk = in_looser.vblnk;
-            out_sel.vcount = in_looser.vcount;
-            out_sel.vsync = in_looser.vsync;
+            out_sel.hblnk = in_end.hblnk;
+            out_sel.hcount = in_end.hcount;
+            out_sel.hsync = in_end.hsync;
+            out_sel.rgb = in_end.rgb;
+            out_sel.vblnk = in_end.vblnk;
+            out_sel.vcount = in_end.vcount;
+            out_sel.vsync = in_end.vsync;
         end
         default:
         begin
