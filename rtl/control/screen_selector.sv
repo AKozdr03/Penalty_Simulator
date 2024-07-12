@@ -19,6 +19,13 @@
 
 import game_pkg::*;
 
+//Local variables
+logic is_scored_d;
+logic [3:0] round_counter_d;
+logic [2:0] score_d;
+g_state game_state_d;
+g_mode game_mode_d;
+
 // Interfaces
 vga_if in_keeper();
 vga_if in_shooter();
@@ -58,6 +65,19 @@ draw_screen_end u_draw_screen_end(
     .out(in_end)
 );
 
+delay #(
+    .CLK_DEL(1),
+    .WIDTH(12)
+ )
+ u_vga_delay(
+    .clk,
+    .rst,
+    .din({in_control.is_scored, in_control.round_counter, in_control.score, in_control.game_mode, in_control.game_state}),
+    .dout({is_scored_d, round_counter_d, score_d, game_state_d, game_mode_d})
+ );
+
+ //logic 
+
 always_ff @(posedge clk) begin : data_passed_through
     if (rst) begin
         out.vcount <= '0;
@@ -90,6 +110,8 @@ always_ff @(posedge clk) begin : data_passed_through
         out_control.game_state <= in_control.game_state;       
     end
  end
+
+
 
  always_comb begin : screen_selected_control
     

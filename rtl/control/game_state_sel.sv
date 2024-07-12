@@ -9,7 +9,7 @@
 module game_state_sel(
     input wire clk, rst,
     input wire left_clicked,
-    input wire solo_enable, connect_corrected,
+    input wire solo_enable,// connect_corrected,
 
     control_if.in in_control,
     control_if.out out_control
@@ -118,12 +118,15 @@ always_comb begin : next_game_state_controller
             //     end
 
             // endcase
+            /*
             if (connect_corrected) begin
                 game_state_nxt = START;
             end
             else begin
             game_state_nxt = START;
             end
+            */
+           game_state_nxt = START ;
         end
     endcase
     

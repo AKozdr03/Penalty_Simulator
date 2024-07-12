@@ -27,6 +27,7 @@ logic [11:0] x_start;
 logic [11:0] x_end;
 logic [11:0] y_start;
 logic [11:0] y_end;
+logic [11:0] x_ow, y_ow;
 
 logic [11:0] rgb_nxt;
 logic [19:0] addr_nxt;
@@ -37,13 +38,16 @@ logic [10:0] hcount_d, vcount_d;
 logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
 //assigns
-
+/*
 assign x_start = xpos;
 assign x_end = xpos + GLOVES_LENGTH;
 assign y_start = ypos;
 assign y_end = ypos + GLOVES_WIDTH;
-
-
+*/
+assign x_start = x_ow;
+assign x_end = x_ow + GLOVES_LENGTH;
+assign y_start = y_ow;
+assign y_end = y_ow + GLOVES_WIDTH;
 
 always_ff @(posedge clk) begin : data_passed_through
     if (rst) begin
@@ -54,7 +58,7 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hsync  <= '0;
         out.hblnk  <= '0;
         out.rgb    <= '0;
-       pixel_addr <= '0;
+        pixel_addr <= '0;
     end else begin
         out.vcount <= vcount_d;
         out.vsync  <= vsync_d;
@@ -79,15 +83,37 @@ always_ff @(posedge clk) begin : data_passed_through
  );
  
  always_comb begin : gloves_drawing
-
     if((in.hcount + 50 >= x_start) && (in.hcount + 50 < x_end) && (in.vcount + 50 >= y_start) && (in.vcount + 50 < y_end)) begin
-        imag_y = in.vcount - ypos + 50;
-        imag_x = in.hcount - xpos + 50;
+        if( xpos >= 1024 && ypos >= 768) begin
+            imag_y = in.vcount - y_ow + 50;
+            imag_x = in.hcount - x_ow + 50;
+            x_ow = 1024;
+            y_ow = 768 ;
+        end
+        else if(xpos > 1024) begin
+            imag_y = in.vcount - y_ow + 50;
+            imag_x = in.hcount - x_ow + 50;
+            x_ow = 1024;
+            y_ow = ypos ;
+        end
+        else if(ypos > 768) begin
+            imag_y = in.vcount - y_ow + 50;
+            imag_x = in.hcount - x_ow + 50;
+            x_ow = xpos ;
+            y_ow = 768;
+        end
+        else begin
+            imag_y = in.vcount - ypos + 50;
+            imag_x = in.hcount - xpos + 50;
+            x_ow = xpos ;
+            y_ow = ypos ;
+        end
         addr_nxt = imag_y * GLOVES_WIDTH + imag_x;
     end
     else begin
         addr_nxt = '0;
     end
+
     if((in.hcount + 50 >= x_start) && (in.hcount + 50 < x_end) && (in.vcount + 50 >= y_start)  && (in.vcount + 50 < y_end) ) begin
         if(rgb_pixel == BLACK) begin // this is to delete background of gloves image
             rgb_nxt = rgb_d;
@@ -99,6 +125,7 @@ always_ff @(posedge clk) begin : data_passed_through
     else begin
         rgb_nxt = rgb_d;
     end
+
  end
 
 
