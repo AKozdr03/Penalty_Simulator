@@ -13,22 +13,18 @@ module vga_timing (
     input  logic clk,
     input  logic rst,
     
-    game_if.out out
+    timing_if.out out
 
 );
 
-import game_pkg::*;
+import vga_pkg::*;
 
 
 /**
  * Local variables and signals
  */
-logic [10:0] vcount_nxt;
-logic [10:0] hcount_nxt;
-logic vsync_nxt;
-logic hsync_nxt;
-logic vblnk_nxt;
-logic hblnk_nxt;
+logic [10:0] vcount_nxt, hcount_nxt;
+logic vsync_nxt, hsync_nxt, vblnk_nxt, hblnk_nxt;
 
 /**
  * Internal logic

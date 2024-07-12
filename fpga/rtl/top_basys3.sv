@@ -20,6 +20,7 @@ module top_basys3 (
     inout wire PS2Data,
 
     input  wire btnC,
+    input  wire sw,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
@@ -86,7 +87,8 @@ top_game u_top_game (
     .g(vgaGreen),
     .b(vgaBlue),
     .hs(Hsync),
-    .vs(Vsync)
+    .vs(Vsync),
+    .solo_enable(sw)
 );
 
 endmodule

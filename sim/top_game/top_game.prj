@@ -1,7 +1,7 @@
 # Copyright (C) 2023  AGH University of Science and Technology
 # MTM UEC2
 # Author: Piotr Kaczmarczyk
-# Modified: Andrzej Kozdrowski
+# Modified: Andrzej Kozdrowski, Aron Lampart
 # Description:
 # List of files defining the modules used during the test.
 # Specify the file paths relative to THIS file.
@@ -9,23 +9,34 @@
 # https://docs.xilinx.com/r/en-US/ug900-vivado-logic-simulation/Project-File-.prj-Syntax
 
 
-sv work ../../rtl/game_pkg.sv \
-        ../../rtl/game_if.sv \
+sv work ../../rtl/constants/game_pkg.sv \
+        ../../rtl/constants/draw_pkg.sv \
+        ../../rtl/constants/vga_pkg.sv \
+        ../../rtl/constants/game_if.sv \
         ../../rtl/vga_timing.sv \
         ../../rtl/delay.sv \
         ../../rtl/draw/draw_mouse.sv \
-        ../../rtl/rom/start_rom.sv \
-        ../../rtl/rom/keeper_rom.sv \
-        ../../rtl/rom/shooter_rom.sv \
-        ../../rtl/rom/winner_rom.sv \
-        ../../rtl/rom/looser_rom.sv \
-        ../../rtl/screens/start_screen.sv \
-        ../../rtl/screens/keeper_screen.sv \
-        ../../rtl/screens/shooter_screen.sv \
-        ../../rtl/screens/winner_screen.sv \
-        ../../rtl/screens/looser_screen.sv \
+        ../../rtl/draw/draw_gloves.sv \
+        ../../rtl/draw/draw_keeper.sv \
+        ../../rtl/draw/draw_char.sv \
+        ../../rtl/draw/draw_ball.sv \
+        ../../rtl/rom/ball_rom.sv \
+        ../../rtl/rom/gloves_rom.sv \
+        ../../rtl/rom/goalkeeper_rom.sv \
+        ../../rtl/screens/draw_screen_gk.sv \
+        ../../rtl/screens/draw_screen_shooter.sv \
+        ../../rtl/screens/draw_screen_start.sv \
+        ../../rtl/screens/draw_screen_end.sv \
         ../../rtl/top_game.sv \
-        ../../rtl/output_selector.sv \
+        ../../rtl/control/screen_selector.sv \
+        ../../rtl/control/game_state_sel.sv \
+        ../../rtl/control/ball_control.sv \
+        ../../rtl/control/mouse_control.sv \
+        ../../rtl/control/uart_decoder.sv \
+        ../../rtl/control/score_control.sv \
+        ../../rtl/text/char_rom_16x16.sv \
+        ../../rtl/text/font_rom.sv \
+        ../../rtl/text/write_text.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\

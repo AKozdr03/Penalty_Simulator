@@ -8,9 +8,9 @@
  * MTM UEC2
  * Piotr Kaczmarczyk
  * Andrzej Kozdrowski
- * 
+ * Aron Lampart
  * Description:
- * Testbench for top_vga.
+ * Testbench for top_game.
  * Thanks to the tiff_writer module, an expected image
  * produced by the project is exported to a tif file.
  * Since the vs signal is connected to the go input of
@@ -26,6 +26,7 @@
 module top_game_tb;
 
 import game_pkg::*;
+
 /**
  *  Local parameters
  */
@@ -38,7 +39,7 @@ localparam CLK100_PERIOD = 10;  //100 MHz
  * Local variables and signals
  */
 
-logic clk, rst, clk100MHz;
+logic clk, rst, clk100MHz, solo_enable;
 wire vs, hs;
 wire [3:0] r, g, b;
 
@@ -70,7 +71,8 @@ top_game dut (
     .hs(hs),
     .r(r),
     .g(g),
-    .b(b)
+    .b(b),
+    .solo_enable(solo_enable)
 );
 
 tiff_writer #(
@@ -94,10 +96,11 @@ initial begin
     rst = 1'b0;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;
-    
+    # 30 solo_enable = 1'b1;
     $display("If simulation ends before the testbench");
     $display("completes, use the menu option to run all.");
     $display("Prepare to wait a long time...");
+    $display("Smacznej kawusi");
 
     wait (vs == 1'b0);
     @(negedge vs) $display("Info: negedge VS at %t",$time);

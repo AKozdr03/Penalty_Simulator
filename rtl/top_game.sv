@@ -12,6 +12,7 @@
 module top_game (
     input  logic clk,
     input  logic rst,
+    input  logic solo_enable,
     inout  logic ps2_clk,
     inout  logic ps2_data,
     output logic vs,
@@ -26,26 +27,35 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
-wire [11:0] rgb_pixel_start, rgb_pixel_keeper, rgb_pixel_winner, rgb_pixel_looser ,rgb_pixel_shooter;
-wire [19:0] pixel_addr_start, pixel_addr_keeper, pixel_addr_winner, pixel_addr_looser, pixel_addr_shooter;
+wire left_clicked, connect_corrected;
 /**
  * Signals assignments
  */
 
 // Interfaces
-game_if vga_bg();
-game_if vga_ms();
-game_if vga_screen();
-game_if vga_start_screen();
-game_if vga_keeper_screen();
-game_if vga_shooter_screen();
-game_if vga_winner_screen();
-game_if vga_looser_screen();
+timing_if vga_timing();
 
+control_if control_state_in();
+control_if control_state_out();
+control_if control_sc_sel();
+
+vga_if vga_ms();
+vga_if vga_screen();
+
+//for testing of write_text
+/*
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
 assign {r,g,b} = vga_ms.rgb;
-
+*/
+vga_if vga_txt();
+assign vs = vga_txt.vsync;
+assign hs = vga_txt.hsync;
+assign {r,g,b} = vga_txt.rgb;
+wire [11:0] char_xy ; //org 7:0
+wire [6:0] char_code ;
+wire [3:0] char_line ;
+wire [7:0] char_pixels ;
 
 /**
  * Submodules instances
@@ -54,7 +64,7 @@ assign {r,g,b} = vga_ms.rgb;
 vga_timing u_vga_timing (
     .clk,
     .rst,
-    .out (vga_bg)
+    .out(vga_timing)
 );
 
 MouseCtl u_MouseCtl(
@@ -64,7 +74,7 @@ MouseCtl u_MouseCtl(
     .ps2_data,
     .xpos,
     .ypos,
-    .left(),
+    .left(left_clicked),
     .middle(),
     .new_event(),
     .right(),
@@ -76,98 +86,66 @@ MouseCtl u_MouseCtl(
     .zpos()
 );
 
-draw_mouse u_draw_mouse(
+
+mouse_control u_mouse_control(
     .clk,
     .rst,
-    .in_mouse (vga_screen),
-    .out_mouse (vga_ms),
     .xpos,
-    .ypos
+    .ypos,
+    .in(vga_screen),
+    .out(vga_ms),
+    .in_control(control_sc_sel),
+    .out_control(control_state_in)
 );
 
-output_selector u_output_selector(
+
+
+screen_selector u_screen_selector(
     .clk,
     .rst,
-    .in_keeper(vga_keeper_screen),
-    .in_looser(vga_looser_screen),
-    .in_shooter(vga_shooter_screen),
-    .in_start(vga_start_screen),
-    .in_winner(vga_winner_screen),
+    .in_control(control_state_out),
+    .out_control(control_sc_sel),
+    .in(vga_timing),
     .out(vga_screen)
 );
-start_screen u_start_screen(
+
+/*uart_decoder u_uart_decoder(
     .clk,
     .rst,
-    .pixel_addr(pixel_addr_start),
-    .rgb_pixel(rgb_pixel_start),
-    .in(vga_bg),
-    .out(vga_start_screen)
-);
-
-start_rom u_start_rom(
-    .clk,
-    .addrA(pixel_addr_start),
-    .dout(rgb_pixel_start)
-);
-
-keeper_screen u_keeper_screen(
+    .connect_corrected,
+    .keeper_pos()
+);*/
+game_state_sel u_game_state_sel(
     .clk,
     .rst,
-    .pixel_addr(pixel_addr_keeper),
-    .rgb_pixel(rgb_pixel_keeper),
-    .in(vga_bg),
-    .out(vga_keeper_screen)
+    .left_clicked,
+    .solo_enable,
+    //.connect_corrected,
+    .in_control(control_state_in),
+    .out_control(control_state_out)
 );
 
-keeper_rom u_keeper_rom(
-    .clk,
-    .addrA(pixel_addr_keeper),
-    .dout(rgb_pixel_keeper)
-);
-
-shooter_screen u_shooter_screen(
+write_text u_write_text (
     .clk,
     .rst,
-    .pixel_addr(pixel_addr_shooter),
-    .rgb_pixel(rgb_pixel_shooter),
-    .in(vga_bg),
-    .out(vga_shooter_screen)
+    .char_pixels,
+    .char_xy,
+    .char_line,
+    .in(vga_ms),
+    .out(vga_txt)
 );
 
-shooter_rom u_shooter_rom(
+font_rom u_font_rom (
     .clk,
-    .addrA(pixel_addr_shooter),
-    .dout(rgb_pixel_shooter)
+    .char_line,
+    .char_code,
+    .char_line_pixels(char_pixels)
 );
 
-winner_screen u_winner_screen(
+char_rom_16x16 u_char_rom_16x16(
     .clk,
-    .rst,
-    .pixel_addr(pixel_addr_winner),
-    .rgb_pixel(rgb_pixel_winner),
-    .in(vga_bg),
-    .out(vga_winner_screen)
-);
-
-winner_rom u_winner_rom(
-    .clk,
-    .addrA(pixel_addr_winner),
-    .dout(rgb_pixel_winner)
-);
-
-looser_screen u_looser_screen(
-    .clk,
-    .rst,
-    .pixel_addr(pixel_addr_looser),
-    .rgb_pixel(rgb_pixel_looser),
-    .in(vga_bg),
-    .out(vga_looser_screen)
-);
-
-looser_rom u_looser_rom(
-    .clk,
-    .addrA(pixel_addr_looser),
-    .dout(rgb_pixel_looser)
+    .char_xy,
+    .char_code
 );
 
 endmodule
