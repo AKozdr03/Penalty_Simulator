@@ -27,7 +27,7 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
-wire left_clicked, connect_corrected;
+wire left_clicked;
 /**
  * Signals assignments
  */
@@ -115,6 +115,7 @@ screen_selector u_screen_selector(
     .connect_corrected,
     .keeper_pos()
 );*/
+
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
