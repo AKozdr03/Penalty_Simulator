@@ -60,6 +60,7 @@ set sv_files {
     ../rtl/control/game_state_sel.sv
     ../rtl/control/mouse_control.sv
     ../rtl/control/score_control.sv
+    ../rtl/control/gloves_control.sv
     ../rtl/control/ball_control.sv
     ../rtl/control/uart_decoder.sv
     ../rtl/text/write_text.sv

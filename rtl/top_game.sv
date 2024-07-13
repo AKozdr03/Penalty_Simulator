@@ -38,9 +38,12 @@ timing_if vga_timing();
 control_if control_state_in();
 control_if control_state_out();
 control_if control_sc_sel();
+control_if control_glovesctl();
+control_if control_mousectl();
 
 vga_if vga_ms();
 vga_if vga_screen();
+vga_if vga_glovesctl();
 
 //for testing of write_text
 
@@ -83,10 +86,10 @@ mouse_control u_mouse_control(
     .rst,
     .xpos,
     .ypos,
-    .in(vga_screen),
+    .in(vga_glovesctl),
     .out(vga_ms),
-    .in_control(control_sc_sel),
-    .out_control(control_state_in)
+    .in_control(control_glovesctl),
+    .out_control(control_mousectl)
 );
 
 
@@ -100,21 +103,25 @@ screen_selector u_screen_selector(
     .out(vga_screen)
 );
 
-/*uart_decoder u_uart_decoder(
-    .clk,
-    .rst,
-    .connect_corrected,
-    .keeper_pos()
-);*/
-
 game_state_sel u_game_state_sel(
     .clk,
     .rst,
     .left_clicked,
     .solo_enable,
     //.connect_corrected,
-    .in_control(control_state_in),
+    .in_control(control_mousectl),
     .out_control(control_state_out)
+);
+
+gloves_control u_gloves_control(
+    .clk,
+    .rst,
+    .in(vga_screen),
+    .out(vga_glovesctl),
+    .in_control(control_sc_sel),
+    .out_control(control_glovesctl),
+    .xpos,
+    .ypos
 );
 
 endmodule
