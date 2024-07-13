@@ -28,8 +28,8 @@ logic [9:0] y_ow, y_ow_nxt;
 
 logic [11:0] rgb_nxt;
 logic [19:0] addr_nxt;
-logic [10:0] imag_x;
-logic [10:0] imag_y;
+logic [10:0] imag_x, imag_x_nxt;
+logic [10:0] imag_y, imag_y_nxt;
 logic [11:0] rgb_d;
 logic [10:0] hcount_d, vcount_d;
 logic hblnk_d, vblnk_d, hsync_d, vsync_d;
@@ -49,6 +49,8 @@ always_ff @(posedge clk) begin : data_passed_through
 
         x_ow <= '0;
         y_ow <= '0;
+        imag_x <= '0;
+        imag_y <= '0;
     end else begin
         out.vcount <= vcount_d;
         out.vsync  <= vsync_d;
@@ -61,11 +63,13 @@ always_ff @(posedge clk) begin : data_passed_through
 
         x_ow <= x_ow_nxt;
         y_ow <= y_ow_nxt;
+        imag_x <= imag_x_nxt;
+        imag_y <= imag_y_nxt;
     end
  end
 
  delay #(
-    .CLK_DEL(2),
+    .CLK_DEL(3),//2
     .WIDTH(38)
  )
  u_gloves_delay(
@@ -78,26 +82,26 @@ always_ff @(posedge clk) begin : data_passed_through
  always_comb begin : gloves_drawing
     if((in.hcount + 50 >= x_ow) && (in.hcount + 50 < (x_ow + GLOVES_LENGTH)) && (in.vcount + 50 >= y_ow) && (in.vcount + 50 < (y_ow + GLOVES_LENGTH))) begin
         if( xpos >= 1024 && ypos >= 768) begin
-            imag_y = in.vcount - y_ow + 50;
-            imag_x = in.hcount - x_ow + 50;
+            imag_y_nxt = in.vcount - y_ow + 50;
+            imag_x_nxt = in.hcount - x_ow + 50;
             x_ow_nxt = 1024;
             y_ow_nxt = 768 ;
         end
         else if(xpos > 1024) begin
-            imag_y = in.vcount - y_ow + 50;
-            imag_x = in.hcount - x_ow + 50;
+            imag_y_nxt = in.vcount - y_ow + 50;
+            imag_x_nxt = in.hcount - x_ow + 50;
             x_ow_nxt = 1024;
             y_ow_nxt = ypos[9:0] ;
         end
         else if(ypos > 768) begin
-            imag_y = in.vcount - y_ow + 50;
-            imag_x = in.hcount - x_ow + 50;
+            imag_y_nxt = in.vcount - y_ow + 50;
+            imag_x_nxt = in.hcount - x_ow + 50;
             x_ow_nxt = xpos ;
             y_ow_nxt = 768;
         end
         else begin
-            imag_y = in.vcount - ypos + 50;
-            imag_x = in.hcount - xpos + 50;
+            imag_y_nxt = in.vcount - ypos + 50;
+            imag_x_nxt = in.hcount - xpos + 50;
             x_ow_nxt = xpos ;
             y_ow_nxt = ypos[9:0] ;
         end
@@ -105,8 +109,10 @@ always_ff @(posedge clk) begin : data_passed_through
     end
     else begin
         addr_nxt = '0;
-        x_ow_nxt = '0 ;
-        y_ow_nxt = '0 ;
+        x_ow_nxt = x_ow ;
+        y_ow_nxt = y_ow ;
+        imag_y_nxt = imag_y;
+        imag_x_nxt = imag_x;
     end
 
     if((in.hcount + 50 >= x_ow) && (in.hcount + 50 < (x_ow + GLOVES_LENGTH)) && (in.vcount + 50 >= y_ow)  && (in.vcount + 50 < (y_ow + GLOVES_LENGTH)) ) begin
