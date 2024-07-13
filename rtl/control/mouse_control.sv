@@ -56,6 +56,7 @@ gloves_rom u_gloves_rom(
     .dout(rgb_gloves)
 );
 
+
 always_ff @(posedge clk) begin : data_passed_through
     if (rst) begin
         out.vcount <= '0;

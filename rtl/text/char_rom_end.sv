@@ -9,7 +9,7 @@
  * Do bigosu mozna dodac tez wiele innych skladnikow!
  */
 
-module char_rom_16x16
+module char_rom_end
     (
         input  logic        clk,
         input  logic  [11:0] char_xy, //org [7:0]   

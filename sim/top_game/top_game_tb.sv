@@ -102,6 +102,7 @@ initial begin
     $display("Prepare to wait a long time...");
     $display("Smacznej kawusi");
 
+    wait (hs == 1'b0);
     wait (vs == 1'b0);
     @(negedge vs) $display("Info: negedge VS at %t",$time);
     @(negedge vs) $display("Info: negedge VS at %t",$time);

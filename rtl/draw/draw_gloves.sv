@@ -46,11 +46,12 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hblnk  <= '0;
         out.rgb    <= '0;
         pixel_addr <= '0;
-
+        
         x_ow <= '0;
         y_ow <= '0;
         imag_x <= '0;
         imag_y <= '0;
+
     end else begin
         out.vcount <= vcount_d;
         out.vsync  <= vsync_d;
@@ -69,7 +70,7 @@ always_ff @(posedge clk) begin : data_passed_through
  end
 
  delay #(
-    .CLK_DEL(3),//2
+    .CLK_DEL(3),
     .WIDTH(38)
  )
  u_gloves_delay(

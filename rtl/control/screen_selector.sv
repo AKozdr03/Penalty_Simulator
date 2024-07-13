@@ -20,13 +20,15 @@
 import game_pkg::*;
 
 //Local variables
-logic is_scored_d;
-logic [3:0] round_counter_d;
-logic [2:0] score_d;
-g_state game_state_d;
-g_mode game_mode_d;
+
+wire [11:0] char_xy_end ;
+wire [6:0] char_code_end ;
+wire [3:0] char_line_end ;
+wire [7:0] char_pixels_end ;
 
 // Interfaces
+vga_if in_screen_end();
+
 vga_if in_keeper();
 vga_if in_shooter();
 vga_if in_end();
@@ -58,23 +60,36 @@ draw_screen_shooter u_draw_screen_shooter(
     .out(in_shooter)
 );
 
+// DRAW SCREEN END
 draw_screen_end u_draw_screen_end(
     .clk,
     .rst,
     .in,
+    .out(in_screen_end)
+);
+
+write_text u_write_text_end (
+    .clk,
+    .rst,
+    .char_pixels(char_pixels_end),
+    .char_xy(char_xy_end),
+    .char_line(char_line_end),
+    .in(in_screen_end),
     .out(in_end)
 );
 
-delay #(
-    .CLK_DEL(1),
-    .WIDTH(12)
- )
- u_vga_delay(
+font_rom u_font_rom_end (
     .clk,
-    .rst,
-    .din({in_control.is_scored, in_control.round_counter, in_control.score, in_control.game_mode, in_control.game_state}),
-    .dout({is_scored_d, round_counter_d, score_d, game_state_d, game_mode_d})
- );
+    .char_line(char_line_end),
+    .char_code(char_code_end),
+    .char_line_pixels(char_pixels_end)
+);
+
+char_rom_16x16 u_char_rom_16x16(
+    .clk,
+    .char_xy(char_xy_end),
+    .char_code(char_code_end)
+);
 
  //logic 
 

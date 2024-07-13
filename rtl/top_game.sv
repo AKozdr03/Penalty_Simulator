@@ -43,19 +43,10 @@ vga_if vga_ms();
 vga_if vga_screen();
 
 //for testing of write_text
-/*
+
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
 assign {r,g,b} = vga_ms.rgb;
-*/
-vga_if vga_txt();
-assign vs = vga_txt.vsync;
-assign hs = vga_txt.hsync;
-assign {r,g,b} = vga_txt.rgb;
-wire [11:0] char_xy ; //org 7:0
-wire [6:0] char_code ;
-wire [3:0] char_line ;
-wire [7:0] char_pixels ;
 
 /**
  * Submodules instances
@@ -78,11 +69,11 @@ MouseCtl u_MouseCtl(
     .middle(),
     .new_event(),
     .right(),
-    .setmax_x(),
-    .setmax_y(),
-    .setx(),
-    .sety(),
-    .value(),
+    .setmax_x('0),
+    .setmax_y('0),
+    .setx('0),
+    .sety('0),
+    .value('0),
     .zpos()
 );
 
@@ -124,29 +115,6 @@ game_state_sel u_game_state_sel(
     //.connect_corrected,
     .in_control(control_state_in),
     .out_control(control_state_out)
-);
-
-write_text u_write_text (
-    .clk,
-    .rst,
-    .char_pixels,
-    .char_xy,
-    .char_line,
-    .in(vga_ms),
-    .out(vga_txt)
-);
-
-font_rom u_font_rom (
-    .clk,
-    .char_line,
-    .char_code,
-    .char_line_pixels(char_pixels)
-);
-
-char_rom_16x16 u_char_rom_16x16(
-    .clk,
-    .char_xy,
-    .char_code
 );
 
 endmodule

@@ -65,6 +65,7 @@ set sv_files {
     ../rtl/text/write_text.sv
     ../rtl/text/font_rom.sv
     ../rtl/text/char_rom_16x16.sv
+    ../rtl/text/char_rom_end.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }
