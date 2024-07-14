@@ -124,4 +124,17 @@ gloves_control u_gloves_control(
     .ypos
 );
 
+ball_control u_ball_control(
+    .clk,
+    .rst,
+    .in(), // tu wpisz na razie to co do testów
+    .out(),
+    .in_control(), 
+    .out_control(),
+    .shot_xpos(), // pozycja piłki po strzale (x)
+    .shot_ypos(), // pozycja piłki po strzale (y)
+    .x_shooter(), // to dla multi na razie nic nie wpisywać
+    .y_shooter() // to dla multi na razie nic nie wpisywać
+);
+
 endmodule

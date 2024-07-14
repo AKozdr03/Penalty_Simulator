@@ -3,7 +3,7 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Package for gk screen drawing constraints.
+ * Package for drawing constraints.
  */
 
  package draw_pkg;
