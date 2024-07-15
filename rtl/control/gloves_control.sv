@@ -11,6 +11,8 @@
     input wire rst,
     input logic [11:0] xpos,
     input logic [11:0] ypos,
+    input logic [11:0] shot_xpos,
+    input logic [11:0] shot_ypos,
 
     vga_if.in in,   
     vga_if.out out,
@@ -23,41 +25,41 @@
 
  //params
 
- localparam BEGIN_CROSS_X = 200 ;
- localparam BEGIN_CROSS_Y = 200 ;
+//  localparam BEGIN_CROSS_X = 200 ;
+//  localparam BEGIN_CROSS_Y = 200 ;
  localparam CROSS_WIDTH = 100 ;
 
 //variables
 
  //For 65MHz - 1tick = 15.38ns
  //for 1s - 65 019 506 ticks
- logic [25:0] counter;
+ logic [25:0] counter, counter_nxt;
 
- typedef enum bit [1:0] {IDLE, BEGIN, COUNTDOWN, RESULT} glove_state; //czemu begin jest czerwone? XD
+ typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, WIN, LOS} glove_state;
  glove_state state, state_nxt ;
- g_state game_state_nxt;
 
  logic [11:0] rgb_nxt;
 
  logic is_scored_d;
-logic [3:0] round_counter_d;
-logic [2:0] score_d;
-g_mode game_mode_d;
-
-logic [10:0] hcount_d, vcount_d;
-logic hblnk_d, vblnk_d, hsync_d, vsync_d;
+ logic [3:0] round_counter_d;
+ logic [2:0] score_d;
+ g_mode game_mode_d;
+ g_state game_state_d;
+ 
+ logic [10:0] hcount_d, vcount_d;
+ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
  //delay
 
  delay #(
     .CLK_DEL(1),
-    .WIDTH(9)
+    .WIDTH(12)
  )
  u_delay_control(
     .clk,
     .rst,
-    .din({in_control.is_scored, in_control.round_counter, in_control.score, in_control.game_mode}),
-    .dout({is_scored_d, round_counter_d, score_d, game_mode_d})
+    .din({in_control.is_scored, in_control.round_counter, in_control.score, in_control.game_mode, in_control.game_state}),
+    .dout({is_scored_d, round_counter_d, score_d, game_mode_d, game_state_d})
  );
 
  delay #(
@@ -90,6 +92,7 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
         out_control.game_state <= START;
 
         state <= IDLE;
+        counter <= '0;
     end 
     else begin
         out.vcount <= vcount_d;
@@ -104,9 +107,10 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
         out_control.round_counter <= round_counter_d;
         out_control.score <= score_d;
         out_control.game_mode <= game_mode_d;
-        out_control.game_state <= game_state_nxt;  
+        out_control.game_state <= game_state_d;  
         
         state <= state_nxt;
+        counter <= counter_nxt ;
     end
  end
 
@@ -114,48 +118,60 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
     case(state)
         IDLE:       begin
                         if(in_control.game_state == KEEPER)
-                            state_nxt = BEGIN ;
+                            state_nxt = ENGAGE ;
                         else
                             state_nxt = IDLE ;
 
                         rgb_nxt = in.rgb ;
+                        counter_nxt = counter ;
                     end
 
-        BEGIN:      begin
-                        //rozrusznik countdown
-                        counter = '0;
+        ENGAGE:      begin
+                        counter_nxt = '0;
                         state_nxt = COUNTDOWN ;
                         rgb_nxt = in.rgb ;
                     end
 
         COUNTDOWN:  begin
-                        if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
-                        && in.vcount >= BEGIN_CROSS_Y && in.vcount <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) 
+                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
                             rgb_nxt = 12'hF_0_0;
                         else 
                             rgb_nxt = in.rgb;
                         
-                        counter++ ;
+                        counter_nxt = counter + 1 ;
                         if(counter == 65019506)
-                            state = RESULT ;
+                            state_nxt = RESULT ;
                         else
-                            state = COUNTDOWN ;
-                        
+                            state_nxt = COUNTDOWN ;
                     end
 
         RESULT:     begin
-                        if(xpos >= BEGIN_CROSS_X && xpos <= (BEGIN_CROSS_X + CROSS_WIDTH)
-                        && ypos >= BEGIN_CROSS_Y && ypos <= (BEGIN_CROSS_Y + CROSS_WIDTH) )
-                            game_state_nxt = WINNER ;
+                        if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
+                        && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) )
+                            state_nxt = WIN ;
                         else
-                            game_state_nxt = START ;
-
+                            state_nxt = LOS ;
+                        
                         rgb_nxt = in.rgb ;
+                        counter_nxt = counter ;
+                    end
+        WIN:        begin
+                        rgb_nxt = 12'h0_F_0 ; //for tests
+                        counter_nxt = counter ;
+                        state_nxt = state ;
+                    end
+
+        LOS:        begin
+                        rgb_nxt = 12'hF_0_0 ; //for tests
+                        counter_nxt = counter ;
+                        state_nxt = state ;
                     end
 
         default:    begin
-                        rgb_nxt = 12'hF_0_0; //red
+                        rgb_nxt = 12'h0_0_F; //blue
                         state_nxt = IDLE ;
+                        counter_nxt = '0 ;
                     end
     endcase
  end

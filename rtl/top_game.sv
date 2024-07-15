@@ -28,6 +28,7 @@ module top_game (
  */
 wire [11:0] xpos, ypos;
 wire left_clicked;
+wire [11:0] shot_xpos,shot_ypos;
 /**
  * Signals assignments
  */
@@ -40,10 +41,13 @@ control_if control_state_out();
 control_if control_sc_sel();
 control_if control_glovesctl();
 control_if control_mousectl();
+control_if control_ballctl();
 
 vga_if vga_ms();
 vga_if vga_screen();
 vga_if vga_glovesctl();
+vga_if vga_ballctl();
+
 
 //for testing of write_text
 
@@ -116,25 +120,28 @@ game_state_sel u_game_state_sel(
 gloves_control u_gloves_control(
     .clk,
     .rst,
-    .in(vga_screen),
+    .in(vga_ballctl),
     .out(vga_glovesctl),
-    .in_control(control_sc_sel),
+    .in_control(control_ballctl),
     .out_control(control_glovesctl),
     .xpos,
-    .ypos
+    .ypos,
+    .shot_xpos,
+    .shot_ypos
 );
 
 ball_control u_ball_control(
     .clk,
     .rst,
-    .in(), // tu wpisz na razie to co do testów
-    .out(),
-    .in_control(), 
-    .out_control(),
-    .shot_xpos(), // pozycja piłki po strzale (x)
-    .shot_ypos(), // pozycja piłki po strzale (y)
+    .in(vga_screen), // tu wpisz na razie to co do testów
+    .out(vga_ballctl),
+    .in_control(control_sc_sel), 
+    .out_control(control_ballctl),
+    .shot_xpos, // pozycja piłki po strzale (x)
+    .shot_ypos, // pozycja piłki po strzale (y)
     .x_shooter(), // to dla multi na razie nic nie wpisywać
     .y_shooter() // to dla multi na razie nic nie wpisywać
 );
+
 
 endmodule
