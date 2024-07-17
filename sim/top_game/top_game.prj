@@ -27,6 +27,8 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/screens/draw_screen_shooter.sv \
         ../../rtl/screens/draw_screen_start.sv \
         ../../rtl/screens/draw_screen_end.sv \
+        ../../rtl/screens/draw_screen_win.sv \
+        ../../rtl/screens/draw_screen_lose.sv \
         ../../rtl/top_game.sv \
         ../../rtl/control/screen_selector.sv \
         ../../rtl/control/game_state_sel.sv \
@@ -34,7 +36,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/control/mouse_control.sv \
         ../../rtl/control/uart_decoder.sv \
         ../../rtl/control/score_control.sv \
-        ../rtl/control/gloves_control.sv \
+        ../../rtl/control/gloves_control.sv \
         ../../rtl/text/char_rom_16x16.sv \
         ../../rtl/text/font_rom.sv \
         ../../rtl/text/write_text.sv \

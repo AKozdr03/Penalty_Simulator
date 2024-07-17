@@ -27,21 +27,17 @@ module top_game (
  * Local variables and signals
  */
 wire [11:0] xpos, ypos;
-wire left_clicked;
-wire [11:0] shot_xpos,shot_ypos;
+wire left_clicked, right_clicked;
+wire is_scored;
+wire round_done;
+// wire [11:0] shot_xpos,shot_ypos;
 /**
  * Signals assignments
  */
 
 // Interfaces
 timing_if vga_timing();
-
-control_if control_state_in();
-control_if control_state_out();
-control_if control_sc_sel();
-control_if control_glovesctl();
-control_if control_mousectl();
-control_if control_ballctl();
+control_if control_out();
 
 vga_if vga_ms();
 vga_if vga_screen();
@@ -75,7 +71,7 @@ MouseCtl u_MouseCtl(
     .left(left_clicked),
     .middle(),
     .new_event(),
-    .right(),
+    .right(right_clicked),
     .setmax_x('0),
     .setmax_y('0),
     .setx('0),
@@ -92,8 +88,7 @@ mouse_control u_mouse_control(
     .ypos,
     .in(vga_glovesctl),
     .out(vga_ms),
-    .in_control(control_glovesctl),
-    .out_control(control_mousectl)
+    .in_control(control_out)
 );
 
 
@@ -101,8 +96,7 @@ mouse_control u_mouse_control(
 screen_selector u_screen_selector(
     .clk,
     .rst,
-    .in_control(control_state_out),
-    .out_control(control_sc_sel),
+    .in_control(control_out),
     .in(vga_timing),
     .out(vga_screen)
 );
@@ -111,25 +105,28 @@ game_state_sel u_game_state_sel(
     .clk,
     .rst,
     .left_clicked,
+    .right_clicked,
     .solo_enable,
+    .is_scored,
+    .round_done,
     //.connect_corrected,
-    .in_control(control_mousectl),
-    .out_control(control_state_out)
+    .out_control(control_out)
 );
 
 gloves_control u_gloves_control(
     .clk,
     .rst,
-    .in(vga_ballctl),
+    .in(vga_screen),
     .out(vga_glovesctl),
-    .in_control(control_ballctl),
-    .out_control(control_glovesctl),
+    .in_control(control_out),
     .xpos,
     .ypos,
-    .shot_xpos,
-    .shot_ypos
+    .is_scored,
+    .round_done
+    //.shot_xpos,
+    //.shot_ypos
 );
-
+/*
 ball_control u_ball_control(
     .clk,
     .rst,
@@ -138,10 +135,10 @@ ball_control u_ball_control(
     .in_control(control_sc_sel), 
     .out_control(control_ballctl),
     .shot_xpos, // pozycja piłki po strzale (x)
-    .shot_ypos, // pozycja piłki po strzale (y)
-    .x_shooter(), // to dla multi na razie nic nie wpisywać
-    .y_shooter() // to dla multi na razie nic nie wpisywać
-);
+    .shot_ypos // pozycja piłki po strzale (y)
+    // .x_shooter(), // to dla multi na razie nic nie wpisywać
+    // .y_shooter() // to dla multi na razie nic nie wpisywać
+);*/
 
 
 endmodule
