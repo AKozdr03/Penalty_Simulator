@@ -12,8 +12,7 @@
     vga_if.in in,
     vga_if.out out,
 
-    control_if.in in_control,
-    control_if.out out_control
+    control_if.in in_control
 );
 
 import game_pkg::*;
@@ -66,12 +65,6 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hsync  <= '0;
         out.hblnk  <= '0;
         out.rgb    <= '0;
-
-        out_control.is_scored <= '0;
-        out_control.round_counter <= '0;
-        out_control.score <= '0;
-        out_control.game_mode <= MULTI;
-        out_control.game_state <= START;
     end 
     else begin
         out.vcount <= out_sel.vcount;
@@ -81,12 +74,6 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hsync  <= out_sel.hsync;
         out.hblnk  <= out_sel.hblnk;
         out.rgb    <= out_sel.rgb;
-    
-        out_control.is_scored <= in_control.is_scored;
-        out_control.round_counter <= in_control.round_counter;
-        out_control.score <= in_control.score;
-        out_control.game_mode <= in_control.game_mode;
-        out_control.game_state <= in_control.game_state;       
     end
  end
 

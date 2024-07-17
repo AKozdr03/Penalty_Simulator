@@ -53,6 +53,8 @@ set sv_files {
     ../rtl/screens/draw_screen_shooter.sv
     ../rtl/screens/draw_screen_start.sv
     ../rtl/screens/draw_screen_end.sv
+    ../rtl/screens/draw_screen_win.sv
+    ../rtl/screens/draw_screen_lose.sv
     ../rtl/rom/goalkeeper_rom.sv
     ../rtl/rom/ball_rom.sv
     ../rtl/rom/gloves_rom.sv
