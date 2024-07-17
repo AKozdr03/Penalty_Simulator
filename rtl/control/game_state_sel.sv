@@ -49,16 +49,16 @@ always_ff @(posedge clk) begin : data_passed_through
 end
 
 always_comb begin : next_game_mode_controller
-    if(solo_enable) begin 
-        if(game_state == START) begin // this is protection for inquisitive people :) to not switch game mode during the game
+    if(game_state == START) begin 
+        if(solo_enable) begin // this is protection for inquisitive people :) to not switch game mode during the game
             game_mode_nxt = SOLO;
         end
         else begin
-            game_mode_nxt = game_mode;
+            game_mode_nxt = MULTI;
         end
     end
     else begin
-        game_mode_nxt = MULTI;  
+        game_mode_nxt = game_mode;  
     end
 end
 
@@ -76,20 +76,6 @@ always_comb begin : next_game_state_controller
                     score_nxt = 0 ;
                 end
                 KEEPER: begin
-                    /*if(in_control.is_scored) begin // is_scored, round_counter, score is information from another module that you can go to another state
-                        if(in_control.round_counter == 4'd4) begin
-                            if(in_control.score >= 3'd3) begin // score and round_counter are reseted in score module
-                                game_state_nxt = WINNER;
-                            end
-                            else begin 
-                                game_state_nxt = LOOSER;
-                            end
-                        end
-                        else begin
-                            game_state_nxt = KEEPER;                           
-                        end 
-                        
-                    end*///commented for test purpose
                     if(round_done) begin
                         if(is_scored)
                             game_state_nxt = LOOSER ;

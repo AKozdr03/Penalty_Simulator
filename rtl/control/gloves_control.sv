@@ -37,7 +37,7 @@
  //for 1s - 65 019 506 ticks
  logic [25:0] counter, counter_nxt;
 
- typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS} glove_state;
+ typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS, TERMINATE} glove_state;
  glove_state state, state_nxt ;
 
  logic [11:0] rgb_nxt;
@@ -141,59 +141,61 @@
                         if(xpos >= BEGIN_CROSS_X && xpos <= (BEGIN_CROSS_X + CROSS_WIDTH)
                         && ypos >= BEGIN_CROSS_Y && ypos <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) begin
                             state_nxt = MISS ;
-                            is_scored_nxt = 1'b0;
                         end
                         else begin
-                            state_nxt = GOAL ;
-                            is_scored_nxt = 1'b1;    
+                            state_nxt = GOAL ; 
                         end                     
                         rgb_nxt = in.rgb ;
-                        round_done_nxt = 1'b1 ;
+                        round_done_nxt = 1'b0 ;
+                        is_scored_nxt = 1'b0 ;
                         counter_nxt = '0 ;
 
                     end
         GOAL:       begin
-                        /*if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
+                        if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
                         && in.vcount >= BEGIN_CROSS_Y && in.vcount <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) 
                             rgb_nxt = 12'hF_0_0;
                         else 
                             rgb_nxt = in.rgb;
                         if(counter == 65019506) begin
-                            state_nxt = IDLE ;
+                            state_nxt = TERMINATE ;
                             counter_nxt = '0;
+                            round_done_nxt = 1'b1 ;
                         end
                         else begin
                             state_nxt = GOAL ;
                             counter_nxt = counter + 1 ;
+                            round_done_nxt = 1'b0 ;
                         end
-                        */
-                        is_scored_nxt = 1'b0;
-                        round_done_nxt = 1'b0 ;
-                        rgb_nxt = in.rgb;//
-                        state_nxt = GOAL ;//
 
+                        is_scored_nxt = 1'b1;
                     end
         
         MISS:       begin
-                        /*if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
+                        if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
                         && in.vcount >= BEGIN_CROSS_Y && in.vcount <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) 
                             rgb_nxt = 12'h0_F_0;
                         else 
                             rgb_nxt = in.rgb;
                         if(counter == 65019506) begin
-                            state_nxt = IDLE ;
+                            state_nxt = TERMINATE ;
                             counter_nxt = '0;
+                            round_done_nxt = 1'b1 ;
                         end
                         else begin
                             state_nxt = MISS ;
                             counter_nxt = counter + 1 ;
+                            round_done_nxt = 1'b0 ;
                         end
-                        */
 
                         is_scored_nxt = 1'b0;
+                    end
+        TERMINATE:  begin
+                        is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
+                        counter_nxt = '0 ;
+                        state_nxt = IDLE ;
                         rgb_nxt = in.rgb;
-                        state_nxt = MISS ;//
                     end
 
         default:    begin
