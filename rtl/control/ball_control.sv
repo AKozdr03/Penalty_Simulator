@@ -8,8 +8,8 @@
 
  module ball_control(
     input wire clk, rst,
-    input  wire [11:0] x_shooter, // this data is sent from second player
-    input  wire [11:0] y_shooter, // this data is sent from second player
+    //input  wire [11:0] x_shooter, // this data is sent from second player //commented for testing purposes
+    //input  wire [11:0] y_shooter, // this data is sent from second player
 
     output logic [11:0] shot_xpos,
     output logic [11:0] shot_ypos,
@@ -74,8 +74,17 @@ always_comb begin : shot_direction_controller
     case(in_control.game_mode)
         SOLO: begin
             if((in_control.is_scored == 1) || (in_control.game_state != KEEPER)) begin // it's not very optimal I know
-                random_x_nxt = $urandom_range(989, 35); // $urandom_range gives 32 bit number so i have to to this
-                random_y_nxt = $urandom_range(644, 115);
+                /*random_x_nxt = $urandom_range(989, 35); // $urandom_range gives 32 bit number so i have to to this
+                random_y_nxt = $urandom_range(644, 115);*/ //temporary for tests
+                if(random_x > 35 && random_x < 989)
+                    random_x_nxt = random_x + 250 ;
+                else
+                    random_x_nxt = 40 ;
+
+                if(random_y > 115 && random_y < 644)
+                    random_y_nxt = random_y + 138 ;
+                else
+                    random_y_nxt = 130 ;
             end
             else begin
                 random_x_nxt = random_x;
@@ -86,12 +95,16 @@ always_comb begin : shot_direction_controller
             shot_ypos_nxt = random_y[11:0];
         end
         MULTI: begin
-            shot_xpos_nxt = x_shooter;
-            shot_ypos_nxt = y_shooter;
+            //shot_xpos_nxt = x_shooter; //commented for testing purposes
+            //shot_ypos_nxt = y_shooter;
+            random_x_nxt = '0 ;
+            random_x_nxt = '0 ;
         end
         default: begin
             shot_xpos_nxt = '0;
-            shot_ypos_nxt = '0;     
+            shot_ypos_nxt = '0;  
+            random_x_nxt = '0 ;
+            random_x_nxt = '0 ;  
         end
     endcase
  end

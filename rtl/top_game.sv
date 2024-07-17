@@ -138,9 +138,9 @@ ball_control u_ball_control(
     .in_control(control_sc_sel), 
     .out_control(control_ballctl),
     .shot_xpos, // pozycja piłki po strzale (x)
-    .shot_ypos, // pozycja piłki po strzale (y)
-    .x_shooter(), // to dla multi na razie nic nie wpisywać
-    .y_shooter() // to dla multi na razie nic nie wpisywać
+    .shot_ypos // pozycja piłki po strzale (y)
+    // .x_shooter(), // to dla multi na razie nic nie wpisywać
+    // .y_shooter() // to dla multi na razie nic nie wpisywać
 );
 
 
