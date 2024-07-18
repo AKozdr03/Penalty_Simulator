@@ -8,7 +8,7 @@
 
 module score_control(
     input wire clk, rst,
-    input logic game_state
+    input g_state game_state
 );
 
 

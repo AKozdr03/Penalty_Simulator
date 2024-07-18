@@ -11,6 +11,7 @@
     input wire rst,
     input logic [11:0] xpos,
     input logic [11:0] ypos,
+    input g_state game_state,
     //input logic [11:0] shot_xpos,
     //input logic [11:0] shot_ypos,
 
@@ -18,8 +19,7 @@
     output logic round_done,
 
     vga_if.in in,   
-    vga_if.out out,
-    control_if.in in_control
+    vga_if.out out
  );
 
  import game_pkg::*;
@@ -98,7 +98,7 @@
  always_comb begin
     case(state)
         IDLE:       begin
-                        if(in_control.game_state == KEEPER)
+                        if(game_state == KEEPER)
                             state_nxt = ENGAGE ;
                         else
                             state_nxt = IDLE ;

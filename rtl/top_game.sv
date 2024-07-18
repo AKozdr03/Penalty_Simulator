@@ -26,26 +26,27 @@ module top_game (
 /**
  * Local variables and signals
  */
+
 wire [11:0] xpos, ypos;
 wire left_clicked, right_clicked;
 wire is_scored;
 wire round_done;
+g_state game_state;
 // wire [11:0] shot_xpos,shot_ypos;
+
 /**
  * Signals assignments
  */
 
 // Interfaces
 timing_if vga_timing();
-control_if control_out();
 
 vga_if vga_ms();
 vga_if vga_screen();
 vga_if vga_glovesctl();
 vga_if vga_ballctl();
 
-
-//for testing of write_text
+//outputs assigns
 
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
@@ -88,7 +89,7 @@ mouse_control u_mouse_control(
     .ypos,
     .in(vga_glovesctl),
     .out(vga_ms),
-    .in_control(control_out)
+    .game_state
 );
 
 
@@ -96,7 +97,7 @@ mouse_control u_mouse_control(
 screen_selector u_screen_selector(
     .clk,
     .rst,
-    .in_control(control_out),
+    .game_state,
     .in(vga_timing),
     .out(vga_screen)
 );
@@ -109,8 +110,8 @@ game_state_sel u_game_state_sel(
     .solo_enable,
     .is_scored,
     .round_done,
-    //.connect_corrected,
-    .out_control(control_out)
+    .game_state
+    //.connect_corrected
 );
 
 gloves_control u_gloves_control(
@@ -118,7 +119,7 @@ gloves_control u_gloves_control(
     .rst,
     .in(vga_screen),
     .out(vga_glovesctl),
-    .in_control(control_out),
+    .game_state,
     .xpos,
     .ypos,
     .is_scored,

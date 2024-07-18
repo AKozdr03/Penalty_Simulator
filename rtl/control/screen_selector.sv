@@ -9,11 +9,10 @@
  module screen_selector( 
     input wire clk,
     input wire rst,
+    input g_state game_state,
 
     timing_if.in in,
-    vga_if.out out,
-
-    control_if.in in_control
+    vga_if.out out
 );
 
 import game_pkg::*;
@@ -75,7 +74,7 @@ draw_screen_win u_draw_screen_win(
     .out(in_win)
 );
 
-// DRAW SCREEN END
+// DRAW SCREEN END - for future text writing
 /*
 draw_screen_end u_draw_screen_end(
     .clk,
@@ -135,7 +134,7 @@ always_ff @(posedge clk) begin : data_passed_through
 
  always_comb begin : screen_selected_control
     
-    case(in_control.game_state)
+    case(game_state)
         START: begin
             out_sel.hblnk = in_start.hblnk;
             out_sel.hcount = in_start.hcount;

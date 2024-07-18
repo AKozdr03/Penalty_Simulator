@@ -13,11 +13,10 @@
 
     output logic [11:0] shot_xpos,
     output logic [11:0] shot_ypos,
+    input g_state game_state,
 
     vga_if.in in,   
-    vga_if.out out,
-    control_if.in in_control,
-    control_if.out out_control
+    vga_if.out out
 );
 
 import game_pkg::*;
