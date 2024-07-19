@@ -35,8 +35,8 @@
 logic [10:0] hcount_d, vcount_d;
 logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
-  localparam BEGIN_TXT_X = 300;
-  localparam BEGIN_TXT_Y = 300;
+  localparam BEGIN_TXT_X = 930;
+  localparam BEGIN_TXT_Y = 20;
 
   //Modules
 
@@ -100,7 +100,7 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
         end
         else
             if(char_pixels[7-3'(hcount_d - BEGIN_TXT_X)]) begin
-                rgb_nxt = BLACK ;
+                rgb_nxt = 12'hF_0_0 ; //red
             end
             else begin
                 rgb_nxt = rgb_d;

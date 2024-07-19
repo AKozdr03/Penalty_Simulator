@@ -23,7 +23,6 @@
  );
 
  import game_pkg::*;
- //import draw_pkg::*;
 
  //params
 
@@ -35,6 +34,7 @@
 
  //For 65MHz - 1tick = 15.38ns
  //for 1s - 65 019 506 ticks
+ 
  logic [25:0] counter, counter_nxt;
 
  typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS, TERMINATE} glove_state;

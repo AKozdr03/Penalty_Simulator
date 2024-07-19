@@ -33,6 +33,8 @@ wire is_scored;
 wire round_done;
 wire match_end;
 wire match_result;
+wire [2:0] score_player ;
+wire [2:0] score_enemy ;
 g_state game_state;
 // wire [11:0] shot_xpos,shot_ypos;
 
@@ -47,6 +49,7 @@ vga_if vga_ms();
 vga_if vga_screen();
 vga_if vga_glovesctl();
 vga_if vga_ballctl();
+vga_if vga_score();
 
 //outputs assigns
 
@@ -89,7 +92,7 @@ mouse_control u_mouse_control(
     .rst,
     .xpos,
     .ypos,
-    .in(vga_glovesctl),
+    .in(vga_score),
     .out(vga_ms),
     .game_state
 );
@@ -137,7 +140,19 @@ score_control u_score_control(
     .is_scored,
     .game_state,
     .match_end,
-    .match_result
+    .match_result,
+    .score_player,
+    .score_enemy
+);
+
+draw_score u_draw_score(
+    .clk,
+    .rst,
+    .game_state,
+    .score_player,
+    .score_enemy,
+    .in(vga_glovesctl),
+    .out(vga_score)
 );
 
 /*

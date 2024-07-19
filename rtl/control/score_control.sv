@@ -13,7 +13,9 @@ module score_control(
     input logic round_done,
 
     output logic match_end,     // 1 = match ended
-    output logic match_result   // 1 = match won by player, 0 = match lost 
+    output logic match_result,   // 1 = match won by player, 0 = match lost 
+    output logic [2:0] score_player,
+    output logic [2:0] score_enemy
 );
 
 //inports
@@ -24,7 +26,7 @@ import game_pkg::*;
 
 logic match_end_nxt ;
 logic match_result_nxt ;
-logic [2:0] score_player, score_enemy, score_player_nxt, score_enemy_nxt ;
+logic [2:0] score_player_nxt, score_enemy_nxt ;
 
 //logic
 
