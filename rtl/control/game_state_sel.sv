@@ -11,8 +11,8 @@ module game_state_sel(
     input wire left_clicked,
     input wire right_clicked,
     input wire solo_enable,// connect_corrected,
-    input logic is_scored,
-    input logic round_done,
+    input logic match_end,
+    input logic match_result,
 
     output g_state game_state
 );
@@ -62,11 +62,11 @@ always_comb begin : next_game_state_controller
                     end
                 end
                 KEEPER: begin
-                    if(round_done) begin
-                        if(is_scored)
-                            game_state_nxt = LOOSER ;
-                        else
+                    if(match_end) begin
+                        if(match_result)
                             game_state_nxt = WINNER ;
+                        else
+                            game_state_nxt = LOSER ;
                     end
                     else
                         game_state_nxt = KEEPER ;
@@ -83,12 +83,12 @@ always_comb begin : next_game_state_controller
                         game_state_nxt = WINNER;
                     end
                 end
-                LOOSER: begin
+                LOSER: begin
                     if(right_clicked) begin
                         game_state_nxt = START;
                     end
                     else begin
-                        game_state_nxt = LOOSER;
+                        game_state_nxt = LOSER;
                     end
                 end
                 default: begin

@@ -171,7 +171,7 @@ always_ff @(posedge clk) begin : data_passed_through
             out_sel.vcount = in_win.vcount;
             out_sel.vsync = in_win.vsync;
         end
-        LOOSER: begin
+        LOSER: begin
             out_sel.hblnk = in_lose.hblnk;
             out_sel.hcount = in_lose.hcount;
             out_sel.hsync = in_lose.hsync;

@@ -104,14 +104,26 @@
                             state_nxt = IDLE ;
 
                         rgb_nxt = in.rgb ;
-                        counter_nxt = counter ;
+                        counter_nxt = '0 ;
                         is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
                     end
 
         ENGAGE:      begin
-                        counter_nxt = '0;
-                        state_nxt = COUNTDOWN ;
+                        if(game_state == KEEPER) begin
+                            if(counter == 65019506) begin
+                                state_nxt = COUNTDOWN ;
+                                counter_nxt = '0 ;
+                            end
+                            else begin
+                                state_nxt = ENGAGE ;
+                                counter_nxt = counter + 1 ;
+                            end
+                        end
+                        else begin
+                            state_nxt = IDLE ;
+                            counter_nxt = '0 ;
+                        end
                         rgb_nxt = in.rgb ;
                         is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
@@ -157,7 +169,7 @@
                             rgb_nxt = 12'hF_0_0;
                         else 
                             rgb_nxt = in.rgb;
-                        if(counter == 65019506) begin
+                        if(counter == 13003901) begin
                             state_nxt = TERMINATE ;
                             counter_nxt = '0;
                             round_done_nxt = 1'b1 ;
@@ -177,7 +189,7 @@
                             rgb_nxt = 12'h0_F_0;
                         else 
                             rgb_nxt = in.rgb;
-                        if(counter == 65019506) begin
+                        if(counter == 13003901) begin
                             state_nxt = TERMINATE ;
                             counter_nxt = '0;
                             round_done_nxt = 1'b1 ;

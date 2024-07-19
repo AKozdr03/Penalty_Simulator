@@ -31,6 +31,8 @@ wire [11:0] xpos, ypos;
 wire left_clicked, right_clicked;
 wire is_scored;
 wire round_done;
+wire match_end;
+wire match_result;
 g_state game_state;
 // wire [11:0] shot_xpos,shot_ypos;
 
@@ -108,8 +110,8 @@ game_state_sel u_game_state_sel(
     .left_clicked,
     .right_clicked,
     .solo_enable,
-    .is_scored,
-    .round_done,
+    .match_end,
+    .match_result,
     .game_state
     //.connect_corrected
 );
@@ -127,6 +129,17 @@ gloves_control u_gloves_control(
     //.shot_xpos,
     //.shot_ypos
 );
+
+score_control u_score_control(
+    .clk,
+    .rst,
+    .round_done,
+    .is_scored,
+    .game_state,
+    .match_end,
+    .match_result
+);
+
 /*
 ball_control u_ball_control(
     .clk,
