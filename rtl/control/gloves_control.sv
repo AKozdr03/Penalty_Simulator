@@ -12,8 +12,8 @@
     input logic [11:0] xpos,
     input logic [11:0] ypos,
     input g_state game_state,
-    //input logic [11:0] shot_xpos,
-    //input logic [11:0] shot_ypos,
+    input logic [11:0] shot_xpos,
+    input logic [11:0] shot_ypos,
 
     output logic is_scored,
     output logic round_done,
@@ -26,8 +26,6 @@
 
  //params
 
- localparam BEGIN_CROSS_X = 200 ;
- localparam BEGIN_CROSS_Y = 200 ;
  localparam CROSS_WIDTH = 100 ;
 
 //variables
@@ -130,8 +128,8 @@
                     end
 
         COUNTDOWN:  begin
-                        if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
-                        && in.vcount >= BEGIN_CROSS_Y && in.vcount <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) 
+                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
                             rgb_nxt = 12'h0_0_F;
                         else 
                             rgb_nxt = in.rgb;
@@ -150,8 +148,8 @@
                     end
 
         RESULT:     begin
-                        if(xpos >= BEGIN_CROSS_X && xpos <= (BEGIN_CROSS_X + CROSS_WIDTH)
-                        && ypos >= BEGIN_CROSS_Y && ypos <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) begin
+                        if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
+                        && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) ) begin
                             state_nxt = MISS ;
                         end
                         else begin
@@ -164,8 +162,8 @@
 
                     end
         GOAL:       begin
-                        if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
-                        && in.vcount >= BEGIN_CROSS_Y && in.vcount <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) 
+                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
                             rgb_nxt = 12'hF_0_0;
                         else 
                             rgb_nxt = in.rgb;
@@ -184,8 +182,8 @@
                     end
         
         MISS:       begin
-                        if(in.hcount >= BEGIN_CROSS_X && in.hcount <= (BEGIN_CROSS_X + CROSS_WIDTH)
-                        && in.vcount >= BEGIN_CROSS_Y && in.vcount <= (BEGIN_CROSS_Y + CROSS_WIDTH) ) 
+                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
                             rgb_nxt = 12'h0_F_0;
                         else 
                             rgb_nxt = in.rgb;

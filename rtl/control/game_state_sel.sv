@@ -14,14 +14,15 @@ module game_state_sel(
     input logic match_end,
     input logic match_result,
 
-    output g_state game_state
+    output g_state game_state,
+    output g_mode game_mode
 );
 
 import game_pkg::*;
 
 // Local variables
 g_state game_state_nxt;
-g_mode game_mode, game_mode_nxt;
+g_mode game_mode_nxt;
 
 //logic
 always_ff @(posedge clk) begin : data_passed_through

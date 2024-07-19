@@ -22,6 +22,9 @@ module top_game (
     output logic [3:0] b
 );
 
+//imports
+
+import game_pkg::*;
 
 /**
  * Local variables and signals
@@ -36,7 +39,8 @@ wire match_result;
 wire [2:0] score_player ;
 wire [2:0] score_enemy ;
 g_state game_state;
-// wire [11:0] shot_xpos,shot_ypos;
+g_mode game_mode;
+wire [11:0] shot_xpos, shot_ypos;
 
 /**
  * Signals assignments
@@ -115,7 +119,8 @@ game_state_sel u_game_state_sel(
     .solo_enable,
     .match_end,
     .match_result,
-    .game_state
+    .game_state,
+    .game_mode
     //.connect_corrected
 );
 
@@ -128,9 +133,9 @@ gloves_control u_gloves_control(
     .xpos,
     .ypos,
     .is_scored,
-    .round_done
-    //.shot_xpos,
-    //.shot_ypos
+    .round_done,
+    .shot_xpos,
+    .shot_ypos
 );
 
 score_control u_score_control(
@@ -155,19 +160,18 @@ draw_score u_draw_score(
     .out(vga_score)
 );
 
-/*
+
 ball_control u_ball_control(
     .clk,
     .rst,
-    .in(vga_screen), // tu wpisz na razie to co do testów
-    .out(vga_ballctl),
-    .in_control(control_sc_sel), 
-    .out_control(control_ballctl),
+    .game_state,
+    .game_mode,
+    .round_done,
     .shot_xpos, // pozycja piłki po strzale (x)
     .shot_ypos // pozycja piłki po strzale (y)
     // .x_shooter(), // to dla multi na razie nic nie wpisywać
     // .y_shooter() // to dla multi na razie nic nie wpisywać
-);*/
+);
 
 
 endmodule
