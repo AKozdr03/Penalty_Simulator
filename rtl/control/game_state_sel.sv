@@ -11,40 +11,30 @@ module game_state_sel(
     input wire left_clicked,
     input wire right_clicked,
     input wire solo_enable,// connect_corrected,
-    input logic is_scored,
-    input logic round_done,
-    control_if.out out_control
+    input logic match_end,
+    input logic match_result,
+    input logic end_gk,
+    input logic end_sh,
+
+    output g_state game_state,
+    output g_mode game_mode
 );
 
 import game_pkg::*;
 
 // Local variables
-g_state game_state, game_state_nxt;
-g_mode game_mode, game_mode_nxt;
-
-logic [2:0] score_nxt;
+g_state game_state_nxt;
+g_mode game_mode_nxt;
 
 //logic
 always_ff @(posedge clk) begin : data_passed_through
     if(rst) begin
-        out_control.is_scored <= '0;
-        out_control.round_counter <= '0;
-        out_control.score <= '0;
-        out_control.game_mode <= MULTI;
-        out_control.game_state <= START;
-
+        game_state <= START;
         game_mode <= MULTI;
-        game_state <= START ;
     end
     else begin
-        out_control.is_scored <= '0;
-        out_control.round_counter <= '0;
-        out_control.score <= score_nxt;
-        out_control.game_mode <= game_mode_nxt;
-        out_control.game_state <= game_state_nxt;
-
-        game_mode <= game_mode_nxt ;
         game_state <= game_state_nxt ;
+        game_mode <= game_mode_nxt ;
     end
 end
 
@@ -73,24 +63,31 @@ always_comb begin : next_game_state_controller
                     else begin
                         game_state_nxt = START;
                     end
-                    score_nxt = 0 ;
                 end
                 KEEPER: begin
-                    if(round_done) begin
-                        if(is_scored)
-                            game_state_nxt = LOOSER ;
-                        else
+                    if(match_end) begin
+                        if(match_result)
                             game_state_nxt = WINNER ;
+                        else
+                            game_state_nxt = LOSER ;
                     end
+                    else if(end_gk)
+                        game_state_nxt = SHOOTER ;
                     else
                         game_state_nxt = KEEPER ;
                     
-                    score_nxt = '0; //
-                    
                 end
-                SHOOTER: begin // there is no possiblility this state in solo mode, but it have to be there
-                    game_state_nxt = START; 
-                    score_nxt = '0;
+                SHOOTER: begin //added in limited version for initial testing
+                    if(match_end) begin
+                        if(match_result)
+                            game_state_nxt = WINNER ;
+                        else
+                            game_state_nxt = LOSER ;
+                    end
+                    else if(end_sh)
+                        game_state_nxt = KEEPER ;
+                    else
+                        game_state_nxt = SHOOTER ;
                 end
                 WINNER: begin
                     if(right_clicked) begin
@@ -99,20 +96,17 @@ always_comb begin : next_game_state_controller
                     else begin
                         game_state_nxt = WINNER;
                     end
-                    score_nxt = '0; //
                 end
-                LOOSER: begin
+                LOSER: begin
                     if(right_clicked) begin
                         game_state_nxt = START;
                     end
                     else begin
-                        game_state_nxt = LOOSER;
+                        game_state_nxt = LOSER;
                     end
-                    score_nxt = '0; //
                 end
                 default: begin
                     game_state_nxt = START;
-                    score_nxt = '0;
                 end
             endcase
         end
@@ -137,7 +131,6 @@ always_comb begin : next_game_state_controller
             end
             */
            game_state_nxt = START ;
-           score_nxt = '0; //
         end
     endcase
     

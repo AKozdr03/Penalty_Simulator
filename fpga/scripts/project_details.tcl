@@ -44,6 +44,7 @@ set sv_files {
     ../rtl/draw/draw_ball.sv
     ../rtl/draw/draw_gloves.sv
     ../rtl/draw/draw_char.sv
+    ../rtl/draw/draw_score.sv
     ../rtl/uart/uart.sv
     ../rtl/uart/uart_tx.sv
     ../rtl/uart/uart_rx.sv
@@ -63,11 +64,12 @@ set sv_files {
     ../rtl/control/mouse_control.sv
     ../rtl/control/score_control.sv
     ../rtl/control/gloves_control.sv
+    ../rtl/control/shoot_control.sv
     ../rtl/control/ball_control.sv
     ../rtl/control/uart_decoder.sv
     ../rtl/text/write_text.sv
     ../rtl/text/font_rom.sv
-    ../rtl/text/char_rom_16x16.sv
+    ../rtl/text/char_rom_score.sv
     ../rtl/text/char_rom_end.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
