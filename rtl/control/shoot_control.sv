@@ -3,46 +3,49 @@
  * MTM UEC2
  * Authors: Andrzej Kozdrowski, Aron Lampart
  * Description:
- * Gloves controller.
+ * Module responsible for shooter actions.
  */
 
- module gloves_control(
-    input wire clk,
-    input wire rst,
+ //imports
+
+ import game_pkg::*;
+ import draw_pkg::*;
+
+ //module
+
+ module shoot_control(
+    input logic clk,
+    input logic rst,
+    input g_state game_state,
     input logic [11:0] xpos,
     input logic [11:0] ypos,
-    input g_state game_state,
-    input logic [11:0] shot_xpos,
-    input logic [11:0] shot_ypos,
+    input wire left_clicked,
 
     output logic is_scored,
     output logic round_done,
-    output logic end_gk,
+    output logic end_sh,
 
     vga_if.in in,   
     vga_if.out out
  );
 
- import game_pkg::*;
-
  //params
 
- localparam CROSS_WIDTH = 100 ;
+ localparam GK_POS_X = 412 ;
+ localparam GK_POS_Y = 250 ;
+ localparam GK_WIDTH = 200 ;
+ localparam GK_HEIGHT = 300 ;
+ //variables
 
-//variables
+ typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS, TERMINATE} shoot_state;
+ shoot_state state, state_nxt ;
 
- //For 65MHz - 1tick = 15.38ns
- //for 1s - 65 019 506 ticks
- 
  logic [25:0] counter, counter_nxt;
-
- typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS, TERMINATE} glove_state;
- glove_state state, state_nxt ;
 
  logic [11:0] rgb_nxt;
  logic is_scored_nxt;
  logic round_done_nxt;
- logic end_gk_nxt ;
+ logic end_sh_nxt;
  
  logic [10:0] hcount_d, vcount_d;
  logic hblnk_d, vblnk_d, hsync_d, vsync_d;
@@ -63,7 +66,7 @@
  //logic
 
  always_ff @(posedge clk) begin
-    if (rst) begin
+    if(rst) begin
         out.vcount <= '0;
         out.vsync  <= '0;
         out.vblnk  <= '0;
@@ -73,12 +76,11 @@
         out.rgb    <= '0;
 
         is_scored <= '0 ;
-        round_done <= '0;
-
+        round_done <= '0 ;
         state <= IDLE;
-        counter <= '0;
-        end_gk <= '0;
-    end 
+        counter <= '0 ;
+        end_sh <= '0 ;
+    end
     else begin
         out.vcount <= vcount_d;
         out.vsync  <= vsync_d;
@@ -89,18 +91,17 @@
         out.rgb    <= rgb_nxt;
 
         is_scored <= is_scored_nxt ;
-        round_done <= round_done_nxt;
-        
+        round_done <= round_done_nxt ;
         state <= state_nxt;
         counter <= counter_nxt ;
-        end_gk <= end_gk_nxt;
+        end_sh <= end_sh_nxt ;
     end
  end
 
  always_comb begin
     case(state)
         IDLE:       begin
-                        if(game_state == KEEPER)
+                        if(game_state == SHOOTER)
                             state_nxt = ENGAGE ;
                         else
                             state_nxt = IDLE ;
@@ -109,19 +110,12 @@
                         counter_nxt = '0 ;
                         is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0 ;
                     end
-
-        ENGAGE:      begin
-                        if(game_state == KEEPER) begin
-                            if(counter == 65019506) begin
-                                state_nxt = COUNTDOWN ;
-                                counter_nxt = '0 ;
-                            end
-                            else begin
-                                state_nxt = ENGAGE ;
-                                counter_nxt = counter + 1 ;
-                            end
+        ENGAGE:     begin //this is a safety measure for the delay of state machine
+                        if(game_state == SHOOTER) begin
+                            state_nxt = COUNTDOWN ;
+                            counter_nxt = '0 ;
                         end
                         else begin
                             state_nxt = IDLE ;
@@ -130,17 +124,17 @@
                         rgb_nxt = in.rgb ;
                         is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0 ;
                     end
 
-        COUNTDOWN:  begin
-                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+        COUNTDOWN:  begin 
+                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                             rgb_nxt = 12'h0_0_F;
                         else 
                             rgb_nxt = in.rgb;
-                        
-                        if(counter == 65019506) begin
+                            
+                       if(left_clicked) begin
                             state_nxt = RESULT ;
                             counter_nxt = '0;
                         end
@@ -151,30 +145,39 @@
 
                         is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0 ;
                     end
 
         RESULT:     begin
-                        if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
-                        && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) ) begin
-                            state_nxt = MISS ;
+                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                            rgb_nxt = 12'h0_0_F;
+                        else 
+                            rgb_nxt = in.rgb;
+
+                        if((xpos >= SH_POST_INNER_EDGE && xpos <= (SCREEN_WIDTH - SH_POST_INNER_EDGE)
+                            && ypos >= SH_CROSSBAR_BOTTOM_EDGE && ypos <= SH_POST_BOTTOM_EDGE )
+                        && !(xpos >= GK_POS_X && xpos <= (GK_POS_X + GK_WIDTH)     
+                            && ypos >= GK_POS_Y && ypos <= (GK_POS_Y + GK_HEIGHT) )) begin
+                            state_nxt = GOAL ;
                         end
                         else begin
-                            state_nxt = GOAL ; 
+                            state_nxt = MISS ; 
                         end                     
                         rgb_nxt = in.rgb ;
                         round_done_nxt = 1'b0 ;
                         is_scored_nxt = 1'b0 ;
                         counter_nxt = '0 ;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0;
 
                     end
         GOAL:       begin
-                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                            rgb_nxt = 12'hF_0_0;
+                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                            rgb_nxt = 12'h0_F_0;
                         else 
                             rgb_nxt = in.rgb;
+
                         if(counter == 13003901) begin
                             state_nxt = TERMINATE ;
                             counter_nxt = '0;
@@ -187,15 +190,16 @@
                         end
 
                         is_scored_nxt = 1'b1;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0 ;
                     end
         
         MISS:       begin
-                        if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                        && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                            rgb_nxt = 12'h0_F_0;
+                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                            rgb_nxt = 12'hF_0_0;
                         else 
                             rgb_nxt = in.rgb;
+
                         if(counter == 13003901) begin
                             state_nxt = TERMINATE ;
                             counter_nxt = '0;
@@ -208,7 +212,7 @@
                         end
 
                         is_scored_nxt = 1'b0;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0 ;
                     end
         TERMINATE:  begin
                         is_scored_nxt = 1'b0 ;
@@ -216,7 +220,7 @@
                         counter_nxt = '0 ;
                         state_nxt = IDLE ;
                         rgb_nxt = in.rgb;
-                        end_gk_nxt = 1'b1;
+                        end_sh_nxt = 1'b1 ;
                     end
 
         default:    begin
@@ -225,7 +229,7 @@
                         counter_nxt = '0 ;
                         is_scored_nxt = 1'b0 ;
                         round_done_nxt = 1'b0 ;
-                        end_gk_nxt = 1'b0;
+                        end_sh_nxt = 1'b0;
                     end
     endcase
  end

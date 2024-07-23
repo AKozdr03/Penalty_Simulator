@@ -13,6 +13,8 @@ module game_state_sel(
     input wire solo_enable,// connect_corrected,
     input logic match_end,
     input logic match_result,
+    input logic end_gk,
+    input logic end_sh,
 
     output g_state game_state,
     output g_mode game_mode
@@ -69,12 +71,23 @@ always_comb begin : next_game_state_controller
                         else
                             game_state_nxt = LOSER ;
                     end
+                    else if(end_gk)
+                        game_state_nxt = SHOOTER ;
                     else
                         game_state_nxt = KEEPER ;
                     
                 end
-                SHOOTER: begin // there is no possiblility this state in solo mode, but it have to be there
-                    game_state_nxt = START; 
+                SHOOTER: begin //added in limited version for initial testing
+                    if(match_end) begin
+                        if(match_result)
+                            game_state_nxt = WINNER ;
+                        else
+                            game_state_nxt = LOSER ;
+                    end
+                    else if(end_sh)
+                        game_state_nxt = KEEPER ;
+                    else
+                        game_state_nxt = SHOOTER ;
                 end
                 WINNER: begin
                     if(right_clicked) begin
