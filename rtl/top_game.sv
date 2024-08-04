@@ -15,6 +15,8 @@ module top_game (
     input  logic solo_enable,
     inout  logic ps2_clk,
     inout  logic ps2_data,
+    input  logic rx,
+    output  logic tx,
     output logic vs,
     output logic hs,
     output logic [3:0] r,
@@ -41,6 +43,7 @@ wire [2:0] score_enemy ;
 g_state game_state;
 g_mode game_mode;
 wire [11:0] shot_xpos, shot_ypos;
+wire [7:0] read_data;
 
 /**
  * Signals assignments
@@ -173,5 +176,28 @@ ball_control u_ball_control(
     // .y_shooter() // to dla multi na razie nic nie wpisywać
 );
 
+uart u_uart(
+    .clk,
+    .reset(rst),
+    .rx,
+    .tx,
+    .r_data(read_data),
+    .rd_uart(),
+    .rx_empty(),
+    .tx_full(),
+    .w_data(),
+    .wr_uart()
+);
+
+uart_decoder u_uart_decoder( // do podłączenia
+    .clk,
+    .rst,
+    .connect_corrected(),
+    .keeper_pos(),
+    .opponent_score(),
+    .read_data,
+    .x_shooter(),
+    .y_shooter()
+);
 
 endmodule

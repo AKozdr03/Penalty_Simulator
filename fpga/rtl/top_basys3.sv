@@ -21,6 +21,8 @@ module top_basys3 (
 
     input  wire btnC,
     input  wire sw,
+    input  wire RsRx,
+    output wire RsTx,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
@@ -88,7 +90,9 @@ top_game u_top_game (
     .b(vgaBlue),
     .hs(Hsync),
     .vs(Vsync),
-    .solo_enable(sw)
+    .solo_enable(sw),
+    .rx(RsRx),
+    .tx(RsTx)
 );
 
 endmodule
