@@ -27,7 +27,8 @@ interface timing_if;
 
 endinterface
 
-interface control_if;
+//redundant if, left just in case
+/*interface control_if;
     logic is_scored;
     logic [3:0] round_counter;
     logic [2:0] score;
@@ -37,4 +38,4 @@ interface control_if;
     modport in (input game_mode, game_state, is_scored, score, round_counter);
     modport out (output game_mode, game_state, is_scored, score, round_counter);
     
-endinterface
+endinterface*/

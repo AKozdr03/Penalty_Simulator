@@ -9,10 +9,10 @@
  module mouse_control(
     input wire clk, rst,
     input wire [11:0] xpos, ypos,
-    vga_if.in in,
-    vga_if.out out,
+    input g_state game_state,
 
-    control_if.in in_control
+    vga_if.in in,
+    vga_if.out out
 );
 
 import game_pkg::*;
@@ -78,7 +78,7 @@ always_ff @(posedge clk) begin : data_passed_through
  end
 
  always_comb begin : mouse_selector
-    if(in_control.game_state == KEEPER) begin
+    if(game_state == KEEPER) begin
         out_sel.hblnk = out_gloves.hblnk;
         out_sel.hcount = out_gloves.hcount;
         out_sel.hsync = out_gloves.hsync;

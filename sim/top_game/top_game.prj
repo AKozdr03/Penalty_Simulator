@@ -20,6 +20,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/draw/draw_keeper.sv \
         ../../rtl/draw/draw_char.sv \
         ../../rtl/draw/draw_ball.sv \
+        ../../rtl/draw/draw_score.sv \
         ../../rtl/rom/ball_rom.sv \
         ../../rtl/rom/gloves_rom.sv \
         ../../rtl/rom/goalkeeper_rom.sv \
@@ -37,7 +38,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/control/uart_decoder.sv \
         ../../rtl/control/score_control.sv \
         ../../rtl/control/gloves_control.sv \
-        ../../rtl/text/char_rom_16x16.sv \
+        ../../rtl/text/char_rom_score.sv \
         ../../rtl/text/font_rom.sv \
         ../../rtl/text/write_text.sv \
         ../../rtl/text/char_rom_end.sv \

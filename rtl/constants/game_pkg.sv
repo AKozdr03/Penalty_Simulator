@@ -9,7 +9,7 @@
 package game_pkg;
 
 // enums required for game
-typedef enum bit [2:0] {START, KEEPER, SHOOTER, WINNER, LOOSER} g_state;
+typedef enum bit [2:0] {START, KEEPER, SHOOTER, WINNER, LOSER} g_state;
 typedef enum bit [0:0] {SOLO, MULTI} g_mode;
 
 // screen parameters
