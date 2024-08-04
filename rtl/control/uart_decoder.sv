@@ -11,6 +11,7 @@
     input wire rst,
     input wire [7:0] read_data,
     output logic connect_corrected,
+    output logic is_shooted,
     output logic [9:0] keeper_pos,
     output logic [9:0] x_shooter,
     output logic [9:0] y_shooter,
@@ -18,7 +19,7 @@
 );
 
 // Local variables
-logic connect_corrected_nxt;
+logic connect_corrected_nxt, is_shooted_nxt;
 logic [9:0] keeper_pos_nxt, x_shooter_nxt, y_shooter_nxt;
 logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt, y_shooter_ow_nxt;
 logic [2:0]  opponent_score_nxt;
@@ -35,6 +36,7 @@ always_ff @(posedge clk) begin : data_passed_through
         keeper_pos_ow <= 5'b0;
         x_shooter_ow <= 5'b0;
         y_shooter_ow <= 5'b0;
+        is_shooted = 1'b0;
     end
     else begin
         connect_corrected <= connect_corrected_nxt;
@@ -45,6 +47,7 @@ always_ff @(posedge clk) begin : data_passed_through
         keeper_pos_ow <= keeper_pos_ow_nxt;
         x_shooter_ow <= x_shooter_ow_nxt;
         y_shooter_ow <= y_shooter_ow_nxt;
+        is_shooted = is_shooted_nxt;
     end
 end
 
@@ -58,7 +61,7 @@ end
  * 100 - shot x position 2 part [x_shooter[9:5]] - there is x_shooter updated
  * 101 - shot y position 1 part [y_shooter[4:0]]
  * 110 - shot y position 2 part [y_shooter[9:5]] - there is y_shooter updated
- * 111 - opponent score for display [opponent_score]
+ * 111 - opponent score for display [opponent_score], read_data[6] is information if shoot is ended [is_shooted]
 */
 
  always_comb begin : uart_decoding_module
@@ -75,6 +78,7 @@ end
             opponent_score_nxt = opponent_score;
             keeper_pos_ow_nxt = keeper_pos_ow;
             keeper_pos_nxt = keeper_pos;
+            is_shooted_nxt = is_shooted;
 
         end
         3'b001: begin
@@ -86,6 +90,7 @@ end
             y_shooter_ow_nxt = y_shooter_ow;
             opponent_score_nxt = opponent_score;
             connect_corrected_nxt = connect_corrected;
+            is_shooted_nxt = is_shooted;
         end
         3'b010: begin
             keeper_pos_nxt = {read_data[7:3] , keeper_pos_ow};
@@ -95,7 +100,8 @@ end
             y_shooter_ow_nxt = y_shooter_ow;     
             keeper_pos_ow_nxt = keeper_pos_ow;
             opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;      
+            connect_corrected_nxt = connect_corrected;   
+            is_shooted_nxt = is_shooted;   
         end
         3'b011: begin
             x_shooter_ow_nxt = read_data[7:3]; 
@@ -106,6 +112,7 @@ end
             y_shooter_ow_nxt = y_shooter_ow;
             opponent_score_nxt = opponent_score;
             connect_corrected_nxt = connect_corrected;
+            is_shooted_nxt = is_shooted;
         end
         3'b100: begin
             x_shooter_nxt = {read_data[7:3] , x_shooter_ow};
@@ -116,6 +123,7 @@ end
             y_shooter_ow_nxt = y_shooter_ow;
             opponent_score_nxt = opponent_score;
             connect_corrected_nxt = connect_corrected;
+            is_shooted_nxt = is_shooted;
         end
         3'b101: begin
             y_shooter_ow_nxt = read_data[7:3]; 
@@ -125,7 +133,8 @@ end
             x_shooter_ow_nxt = x_shooter_ow;
             y_shooter_nxt = y_shooter;
             opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;           
+            connect_corrected_nxt = connect_corrected; 
+            is_shooted_nxt = is_shooted;          
         end
         3'b110: begin
             y_shooter_nxt = {read_data[7:3] , y_shooter_ow};
@@ -135,10 +144,12 @@ end
             keeper_pos_ow_nxt = keeper_pos_ow;
             y_shooter_ow_nxt = y_shooter_ow;
             opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;           
+            connect_corrected_nxt = connect_corrected;  
+            is_shooted_nxt = is_shooted;         
         end
         3'b111: begin
             opponent_score_nxt = read_data[5:3];
+            is_shooted_nxt = read_data[6];
             x_shooter_nxt = x_shooter;
             y_shooter_nxt = y_shooter;
             x_shooter_ow_nxt = x_shooter_ow;
@@ -156,6 +167,7 @@ end
             keeper_pos_ow_nxt = keeper_pos_ow;
             keeper_pos_nxt = keeper_pos;
             connect_corrected_nxt = connect_corrected; 
+            is_shooted_nxt = is_shooted; 
         end
     endcase
 end

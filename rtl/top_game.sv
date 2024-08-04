@@ -197,7 +197,8 @@ uart_decoder u_uart_decoder( // do podłączenia
     .opponent_score(),
     .read_data,
     .x_shooter(),
-    .y_shooter()
+    .y_shooter(),
+    .is_shooted()
 );
 
 endmodule
