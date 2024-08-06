@@ -22,13 +22,16 @@ module top_basys3 (
     input  wire btnC,
     input  wire sw,
     input  wire RsRx,
+    
+
     output wire RsTx,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
     output wire [3:0] vgaGreen,
     output wire [3:0] vgaBlue,
-    output wire JA1
+    output wire JA1,
+    output  wire JA2 // for uart
 
 );
 
@@ -49,7 +52,6 @@ wire pclk_mirror;
  */
 
 assign JA1 = pclk_mirror;
-
 
 /**
  * FPGA submodules placement

@@ -16,6 +16,7 @@ module game_state_sel(
     input logic match_end,
     input logic match_result,
     input logic game_starts,
+    input logic is_shooted,
 
     output g_state game_state,
     output g_mode game_mode
@@ -118,8 +119,10 @@ always_comb begin : next_game_state_controller
                             else
                                 game_state_nxt = LOSER ;
                         end
-                        else
-                            game_state_nxt = KEEPER ;                       
+                        else if (is_shooted)
+                            game_state_nxt = SHOOTER ;
+                        else   
+                            game_state_nxt = KEEPER ;                                              
                     end
                     SHOOTER: begin
                         if(match_end) begin
@@ -128,8 +131,10 @@ always_comb begin : next_game_state_controller
                             else
                                 game_state_nxt = LOSER ;
                         end
-                        else
-                            game_state_nxt = SHOOTER ;
+                        else if (is_shooted)
+                            game_state_nxt = KEEPER ;
+                        else   
+                            game_state_nxt = SHOOTER ; 
                     end
                     WINNER: begin
                         if(right_clicked) begin

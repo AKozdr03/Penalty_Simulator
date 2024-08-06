@@ -44,6 +44,7 @@ g_state game_state;
 g_mode game_mode;
 wire [11:0] shot_xpos, shot_ypos;
 wire [7:0] read_data;
+wire connect_corrected, game_starts, enemy_shooter, is_shooted;
 
 /**
  * Signals assignments
@@ -124,8 +125,10 @@ game_state_sel u_game_state_sel(
     .match_result,
     .game_state,
     .game_mode,
-    .connect_corrected(),
-    .enemy_shooter()
+    .connect_corrected,
+    .enemy_shooter,
+    .game_starts,
+    .is_shooted
 );
 
 gloves_control u_gloves_control(
@@ -193,15 +196,15 @@ uart u_uart(
 uart_decoder u_uart_decoder( // do podłączenia
     .clk,
     .rst,
-    .connect_corrected(),
+    .connect_corrected,
     .keeper_pos(),
     .opponent_score(),
     .read_data,
     .x_shooter(),
     .y_shooter(),
-    .is_shooted(),
-    .enemy_shooter(),
-    .game_starts()
+    .is_shooted,
+    .enemy_shooter,
+    .game_starts
 );
 
 endmodule
