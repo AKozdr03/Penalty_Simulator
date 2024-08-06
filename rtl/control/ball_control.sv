@@ -56,7 +56,7 @@ always_ff @(posedge clk) begin : data_passed_through
     case(game_mode)
         SOLO: begin
             if(round_done == 1 || game_state == START) begin // it's not very optimal I know
-                random_x_nxt = $urandom; // $urandom_range gives 32 bit number so i have to to this
+                random_x_nxt = $urandom;
                 random_y_nxt = $urandom;
                 if(random_x > 35 && random_x < 989)
                     random_x_nxt = random_x + 250 ;
@@ -89,8 +89,8 @@ always_ff @(posedge clk) begin : data_passed_through
             random_x_nxt = '0 ;  
         end
     endcase
- end*/
-
+ end
+*/
  always_comb begin : shot_direction_controller
 
     if(round_done == 1 || game_state == START) begin

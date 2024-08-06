@@ -60,7 +60,7 @@ end
 /*
  * OPCODES
  * 
- * 000 - synchronization data  (number which ensure us that communication is corrected [0] which state have opponent [4], and if game starts [3]) [connect_corrected]
+ * 000 - synchronization data  (number which ensure us that communication is corrected [0] which start state have opponent [4] and if game starts [3]) [connect_corrected]
  * 001 - gloves position part 1 (required to draw keeper on second screen) [keeper_pos[4:0]]
  * 010 - gloves position part 2 (required to draw keeper on second screen) [keeper_pos[9:5]]  - there is keeper_pos updated
  * 011 - shot x position 1 part [x_shooter[4:0]]
@@ -82,7 +82,12 @@ end
                 connect_corrected_nxt = 1'b1;
                 enemy_shooter_nxt = 1'b0;
                 game_starts_nxt = 1'b1;
-            end           
+            end
+            else if(read_data[7:3] == 5'b00001) begin
+                connect_corrected_nxt = 1'b1;
+                enemy_shooter_nxt = 1'b0;
+                game_starts_nxt = 1'b0;
+            end                      
             else begin
                 connect_corrected_nxt = 1'b0;
                 enemy_shooter_nxt = 1'b0;
