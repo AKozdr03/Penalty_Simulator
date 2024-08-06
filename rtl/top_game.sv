@@ -123,8 +123,9 @@ game_state_sel u_game_state_sel(
     .match_end,
     .match_result,
     .game_state,
-    .game_mode
-    //.connect_corrected
+    .game_mode,
+    .connect_corrected(),
+    .enemy_shooter()
 );
 
 gloves_control u_gloves_control(
@@ -198,7 +199,9 @@ uart_decoder u_uart_decoder( // do podłączenia
     .read_data,
     .x_shooter(),
     .y_shooter(),
-    .is_shooted()
+    .is_shooted(),
+    .enemy_shooter(),
+    .game_starts()
 );
 
 endmodule

@@ -10,9 +10,12 @@ module game_state_sel(
     input wire clk, rst,
     input wire left_clicked,
     input wire right_clicked,
-    input wire solo_enable,// connect_corrected,
+    input wire solo_enable,
+    input wire connect_corrected,
+    input wire enemy_shooter,
     input logic match_end,
     input logic match_result,
+    input logic game_starts,
 
     output g_state game_state,
     output g_mode game_mode
@@ -98,26 +101,59 @@ always_comb begin : next_game_state_controller
             endcase
         end
         MULTI: begin
-            // case(in_control.game_state) 
-            //     START: begin
-            //         if(left_clicked && connect_corrected) begin
-            //             game_state_nxt = KEEPER;
-            //         end
-            //         else begin
-            //             game_state_nxt = START;
-            //         end
-            //     end
-
-            // endcase
-            /*
-            if (connect_corrected) begin
+            if(connect_corrected) begin
+                case(game_state)
+                    START: begin
+                    if(enemy_shooter && game_starts)
+                        game_state_nxt = SHOOTER;
+                    else if (game_starts)
+                        game_state_nxt = KEEPER;
+                    else
+                        game_state_nxt = START;
+                    end
+                    KEEPER: begin
+                        if(match_end) begin
+                            if(match_result)
+                                game_state_nxt = WINNER ;
+                            else
+                                game_state_nxt = LOSER ;
+                        end
+                        else
+                            game_state_nxt = KEEPER ;                       
+                    end
+                    SHOOTER: begin
+                        if(match_end) begin
+                            if(match_result)
+                                game_state_nxt = WINNER ;
+                            else
+                                game_state_nxt = LOSER ;
+                        end
+                        else
+                            game_state_nxt = SHOOTER ;
+                    end
+                    WINNER: begin
+                        if(right_clicked) begin
+                            game_state_nxt = START;
+                        end
+                        else begin
+                            game_state_nxt = WINNER;
+                        end
+                    end
+                    LOSER: begin
+                        if(right_clicked) begin
+                            game_state_nxt = START;
+                        end
+                        else begin
+                            game_state_nxt = LOSER;
+                        end
+                    end
+                    default: begin
+                        game_state_nxt = START;
+                    end
+                endcase
+            end
+            else
                 game_state_nxt = START;
-            end
-            else begin
-            game_state_nxt = START;
-            end
-            */
-           game_state_nxt = START ;
         end
     endcase
     
