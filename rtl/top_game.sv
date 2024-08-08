@@ -102,7 +102,8 @@ mouse_control u_mouse_control(
     .ypos,
     .in(vga_score),
     .out(vga_ms),
-    .game_state
+    .game_state,
+    .data_to_transmit() // keeper_pos
 );
 
 
@@ -128,7 +129,8 @@ game_state_sel u_game_state_sel(
     .connect_corrected,
     .enemy_shooter,
     .game_starts,
-    .is_shooted
+    .is_shooted,
+    .data_to_transmit() // do podłączenia
 );
 
 gloves_control u_gloves_control(
@@ -142,7 +144,8 @@ gloves_control u_gloves_control(
     .is_scored,
     .round_done,
     .shot_xpos,
-    .shot_ypos
+    .shot_ypos,
+    .data_to_transmit()
 );
 
 score_control u_score_control(
@@ -154,7 +157,8 @@ score_control u_score_control(
     .match_end,
     .match_result,
     .score_player,
-    .score_enemy
+    .score_enemy,
+    .data_to_transmit() // score data
 );
 
 draw_score u_draw_score(

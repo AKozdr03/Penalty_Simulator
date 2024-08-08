@@ -18,6 +18,7 @@ module game_state_sel(
     input logic game_starts,
     input logic is_shooted,
 
+    output logic [7:0] data_to_transmit, //synchronization data
     output g_state game_state,
     output g_mode game_mode
 );
@@ -27,6 +28,8 @@ import game_pkg::*;
 // Local variables
 g_state game_state_nxt;
 g_mode game_mode_nxt;
+
+logic [7:0] data_to_transmit_nxt;
 
 //logic
 always_ff @(posedge clk) begin : data_passed_through
@@ -38,6 +41,24 @@ always_ff @(posedge clk) begin : data_passed_through
         game_state <= game_state_nxt ;
         game_mode <= game_mode_nxt ;
     end
+end
+
+always_ff @(posedge clk) begin : data_transmision
+    if(rst) begin
+        data_to_transmit <= 8'b00000000;
+    end
+    else begin
+        data_to_transmit <= data_to_transmit_nxt;
+    end
+end
+
+always_comb begin : data_to_transmit_controller
+    if(left_clicked)
+        data_to_transmit_nxt = 8'b11001000;
+    else if(game_starts)
+        data_to_transmit_nxt = 8'b01001000;
+    else
+        data_to_transmit_nxt = 8'b00001000;
 end
 
 always_comb begin : next_game_mode_controller

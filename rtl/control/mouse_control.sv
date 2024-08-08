@@ -11,6 +11,7 @@
     input wire [11:0] xpos, ypos,
     input g_state game_state,
 
+    output logic [7:0] data_to_transmit, // keeper_pos
     vga_if.in in,
     vga_if.out out
 );
@@ -20,7 +21,8 @@ import game_pkg::*;
 //local viariables
 wire [11:0] rgb_gloves;
 wire [19:0] addr_gloves;
-
+logic [7:0] data_to_transmit_nxt;
+logic pos_update, pos_update_nxt;
 //Interfaces
 vga_if out_mouse();
 vga_if out_gloves();
@@ -76,6 +78,30 @@ always_ff @(posedge clk) begin : data_passed_through
         out.rgb    <= out_sel.rgb;
     end
  end
+
+ 
+ always_ff @(posedge clk) begin : data_transmision
+    if(rst) begin
+        data_to_transmit <= 8'b00000000;
+        pos_update <= '0;
+    end
+    else begin
+        data_to_transmit <= data_to_transmit_nxt;
+        pos_update <= pos_update_nxt;
+    end
+end
+
+always_comb begin
+    if(pos_update == 0) begin
+        data_to_transmit_nxt = {xpos[4:0], 3'b001};
+        pos_update_nxt = 1'b1;
+    end
+    else begin
+        data_to_transmit_nxt = {xpos[9:5], 3'b010};
+        pos_update_nxt = 1'b0;
+    end
+
+end
 
  always_comb begin : mouse_selector
     if(game_state == KEEPER) begin
