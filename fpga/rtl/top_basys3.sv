@@ -23,6 +23,7 @@ module top_basys3 (
     input  wire sw,
     input  wire JA2, // for uart Rx
 
+    output logic conn_led,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
@@ -93,7 +94,8 @@ top_game u_top_game (
     .vs(Vsync),
     .solo_enable(sw),
     .rx(JA2),
-    .tx(JA3)
+    .tx(JA3),
+    .conn_led
 );
 
 endmodule

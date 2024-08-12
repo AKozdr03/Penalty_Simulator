@@ -70,6 +70,7 @@ set sv_files {
     ../rtl/text/font_rom.sv
     ../rtl/text/char_rom_score.sv
     ../rtl/text/char_rom_end.sv
+    ../rtl/top_uart.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }

@@ -10,6 +10,9 @@
     input wire clk,
     input wire rst,
     input wire [7:0] read_data,
+    input wire rx_empty,
+
+    output logic rd_uart,
     output logic connect_corrected,
     output logic enemy_shooter,
     output logic is_shooted,
@@ -21,9 +24,9 @@
 );
 
 // Local variables
-logic connect_corrected_nxt, is_shooted_nxt, enemy_shooter_nxt,game_starts_nxt;
+logic connect_corrected_nxt, is_shooted_nxt, enemy_shooter_nxt,game_starts_nxt, rd_uart_nxt;
 logic [9:0] keeper_pos_nxt, x_shooter_nxt, y_shooter_nxt;
-logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt, y_shooter_ow_nxt;
+logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt,  x_shooter_ow_2, x_shooter_ow_2_nxt, y_shooter_ow_nxt;
 logic [2:0]  opponent_score_nxt;
 
 //Logic
@@ -41,6 +44,8 @@ always_ff @(posedge clk) begin : data_passed_through
         is_shooted <= 1'b0;
         enemy_shooter <= 1'b0;
         game_starts <= 1'b0;
+        rd_uart <= 1'b0;
+        x_shooter_ow_2 <= 5'b0;
     end
     else begin
         connect_corrected <= connect_corrected_nxt;
@@ -50,10 +55,12 @@ always_ff @(posedge clk) begin : data_passed_through
         opponent_score <= opponent_score_nxt;     
         keeper_pos_ow <= keeper_pos_ow_nxt;
         x_shooter_ow <= x_shooter_ow_nxt;
+        x_shooter_ow_2 <= x_shooter_ow_2_nxt;
         y_shooter_ow <= y_shooter_ow_nxt;
         is_shooted <= is_shooted_nxt;
         enemy_shooter <= enemy_shooter_nxt;
         game_starts <= game_starts_nxt;
+        rd_uart <= rd_uart_nxt;
     end
 end
 
@@ -64,151 +71,182 @@ end
  * 001 - gloves position part 1 (required to draw keeper on second screen) [keeper_pos[4:0]]
  * 010 - gloves position part 2 (required to draw keeper on second screen) [keeper_pos[9:5]]  - there is keeper_pos updated
  * 011 - shot x position 1 part [x_shooter[4:0]]
- * 100 - shot x position 2 part [x_shooter[9:5]] - there is x_shooter updated
+ * 100 - shot x position 2 part [x_shooter[9:5]] 
  * 101 - shot y position 1 part [y_shooter[4:0]]
- * 110 - shot y position 2 part [y_shooter[9:5]] - there is y_shooter updated
+ * 110 - shot y position 2 part [y_shooter[9:5]] - there is x_shooter and y_shooter updated
  * 111 - opponent score for display [opponent_score], read_data[6] is information if shoot is ended [is_shooted]
 */
 
  always_comb begin : uart_decoding_module
-    case(read_data[2:0])
-        3'b000: begin
-            if(read_data[7:3] == 5'b11001) begin
-                connect_corrected_nxt = 1'b1;
-                enemy_shooter_nxt = 1'b1;
-                game_starts_nxt = 1'b1;
-            end
-            else if(read_data[7:3] == 5'b01001) begin
-                connect_corrected_nxt = 1'b1;
-                enemy_shooter_nxt = 1'b0;
-                game_starts_nxt = 1'b1;
-            end
-            else if(read_data[7:3] == 5'b00001) begin
-                connect_corrected_nxt = 1'b1;
-                enemy_shooter_nxt = 1'b0;
-                game_starts_nxt = 1'b0;
-            end                      
-            else begin
-                connect_corrected_nxt = 1'b0;
-                enemy_shooter_nxt = 1'b0;
-                game_starts_nxt = 1'b0;
-            end
-            x_shooter_nxt = x_shooter;
-            y_shooter_nxt = y_shooter;
-            x_shooter_ow_nxt = x_shooter_ow;
-            y_shooter_ow_nxt = y_shooter_ow;
-            opponent_score_nxt = opponent_score;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            keeper_pos_nxt = keeper_pos;
-            is_shooted_nxt = is_shooted;
+    if(rx_empty == 1'b0) begin
+        case(read_data[2:0])
+            3'b000: begin
+                if(read_data[7:3] == 5'b11001) begin
+                    connect_corrected_nxt = 1'b1;
+                    enemy_shooter_nxt = 1'b1;
+                    game_starts_nxt = 1'b1;
+                end
+                else if(read_data[7:3] == 5'b01001) begin
+                    connect_corrected_nxt = 1'b1;
+                    enemy_shooter_nxt = 1'b0;
+                    game_starts_nxt = 1'b1;
+                end
+                else if(read_data[7:3] == 5'b00001) begin
+                    connect_corrected_nxt = 1'b1;
+                    enemy_shooter_nxt = 1'b0;
+                    game_starts_nxt = 1'b0;
+                end                      
+                else begin
+                    connect_corrected_nxt = 1'b0;
+                    enemy_shooter_nxt = 1'b0;
+                    game_starts_nxt = 1'b0;
+                end
+                x_shooter_nxt = x_shooter;
+                y_shooter_nxt = y_shooter;
+                x_shooter_ow_nxt = x_shooter_ow;
+                y_shooter_ow_nxt = y_shooter_ow;
+                opponent_score_nxt = opponent_score;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                keeper_pos_nxt = keeper_pos;
+                is_shooted_nxt = is_shooted;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
 
+            end
+            3'b001: begin
+                keeper_pos_ow_nxt[4:0] = read_data[7:3]; // ow is required because keeper_pos and shot pos can be updated when all position is read 
+                keeper_pos_nxt = keeper_pos;
+                x_shooter_nxt = x_shooter;
+                y_shooter_nxt = y_shooter;
+                x_shooter_ow_nxt = x_shooter_ow;
+                y_shooter_ow_nxt = y_shooter_ow;
+                opponent_score_nxt = opponent_score;
+                connect_corrected_nxt = connect_corrected;
+                is_shooted_nxt = is_shooted;
+                enemy_shooter_nxt = enemy_shooter;
+                game_starts_nxt = game_starts;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
+            end
+            3'b010: begin
+                keeper_pos_nxt = {read_data[7:3] , keeper_pos_ow};
+                x_shooter_nxt = x_shooter;
+                y_shooter_nxt = y_shooter;
+                x_shooter_ow_nxt = x_shooter_ow;
+                y_shooter_ow_nxt = y_shooter_ow;     
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                opponent_score_nxt = opponent_score;
+                connect_corrected_nxt = connect_corrected;   
+                is_shooted_nxt = is_shooted;   
+                enemy_shooter_nxt = enemy_shooter;
+                game_starts_nxt = game_starts;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
+            end
+            3'b011: begin
+                x_shooter_ow_nxt = read_data[7:3]; 
+                keeper_pos_nxt = keeper_pos;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                x_shooter_nxt = x_shooter;
+                y_shooter_nxt = y_shooter;
+                y_shooter_ow_nxt = y_shooter_ow;
+                opponent_score_nxt = opponent_score;
+                connect_corrected_nxt = connect_corrected;
+                is_shooted_nxt = is_shooted;
+                enemy_shooter_nxt = enemy_shooter;
+                game_starts_nxt = game_starts;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
+            end
+            3'b100: begin
+                x_shooter_ow_2_nxt = read_data[7:3];
+                x_shooter_nxt = x_shooter;
+                x_shooter_ow_nxt = x_shooter_ow; 
+                keeper_pos_nxt = keeper_pos;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                y_shooter_nxt = y_shooter;
+                y_shooter_ow_nxt = y_shooter_ow;
+                opponent_score_nxt = opponent_score;
+                connect_corrected_nxt = connect_corrected;
+                is_shooted_nxt = is_shooted;
+                enemy_shooter_nxt = enemy_shooter;
+                game_starts_nxt = game_starts;
+            end
+            3'b101: begin
+                y_shooter_ow_nxt = read_data[7:3]; 
+                keeper_pos_nxt = keeper_pos;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                x_shooter_nxt = x_shooter;
+                x_shooter_ow_nxt = x_shooter_ow;
+                y_shooter_nxt = y_shooter;
+                opponent_score_nxt = opponent_score;
+                connect_corrected_nxt = connect_corrected; 
+                is_shooted_nxt = is_shooted;     
+                enemy_shooter_nxt = enemy_shooter;   
+                game_starts_nxt = game_starts;  
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
+            end
+            3'b110: begin
+                y_shooter_nxt = {read_data[7:3] , y_shooter_ow}; //update y
+                x_shooter_ow_nxt = x_shooter_ow; 
+                x_shooter_nxt = {x_shooter_ow_2, x_shooter_ow}; //update x
+                keeper_pos_nxt = keeper_pos;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                y_shooter_ow_nxt = y_shooter_ow;
+                opponent_score_nxt = opponent_score;
+                connect_corrected_nxt = connect_corrected;  
+                is_shooted_nxt = is_shooted;     
+                enemy_shooter_nxt = enemy_shooter;    
+                game_starts_nxt = game_starts;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
+            end
+            3'b111: begin
+                opponent_score_nxt = read_data[5:3];
+                is_shooted_nxt = read_data[6];
+                x_shooter_nxt = x_shooter;
+                y_shooter_nxt = y_shooter;
+                x_shooter_ow_nxt = x_shooter_ow;
+                y_shooter_ow_nxt = y_shooter_ow;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                keeper_pos_nxt = keeper_pos;
+                connect_corrected_nxt = connect_corrected;     
+                enemy_shooter_nxt = enemy_shooter;    
+                game_starts_nxt = game_starts;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;    
+            end
+            default: begin
+                opponent_score_nxt = opponent_score;
+                x_shooter_nxt = x_shooter;
+                y_shooter_nxt = y_shooter;
+                x_shooter_ow_nxt = x_shooter_ow;
+                y_shooter_ow_nxt = y_shooter_ow;
+                keeper_pos_ow_nxt = keeper_pos_ow;
+                keeper_pos_nxt = keeper_pos;
+                connect_corrected_nxt = connect_corrected; 
+                is_shooted_nxt = is_shooted; 
+                enemy_shooter_nxt = enemy_shooter;
+                game_starts_nxt = game_starts;
+                x_shooter_ow_2_nxt = x_shooter_ow_2;
+            end
+        endcase
+        if(rd_uart == 1'b0) begin
+            rd_uart_nxt = 1'b1;
         end
-        3'b001: begin
-            keeper_pos_ow_nxt[4:0] = read_data[7:3]; // ow is required because keeper_pos and shot pos can be updated when all position is read 
-            keeper_pos_nxt = keeper_pos;
-            x_shooter_nxt = x_shooter;
-            y_shooter_nxt = y_shooter;
-            x_shooter_ow_nxt = x_shooter_ow;
-            y_shooter_ow_nxt = y_shooter_ow;
-            opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;
-            is_shooted_nxt = is_shooted;
-            enemy_shooter_nxt = enemy_shooter;
-            game_starts_nxt = game_starts;
+        else begin
+            rd_uart_nxt = 1'b0;
         end
-        3'b010: begin
-            keeper_pos_nxt = {read_data[7:3] , keeper_pos_ow};
-            x_shooter_nxt = x_shooter;
-            y_shooter_nxt = y_shooter;
-            x_shooter_ow_nxt = x_shooter_ow;
-            y_shooter_ow_nxt = y_shooter_ow;     
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;   
-            is_shooted_nxt = is_shooted;   
-            enemy_shooter_nxt = enemy_shooter;
-            game_starts_nxt = game_starts;
-        end
-        3'b011: begin
-            x_shooter_ow_nxt = read_data[7:3]; 
-            keeper_pos_nxt = keeper_pos;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            x_shooter_nxt = x_shooter;
-            y_shooter_nxt = y_shooter;
-            y_shooter_ow_nxt = y_shooter_ow;
-            opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;
-            is_shooted_nxt = is_shooted;
-            enemy_shooter_nxt = enemy_shooter;
-            game_starts_nxt = game_starts;
-        end
-        3'b100: begin
-            x_shooter_nxt = {read_data[7:3] , x_shooter_ow};
-            x_shooter_ow_nxt = x_shooter_ow; 
-            keeper_pos_nxt = keeper_pos;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            y_shooter_nxt = y_shooter;
-            y_shooter_ow_nxt = y_shooter_ow;
-            opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;
-            is_shooted_nxt = is_shooted;
-            enemy_shooter_nxt = enemy_shooter;
-            game_starts_nxt = game_starts;
-        end
-        3'b101: begin
-            y_shooter_ow_nxt = read_data[7:3]; 
-            keeper_pos_nxt = keeper_pos;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            x_shooter_nxt = x_shooter;
-            x_shooter_ow_nxt = x_shooter_ow;
-            y_shooter_nxt = y_shooter;
-            opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected; 
-            is_shooted_nxt = is_shooted;     
-            enemy_shooter_nxt = enemy_shooter;   
-            game_starts_nxt = game_starts;  
-        end
-        3'b110: begin
-            y_shooter_nxt = {read_data[7:3] , y_shooter_ow};
-            x_shooter_ow_nxt = x_shooter_ow; 
-            x_shooter_nxt = x_shooter;
-            keeper_pos_nxt = keeper_pos;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            y_shooter_ow_nxt = y_shooter_ow;
-            opponent_score_nxt = opponent_score;
-            connect_corrected_nxt = connect_corrected;  
-            is_shooted_nxt = is_shooted;     
-            enemy_shooter_nxt = enemy_shooter;    
-            game_starts_nxt = game_starts;
-        end
-        3'b111: begin
-            opponent_score_nxt = read_data[5:3];
-            is_shooted_nxt = read_data[6];
-            x_shooter_nxt = x_shooter;
-            y_shooter_nxt = y_shooter;
-            x_shooter_ow_nxt = x_shooter_ow;
-            y_shooter_ow_nxt = y_shooter_ow;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            keeper_pos_nxt = keeper_pos;
-            connect_corrected_nxt = connect_corrected;     
-            enemy_shooter_nxt = enemy_shooter;    
-            game_starts_nxt = game_starts;    
-        end
-        default: begin
-            opponent_score_nxt = opponent_score;
-            x_shooter_nxt = x_shooter;
-            y_shooter_nxt = y_shooter;
-            x_shooter_ow_nxt = x_shooter_ow;
-            y_shooter_ow_nxt = y_shooter_ow;
-            keeper_pos_ow_nxt = keeper_pos_ow;
-            keeper_pos_nxt = keeper_pos;
-            connect_corrected_nxt = connect_corrected; 
-            is_shooted_nxt = is_shooted; 
-            enemy_shooter_nxt = enemy_shooter;
-            game_starts_nxt = game_starts;
-        end
-    endcase
+    end
+    else begin
+        connect_corrected_nxt = connect_corrected;
+        keeper_pos_nxt = keeper_pos;   
+        x_shooter_nxt = x_shooter;
+        y_shooter_nxt = y_shooter;
+        opponent_score_nxt = opponent_score;     
+        keeper_pos_ow_nxt = keeper_pos_ow;
+        x_shooter_ow_nxt = x_shooter_ow;
+        y_shooter_ow_nxt = y_shooter_ow;
+        is_shooted_nxt = is_shooted;
+        enemy_shooter_nxt = enemy_shooter;
+        game_starts_nxt = game_starts;
+        x_shooter_ow_2_nxt = x_shooter_ow_2;
+        rd_uart_nxt = 1'b0;
+    end
 end
 
-  
 endmodule
