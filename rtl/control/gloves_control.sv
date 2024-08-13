@@ -12,8 +12,8 @@
     input logic [11:0] xpos,
     input logic [11:0] ypos,
     input g_state game_state,
-    input logic [11:0] shot_xpos,
-    input logic [11:0] shot_ypos,
+    input logic [9:0] shot_xpos,
+    input logic [9:0] shot_ypos,
 
     output logic is_scored,
     output logic round_done,

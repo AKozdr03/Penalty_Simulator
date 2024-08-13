@@ -28,24 +28,26 @@ logic connect_corrected_nxt, is_shooted_nxt, enemy_shooter_nxt,game_starts_nxt, 
 logic [9:0] keeper_pos_nxt, x_shooter_nxt, y_shooter_nxt;
 logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt,  x_shooter_ow_2, x_shooter_ow_2_nxt, y_shooter_ow_nxt;
 logic [2:0]  opponent_score_nxt;
+logic [3:0] tick_transmit_c, tick_transmit_c_nxt;
 
 //Logic
 
 always_ff @(posedge clk) begin : data_passed_through
     if(rst) begin
-        connect_corrected <= 1'b0;
-        keeper_pos <= 10'b0;
-        x_shooter <= 10'b0;
-        y_shooter <= 10'b0;
-        opponent_score <= 3'b0;
-        keeper_pos_ow <= 5'b0;
-        x_shooter_ow <= 5'b0;
-        y_shooter_ow <= 5'b0;
-        is_shooted <= 1'b0;
-        enemy_shooter <= 1'b0;
-        game_starts <= 1'b0;
-        rd_uart <= 1'b0;
-        x_shooter_ow_2 <= 5'b0;
+        connect_corrected <= '0;
+        keeper_pos <= '0;
+        x_shooter <= '0;
+        y_shooter <= '0;
+        opponent_score <= '0;
+        keeper_pos_ow <= '0;
+        x_shooter_ow <= '0;
+        y_shooter_ow <= '0;
+        is_shooted <= '0;
+        enemy_shooter <= '0;
+        game_starts <= '0;
+        rd_uart <= '0;
+        x_shooter_ow_2 <= '0;
+        tick_transmit_c <= '0;
     end
     else begin
         connect_corrected <= connect_corrected_nxt;
@@ -61,6 +63,7 @@ always_ff @(posedge clk) begin : data_passed_through
         enemy_shooter <= enemy_shooter_nxt;
         game_starts <= game_starts_nxt;
         rd_uart <= rd_uart_nxt;
+        tick_transmit_c <= tick_transmit_c_nxt;
     end
 end
 
@@ -218,7 +221,7 @@ end
                 y_shooter_ow_nxt = y_shooter_ow;
                 keeper_pos_ow_nxt = keeper_pos_ow;
                 keeper_pos_nxt = keeper_pos;
-                connect_corrected_nxt = connect_corrected; 
+                connect_corrected_nxt = 1'b0; // because it is sign that something in connection is broken
                 is_shooted_nxt = is_shooted; 
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
@@ -231,6 +234,8 @@ end
         else begin
             rd_uart_nxt = 1'b0;
         end
+        
+        tick_transmit_c_nxt = 0;
     end
     else begin
         connect_corrected_nxt = connect_corrected;
@@ -246,6 +251,18 @@ end
         game_starts_nxt = game_starts;
         x_shooter_ow_2_nxt = x_shooter_ow_2;
         rd_uart_nxt = 1'b0;
+        if(tick_transmit_c < 15) begin // prevention against overflow
+            tick_transmit_c_nxt = tick_transmit_c + 1;
+        end
+        else begin
+            tick_transmit_c_nxt = 4'b1110;
+        end
+    end
+    if(tick_transmit_c >= 4'd10) begin // this is because if uart send nothing it is sign that connection is not corrected
+        connect_corrected_nxt = 1'b0;
+    end
+    else begin
+        connect_corrected_nxt = connect_corrected;
     end
 end
 

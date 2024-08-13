@@ -44,12 +44,12 @@ wire [2:0] score_player ;
 wire [2:0] score_enemy ;
 g_state game_state;
 g_mode game_mode;
-wire [11:0] shot_xpos, shot_ypos;
+wire [9:0] shot_xpos, shot_ypos;
 wire [7:0] read_data, w_data;
 wire connect_corrected, game_starts, enemy_shooter, is_shooted;
 wire rx_empty, rd_uart, tx_full, wr_uart;
 wire [7:0] data_game_state_sel, data_gloves_control, data_mouse_control, data_score_control;
-
+wire [9:0] x_shooter, y_shooter;
 
 /**
  * Signals assignments
@@ -186,9 +186,9 @@ ball_control u_ball_control(
     .game_mode,
     .round_done,
     .shot_xpos, // pozycja piłki po strzale (x)
-    .shot_ypos // pozycja piłki po strzale (y)
-    // .x_shooter(), // to dla multi na razie nic nie wpisywać
-    // .y_shooter() // to dla multi na razie nic nie wpisywać
+    .shot_ypos, // pozycja piłki po strzale (y)
+    .x_shooter, 
+    .y_shooter 
 );
 
 uart u_uart(
@@ -225,8 +225,8 @@ uart_decoder u_uart_decoder(
     .keeper_pos(), // do podłączenia
     .opponent_score(), // do podłączenia
     .read_data,
-    .x_shooter(), // do podłączenia
-    .y_shooter(), // do podłączenia
+    .x_shooter,
+    .y_shooter,
     .is_shooted,
     .enemy_shooter,
     .game_starts
