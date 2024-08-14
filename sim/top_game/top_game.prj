@@ -32,6 +32,11 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/screens/draw_screen_lose.sv \
         ../../rtl/top_game.sv \
         ../../rtl/top_uart.sv \
+        ../../rtl/uart/fifo.sv \
+        ../../rtl/uart/mod_m_counter.sv \
+        ../../rtl/uart/uart_rx.sv \
+        ../../rtl/uart/uart_tx.sv \
+        ../../rtl/uart/uart.sv \
         ../../rtl/control/screen_selector.sv \
         ../../rtl/control/game_state_sel.sv \
         ../../rtl/control/ball_control.sv \
@@ -42,6 +47,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/text/char_rom_score.sv \
         ../../rtl/text/font_rom.sv \
         ../../rtl/text/write_text.sv \
+        ../../rtl/control/shoot_control.sv \
         ../../rtl/text/char_rom_end.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv

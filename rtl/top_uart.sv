@@ -63,6 +63,9 @@ logic wr_uart_nxt;
             2'b11: begin
                 w_data_nxt = data_mouse_control;
             end
+            default: begin
+                w_data_nxt = data_game_state_sel;
+            end
         endcase
         
         module_counter_nxt = module_counter + 1;
