@@ -134,9 +134,9 @@ game_state_sel u_game_state_sel(
     .match_end,
     .match_result,
     .game_state,
-    .game_mode,,
+    .game_mode,
     .end_gk,
-    .end_sh
+    .end_sh,
     .connect_corrected,
     .enemy_shooter,
     .game_starts,
@@ -156,7 +156,7 @@ gloves_control u_gloves_control(
     .round_done(round_done_gk),
     .shot_xpos,
     .shot_ypos,
-    .data_to_transmit(data_gloves_control) // shot_pos,
+    .data_to_transmit(data_gloves_control), // shot_pos,
     .end_gk
 );
 
@@ -172,6 +172,7 @@ score_control u_score_control(
     .match_result,
     .score_player,
     .score_enemy,
+    .is_scored(is_shooted),
     .data_to_transmit(data_score_control) // score data
 );
 
@@ -198,6 +199,22 @@ ball_control u_ball_control(
     .y_shooter 
 );
 
+shoot_control u_shoot_control(
+    .clk,
+    .rst,
+    .game_state,
+    .xpos,
+    .ypos,
+    .left_clicked,
+
+    .is_scored(is_scored_sh),
+    .round_done(round_done_sh),
+    .end_sh,
+
+    .in(vga_glovesctl),
+    .out(vga_shootctl)
+ );
+ 
 uart u_uart(
     .clk,
     .reset(rst),

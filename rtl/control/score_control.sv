@@ -11,6 +11,7 @@ module score_control(
     input g_state game_state,
     input logic is_scored_gk, is_scored_sh,
     input logic round_done_gk, round_done_sh,
+    input logic is_scored,
 
     output logic match_end,     // 1 = match ended
     output logic match_result,   // 1 = match won by player, 0 = match lost 
