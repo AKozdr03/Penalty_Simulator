@@ -15,7 +15,9 @@ module score_control(
     output logic match_end,     // 1 = match ended
     output logic match_result,   // 1 = match won by player, 0 = match lost 
     output logic [2:0] score_player,
-    output logic [2:0] score_enemy
+    output logic [2:0] score_enemy,
+
+    output logic [7:0] data_to_transmit // score data
 );
 
 //inports
@@ -27,6 +29,8 @@ import game_pkg::*;
 logic match_end_nxt ;
 logic match_result_nxt ;
 logic [2:0] score_player_nxt, score_enemy_nxt ;
+
+logic [7:0] data_to_transmit_nxt;
 
 //logic
 
@@ -45,6 +49,19 @@ always_ff @(posedge clk) begin
         score_player <= score_player_nxt ;
         score_enemy <= score_enemy_nxt ;
     end
+end
+
+always_ff @(posedge clk) begin : data_transmision
+    if(rst) begin
+        data_to_transmit <= 8'b00000000;
+    end
+    else begin
+        data_to_transmit <= data_to_transmit_nxt;
+    end
+end
+
+always_comb begin : data_to_transmit_controller
+    data_to_transmit_nxt = {1'b0, is_scored, score_player, 3'b111};
 end
 
 always_comb begin

@@ -12,11 +12,12 @@
     input logic [11:0] xpos,
     input logic [11:0] ypos,
     input g_state game_state,
-    input logic [11:0] shot_xpos,
-    input logic [11:0] shot_ypos,
+    input logic [9:0] shot_xpos,
+    input logic [9:0] shot_ypos,
 
     output logic is_scored,
     output logic round_done,
+    output logic [7:0] data_to_transmit, // shot_pos
     output logic end_gk,
 
     vga_if.in in,   
@@ -47,6 +48,8 @@
  logic [10:0] hcount_d, vcount_d;
  logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
+ logic [7:0] data_to_transmit_nxt;
+ logic [1:0] pos_update, pos_update_nxt;
  //delay
 
  delay #(
@@ -96,6 +99,41 @@
         end_gk <= end_gk_nxt;
     end
  end
+
+ always_ff @(posedge clk) begin : data_transmision
+    if(rst) begin
+        data_to_transmit <= 8'b00000000;
+        pos_update <= '0;
+    end
+    else begin
+        data_to_transmit <= data_to_transmit_nxt;
+        pos_update <= pos_update_nxt;
+    end
+end
+
+always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I believe
+    if(pos_update == 2'b00) begin
+        data_to_transmit_nxt = {shot_xpos[4:0], 3'b001};
+        pos_update_nxt = 2'b01;
+    end
+    else if(pos_update == 2'b01)  begin
+        data_to_transmit_nxt = {shot_xpos[9:5], 3'b010};
+        pos_update_nxt = 2'b10;
+    end
+    else if(pos_update == 2'b10)  begin
+        data_to_transmit_nxt = {shot_ypos[9:5], 3'b101};
+        pos_update_nxt = 2'b11;
+    end
+    else if(pos_update == 2'b11) begin
+        data_to_transmit_nxt = {shot_ypos[9:5], 3'b110};
+        pos_update_nxt = 2'b00;      
+    end
+    else begin
+        data_to_transmit_nxt = data_to_transmit;
+        pos_update_nxt = pos_update;
+    end
+
+end
 
  always_comb begin
     case(state)

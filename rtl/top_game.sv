@@ -15,6 +15,10 @@ module top_game (
     input  logic solo_enable,
     inout  logic ps2_clk,
     inout  logic ps2_data,
+    input  logic rx,
+
+    output logic conn_led,
+    output  logic tx,
     output logic vs,
     output logic hs,
     output logic [3:0] r,
@@ -40,7 +44,12 @@ wire [2:0] score_player ;
 wire [2:0] score_enemy ;
 g_state game_state;
 g_mode game_mode;
-wire [11:0] shot_xpos, shot_ypos;
+wire [9:0] shot_xpos, shot_ypos;
+wire [7:0] read_data, w_data;
+wire connect_corrected, game_starts, enemy_shooter, is_shooted;
+wire rx_empty, rd_uart, tx_full, wr_uart;
+wire [7:0] data_game_state_sel, data_gloves_control, data_mouse_control, data_score_control;
+wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
 
 /**
@@ -62,6 +71,8 @@ vga_if vga_score();
 assign vs = vga_ms.vsync;
 assign hs = vga_ms.hsync;
 assign {r,g,b} = vga_ms.rgb;
+// connection led
+assign conn_led = connect_corrected;
 
 /**
  * Submodules instances
@@ -100,7 +111,8 @@ mouse_control u_mouse_control(
     .ypos,
     .in(vga_score),
     .out(vga_ms),
-    .game_state
+    .game_state,
+    .data_to_transmit(data_mouse_control) // keeper_pos
 );
 
 
@@ -122,10 +134,14 @@ game_state_sel u_game_state_sel(
     .match_end,
     .match_result,
     .game_state,
-    .game_mode,
+    .game_mode,,
     .end_gk,
     .end_sh
-    //.connect_corrected
+    .connect_corrected,
+    .enemy_shooter,
+    .game_starts,
+    .is_shooted,
+    .data_to_transmit(data_game_state_sel) // connect
 );
 
 gloves_control u_gloves_control(
@@ -140,6 +156,7 @@ gloves_control u_gloves_control(
     .round_done(round_done_gk),
     .shot_xpos,
     .shot_ypos,
+    .data_to_transmit(data_gloves_control) // shot_pos,
     .end_gk
 );
 
@@ -154,7 +171,8 @@ score_control u_score_control(
     .match_end,
     .match_result,
     .score_player,
-    .score_enemy
+    .score_enemy,
+    .data_to_transmit(data_score_control) // score data
 );
 
 draw_score u_draw_score(
@@ -175,26 +193,50 @@ ball_control u_ball_control(
     .game_mode,
     .round_done(round_done_gk),
     .shot_xpos, // pozycja piłki po strzale (x)
-    .shot_ypos // pozycja piłki po strzale (y)
-    // .x_shooter(), // to dla multi na razie nic nie wpisywać
-    // .y_shooter() // to dla multi na razie nic nie wpisywać
+    .shot_ypos, // pozycja piłki po strzale (y)
+    .x_shooter, 
+    .y_shooter 
 );
 
-shoot_control u_shoot_control(
+uart u_uart(
+    .clk,
+    .reset(rst),
+    .rx,
+    .tx,
+    .r_data(read_data),
+    .rd_uart,
+    .rx_empty,
+    .tx_full,
+    .w_data,
+    .wr_uart
+);
+
+top_uart u_top_uart(
     .clk,
     .rst,
-    .game_state,
-    .xpos,
-    .ypos,
-    .left_clicked,
+    .data_game_state_sel,
+    .data_gloves_control,
+    .data_mouse_control,
+    .data_score_control,
+    .tx_full,
+    .w_data,
+    .wr_uart
+);
 
-    .is_scored(is_scored_sh),
-    .round_done(round_done_sh),
-    .end_sh,
-
-    .in(vga_glovesctl),
-    .out(vga_shootctl)
- );
-
+uart_decoder u_uart_decoder( 
+    .clk,
+    .rst,
+    .rd_uart,
+    .rx_empty,
+    .connect_corrected,
+    .keeper_pos(), // do podłączenia
+    .opponent_score(), // do podłączenia
+    .read_data,
+    .x_shooter,
+    .y_shooter,
+    .is_shooted,
+    .enemy_shooter,
+    .game_starts
+);
 
 endmodule

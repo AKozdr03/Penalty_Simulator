@@ -31,6 +31,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/screens/draw_screen_win.sv \
         ../../rtl/screens/draw_screen_lose.sv \
         ../../rtl/top_game.sv \
+        ../../rtl/top_uart.sv \
         ../../rtl/control/screen_selector.sv \
         ../../rtl/control/game_state_sel.sv \
         ../../rtl/control/ball_control.sv \

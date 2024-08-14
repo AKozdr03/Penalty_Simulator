@@ -21,12 +21,17 @@ module top_basys3 (
 
     input  wire btnC,
     input  wire sw,
+    input  wire JA2, // for uart Rx
+
+    output logic conn_led,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
     output wire [3:0] vgaGreen,
     output wire [3:0] vgaBlue,
-    output wire JA1
+    output wire JA1,
+    output  wire JA3 // for uart Tx
+
 
 );
 
@@ -47,7 +52,6 @@ wire pclk_mirror;
  */
 
 assign JA1 = pclk_mirror;
-
 
 /**
  * FPGA submodules placement
@@ -88,7 +92,10 @@ top_game u_top_game (
     .b(vgaBlue),
     .hs(Hsync),
     .vs(Vsync),
-    .solo_enable(sw)
+    .solo_enable(sw),
+    .rx(JA2),
+    .tx(JA3),
+    .conn_led
 );
 
 endmodule

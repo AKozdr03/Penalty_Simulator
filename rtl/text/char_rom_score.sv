@@ -5,8 +5,6 @@
  *
  * Description:
  * ROM with saved text.
- * Zeberka, boczek, wolowina, cielecina, karkowka, schab, rożne gatunki wędlin, a takze dziczyzna. 
- * Do bigosu mozna dodac tez wiele innych skladnikow!
  */
 
 module char_rom_score
