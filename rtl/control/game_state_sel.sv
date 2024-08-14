@@ -153,7 +153,7 @@ always_comb begin : next_game_state_controller
                             else
                                 game_state_nxt = LOSER ;
                         end
-                        else if (is_shooted)
+                        else if (is_shooted) //POPRAWIĆ
                             game_state_nxt = SHOOTER ;
                         else   
                             game_state_nxt = KEEPER ;                                              
@@ -165,7 +165,7 @@ always_comb begin : next_game_state_controller
                             else
                                 game_state_nxt = LOSER ;
                         end
-                        else if (is_shooted)
+                        else if (is_shooted) //POPRAWIĆ
                             game_state_nxt = KEEPER ;
                         else   
                             game_state_nxt = SHOOTER ; 
