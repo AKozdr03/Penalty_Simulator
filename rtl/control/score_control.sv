@@ -13,6 +13,7 @@ module score_control(
     input logic round_done_gk, round_done_sh,
     input logic is_scored,
 
+
     output logic match_end,     // 1 = match ended
     output logic match_result,   // 1 = match won by player, 0 = match lost 
     output logic [2:0] score_player,

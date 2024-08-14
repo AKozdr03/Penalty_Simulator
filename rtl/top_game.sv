@@ -51,6 +51,7 @@ wire rx_empty, rd_uart, tx_full, wr_uart;
 wire [7:0] data_game_state_sel, data_gloves_control, data_mouse_control, data_score_control;
 wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
+wire [9:0] keeper_pos;
 
 /**
  * Signals assignments
@@ -206,6 +207,7 @@ shoot_control u_shoot_control(
     .xpos,
     .ypos,
     .left_clicked,
+    .keeper_pos,
 
     .is_scored(is_scored_sh),
     .round_done(round_done_sh),
@@ -214,7 +216,7 @@ shoot_control u_shoot_control(
     .in(vga_glovesctl),
     .out(vga_shootctl)
  );
- 
+
 uart u_uart(
     .clk,
     .reset(rst),
@@ -246,7 +248,7 @@ uart_decoder u_uart_decoder(
     .rd_uart,
     .rx_empty,
     .connect_corrected,
-    .keeper_pos(), // do podłączenia
+    .keeper_pos,
     .opponent_score(), // do podłączenia
     .read_data,
     .x_shooter,

@@ -19,6 +19,7 @@
     input g_state game_state,
     input logic [11:0] xpos,
     input logic [11:0] ypos,
+    input logic [9:0] keeper_pos,
     input wire left_clicked,
 
     output logic is_scored,
@@ -31,9 +32,8 @@
 
  //params
 
- localparam GK_POS_X = 412 ;
  localparam GK_POS_Y = 250 ;
- localparam GK_WIDTH = 200 ;
+ localparam [9:0] GK_WIDTH = 200 ;
  localparam GK_HEIGHT = 300 ;
  //variables
 
@@ -128,7 +128,7 @@
                     end
 
         COUNTDOWN:  begin 
-                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                         && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                             rgb_nxt = 12'h0_0_F;
                         else 
@@ -149,7 +149,7 @@
                     end
 
         RESULT:     begin
-                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                         && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                             rgb_nxt = 12'h0_0_F;
                         else 
@@ -157,7 +157,7 @@
 
                         if((xpos >= SH_POST_INNER_EDGE && xpos <= (SCREEN_WIDTH - SH_POST_INNER_EDGE)
                             && ypos >= SH_CROSSBAR_BOTTOM_EDGE && ypos <= SH_POST_BOTTOM_EDGE )
-                        && !(xpos >= GK_POS_X && xpos <= (GK_POS_X + GK_WIDTH)     
+                        && !(xpos >= keeper_pos && xpos <= (keeper_pos + GK_WIDTH)     
                             && ypos >= GK_POS_Y && ypos <= (GK_POS_Y + GK_HEIGHT) )) begin
                             state_nxt = GOAL ;
                         end
@@ -172,7 +172,7 @@
 
                     end
         GOAL:       begin
-                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                         && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                             rgb_nxt = 12'h0_F_0;
                         else 
@@ -194,7 +194,7 @@
                     end
         
         MISS:       begin
-                        if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
+                        if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                         && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                             rgb_nxt = 12'hF_0_0;
                         else 
