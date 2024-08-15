@@ -10,7 +10,7 @@
     input wire clk, rst,
     input wire [11:0] xpos, ypos,
     input g_state game_state,
-
+    
     output logic [7:0] data_to_transmit, // keeper_pos
     vga_if.in in,
     vga_if.out out
