@@ -52,7 +52,7 @@ wire [7:0] data_game_state_sel, data_gloves_control, data_mouse_control, data_sc
 wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
 wire [9:0] keeper_pos;
-wire shot_taken, enemy_input, enemy_is_scored, player_output;
+wire shot_taken, enemy_input, enemy_is_scored ;
 
 /**
  * Signals assignments

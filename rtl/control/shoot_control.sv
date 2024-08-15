@@ -39,9 +39,10 @@
  //params
  
  localparam GK_POS_X = 400 ;
- localparam GK_POS_Y = 250 ;
+ localparam GK_BOTTOM = 250 ;
  localparam [9:0] GK_WIDTH = 200 ;
- localparam GK_HEIGHT = 300 ;
+ localparam [9:0] GK_HALF_WIDTH = 100 ;
+ localparam GK_TOP = 550 ;
  //variables
 
  typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS, TERMINATE} shoot_state;
@@ -57,6 +58,8 @@
  
  logic [10:0] hcount_d, vcount_d;
  logic hblnk_d, vblnk_d, hsync_d, vsync_d;
+ 
+ logic [9:0] gk_left_edge, gk_left_edge_nxt, gk_right_edge, gk_right_edge_nxt ;
 
  //delay
 
@@ -89,6 +92,8 @@
         counter <= '0 ;
         end_sh <= '0 ;
         shot_taken <= '0 ;
+        gk_left_edge <= '0 ;
+        gk_right_edge <= '0 ;
     end
     else begin
         out.vcount <= vcount_d;
@@ -105,6 +110,8 @@
         counter <= counter_nxt ;
         end_sh <= end_sh_nxt ;
         shot_taken <= shot_taken_nxt ;
+        gk_left_edge <= gk_left_edge_nxt ;
+        gk_right_edge <= gk_right_edge_nxt ;
     end
  end
 
@@ -140,7 +147,7 @@
 
                 COUNTDOWN:  begin 
                                 if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -160,7 +167,7 @@
 
                 RESULT:     begin
                                 if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -168,7 +175,7 @@
                                 if((xpos >= SH_POST_INNER_EDGE && xpos <= (SCREEN_WIDTH - SH_POST_INNER_EDGE)
                                     && ypos >= SH_CROSSBAR_BOTTOM_EDGE && ypos <= SH_POST_BOTTOM_EDGE )
                                 && !(xpos >= GK_POS_X && xpos <= (GK_POS_X + GK_WIDTH)     
-                                    && ypos >= GK_POS_Y && ypos <= (GK_POS_Y + GK_HEIGHT) )) begin
+                                    && ypos >= GK_BOTTOM && ypos <= GK_TOP )) begin
                                     state_nxt = GOAL ;
                                 end
                                 else begin
@@ -183,7 +190,7 @@
                             end
                 GOAL:       begin
                                 if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -205,7 +212,7 @@
                 
                 MISS:       begin
                                 if(in.hcount >= GK_POS_X && in.hcount <= (GK_POS_X + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -244,6 +251,8 @@
             endcase
             //leftovers from multi 
             shot_taken_nxt = 1'b0 ;
+            gk_left_edge_nxt = 0 ;
+            gk_right_edge_nxt = 0;
         end
         MULTI: begin
             case(state)
@@ -272,8 +281,8 @@
                             end
 
                 COUNTDOWN:  begin //actually just waiting for the shot to be made
-                                if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'h0_0_F;
                                  else 
                                     rgb_nxt = in.rgb;
@@ -290,11 +299,12 @@
                             end
 
                 RESULT:     begin //waiting for info from enemy basys if the shot was saved or not
-                                if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'h0_0_F;
-                                else 
+                                 else 
                                     rgb_nxt = in.rgb;
+
                                 if(enemy_input)
                                     if(enemy_is_scored) begin
                                         state_nxt = GOAL ;
@@ -311,8 +321,8 @@
 
                             end
                 GOAL:       begin //goal scored
-                                if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -330,8 +340,8 @@
                             end
                 
                 MISS:       begin //shot saved
-                                if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
-                                && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
+                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
+                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -373,6 +383,21 @@
             //leftovers from solo
             is_scored_nxt = 1'b0 ;
             round_done_nxt = 1'b0 ;
+
+            //calculations
+            if(keeper_pos < 255) begin
+                gk_left_edge_nxt = 255 - GK_HALF_WIDTH;
+                gk_right_edge_nxt = 255 + GK_HALF_WIDTH ;
+            end
+            else if(keeper_pos > 769) begin
+                gk_left_edge_nxt = 769 - GK_HALF_WIDTH ;
+                gk_right_edge_nxt = 769 + GK_HALF_WIDTH ;
+            end
+            else begin
+                gk_left_edge_nxt = keeper_pos - GK_HALF_WIDTH ;
+                gk_right_edge_nxt = keeper_pos + GK_HALF_WIDTH ;
+            end
+
         end
     endcase
  end

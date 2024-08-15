@@ -67,7 +67,6 @@ set sv_files {
     ../rtl/control/shoot_control.sv
     ../rtl/control/ball_control.sv
     ../rtl/control/uart_decoder.sv
-    ../rtl/control/output_mux.sv
     ../rtl/text/write_text.sv
     ../rtl/text/font_rom.sv
     ../rtl/text/char_rom_score.sv
