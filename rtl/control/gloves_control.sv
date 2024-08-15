@@ -116,12 +116,6 @@
 end
 
 always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I believe
-    if(!tx_full && uart_state == READY)
-        uart_state_nxt = SEND ;
-    else if(tx_full && uart_state == WAIT)
-        uart_state_nxt = READY ;
-    else 
-        uart_state_nxt = uart_state ;
     if(uart_state == SEND) begin
         if(pos_update == 2'b00) begin
             data_to_transmit_nxt = {shot_xpos[4:0], 3'b001};
@@ -146,7 +140,13 @@ always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I beli
         uart_state_nxt = WAIT ;
     end
     else begin
-        uart_state_nxt = uart_state;
+        if(!tx_full && uart_state == READY)
+            uart_state_nxt = SEND ;
+        else if(tx_full && uart_state == WAIT)
+            uart_state_nxt = READY ;
+        else 
+            uart_state_nxt = uart_state ;
+            
         data_to_transmit_nxt = data_to_transmit;
         pos_update_nxt = pos_update;
     end

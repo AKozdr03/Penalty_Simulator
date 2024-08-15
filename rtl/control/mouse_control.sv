@@ -116,7 +116,13 @@ always_comb begin
         uart_state_nxt = WAIT ;
     end
     else begin
-        uart_state_nxt = uart_state;
+        if(!tx_full && uart_state == READY)
+            uart_state_nxt = SEND ;
+        else if(tx_full && uart_state == WAIT)
+            uart_state_nxt = READY ;
+        else 
+            uart_state_nxt = uart_state ;
+            
         data_to_transmit_nxt = data_to_transmit;
         pos_update_nxt = pos_update;
     end
