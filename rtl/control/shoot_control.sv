@@ -247,7 +247,7 @@
         end
         MULTI: begin
             case(state)
-                IDLE:       begin
+                IDLE:       begin 
                                 if(game_state == SHOOTER)
                                     state_nxt = ENGAGE ;
                                 else
@@ -271,11 +271,11 @@
                                 end_sh_nxt = 1'b0 ;
                             end
 
-                COUNTDOWN:  begin 
+                COUNTDOWN:  begin //actually just waiting for the shot to be made
                                 if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                                 && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                                     rgb_nxt = 12'h0_0_F;
-                                else 
+                                 else 
                                     rgb_nxt = in.rgb;
                                     
                                 if(left_clicked) begin
@@ -289,7 +289,7 @@
                                 end_sh_nxt = 1'b0 ;
                             end
 
-                RESULT:     begin
+                RESULT:     begin //waiting for info from enemy basys if the shot was saved or not
                                 if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                                 && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                                     rgb_nxt = 12'h0_0_F;
@@ -305,12 +305,12 @@
                                 else
                                     state_nxt = RESULT ;
 
-                                shot_taken_nxt = 1'b1 ;
                                 counter_nxt = '0 ;
+                                shot_taken_nxt = 1'b1 ;
                                 end_sh_nxt = 1'b0 ;
 
                             end
-                GOAL:       begin
+                GOAL:       begin //goal scored
                                 if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                                 && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                                     rgb_nxt = 12'h0_F_0;
@@ -329,7 +329,7 @@
                                 end_sh_nxt = 1'b0 ;
                             end
                 
-                MISS:       begin
+                MISS:       begin //shot saved
                                 if(in.hcount >= keeper_pos && in.hcount <= (keeper_pos + GK_WIDTH)     //keeper test drawing
                                 && in.vcount >= GK_POS_Y && in.vcount <= (GK_POS_Y + GK_HEIGHT) ) 
                                     rgb_nxt = 12'hF_0_0;
@@ -347,12 +347,19 @@
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
                             end
-                TERMINATE:  begin
-                                counter_nxt = '0 ;
-                                state_nxt = IDLE ;
+                TERMINATE:  begin 
+                                if(counter == 13003901) begin
+                                    state_nxt = IDLE ;
+                                    counter_nxt = '0;
+                                    end_sh_nxt = 1'b1 ;
+                                end
+                                else begin
+                                    state_nxt = TERMINATE ;
+                                    counter_nxt = counter + 1 ;
+                                    end_sh_nxt = 1'b0 ;
+                                end
                                 rgb_nxt = in.rgb;
                                 shot_taken_nxt = 1'b0 ;
-                                end_sh_nxt = 1'b1 ;
                             end
 
                 default:    begin

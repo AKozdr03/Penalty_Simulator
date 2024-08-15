@@ -304,7 +304,7 @@ end
                                 round_done_nxt = 1'b0 ;
                             end
 
-                ENGAGE:      begin
+                ENGAGE:      begin //waiting for shot to be made
                                 if(game_state == KEEPER) begin
                                     if(enemy_input) begin
                                         state_nxt = COUNTDOWN ;
@@ -323,7 +323,7 @@ end
                                 round_done_nxt = 1'b0 ;
                             end
 
-                COUNTDOWN:  begin
+                COUNTDOWN:  begin //time to react
                                 if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
                                 && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
                                     rgb_nxt = 12'h0_0_F;
@@ -344,7 +344,7 @@ end
                                 round_done_nxt = 1'b0 ;
                             end
 
-                RESULT:     begin
+                RESULT:     begin //calculating result
                                 if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
                                 && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) ) begin
                                     state_nxt = MISS ;
@@ -356,7 +356,7 @@ end
                                 is_scored_nxt = 1'b0 ;
                                 counter_nxt = '0 ;
                                 end_gk_nxt = 1'b0;
-                                round_done_nxt = 1'b1 ;
+                                round_done_nxt = 1'b0 ;
 
                             end
                 GOAL:       begin
@@ -375,8 +375,8 @@ end
                                 end
 
                                 is_scored_nxt = 1'b1;
+                                round_done_nxt = 1'b1 ;
                                 end_gk_nxt = 1'b0;
-                                round_done_nxt = 1'b0 ;
                                 
                             end
                 
@@ -396,15 +396,22 @@ end
                                 end
 
                                 is_scored_nxt = 1'b0;
+                                round_done_nxt = 1'b1 ;
                                 end_gk_nxt = 1'b0;
-                                round_done_nxt = 1'b0 ;
                             end
                 TERMINATE:  begin
+                                if(counter == 13003901) begin
+                                    state_nxt = IDLE ;
+                                    counter_nxt = '0;
+                                    end_gk_nxt = 1'b1;
+                                end
+                                else begin
+                                    state_nxt = TERMINATE ;
+                                    counter_nxt = counter + 1 ;
+                                    end_gk_nxt = 1'b0 ;
+                                end
                                 is_scored_nxt = 1'b0 ;
-                                counter_nxt = '0 ;
-                                state_nxt = IDLE ;
                                 rgb_nxt = in.rgb;
-                                end_gk_nxt = 1'b1;
                                 round_done_nxt = 1'b0 ;
                             end
 

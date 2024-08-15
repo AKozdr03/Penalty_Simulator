@@ -13,7 +13,7 @@ module score_control(
     input logic round_done_gk, round_done_sh,
     input logic is_scored,
     input g_mode game_mode,
-    input logic player_output,
+    input logic shot_taken,
 
 
     output logic match_end,     // 1 = match ended
@@ -65,7 +65,17 @@ always_ff @(posedge clk) begin : data_transmision
 end
 
 always_comb begin : data_to_transmit_controller
-    data_to_transmit_nxt = {player_output, is_scored, score_player, 3'b111};
+    case(game_state)
+        KEEPER: begin
+            data_to_transmit_nxt = {round_done_gk, is_scored, score_player, 3'b111};
+        end
+        SHOOTER: begin
+            data_to_transmit_nxt = {shot_taken, is_scored, score_player, 3'b111};
+        end
+        default: begin
+            data_to_transmit_nxt = {1'b0, is_scored, score_player, 3'b111};
+        end
+    endcase
 end
 
 always_comb begin
