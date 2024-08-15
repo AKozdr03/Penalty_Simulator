@@ -10,7 +10,12 @@
     input wire clk, rst,
     input wire [11:0] xpos, ypos,
     input g_state game_state,
+<<<<<<< HEAD
     
+=======
+    input wire tx_full,
+
+>>>>>>> 0096e607daacea1994a689d1ad3389fa7d3e8093
     output logic [7:0] data_to_transmit, // keeper_pos
     vga_if.in in,
     vga_if.out out
@@ -23,6 +28,8 @@ wire [11:0] rgb_gloves;
 wire [19:0] addr_gloves;
 logic [7:0] data_to_transmit_nxt;
 logic pos_update, pos_update_nxt;
+typedef enum bit [1:0] {WAIT, READY, SEND} uart_machine;
+uart_machine uart_state, uart_state_nxt ;
 //Interfaces
 vga_if out_mouse();
 vga_if out_gloves();
@@ -84,21 +91,33 @@ always_ff @(posedge clk) begin : data_passed_through
     if(rst) begin
         data_to_transmit <= 8'b00000000;
         pos_update <= '0;
+        uart_state <= WAIT ;
     end
     else begin
         data_to_transmit <= data_to_transmit_nxt;
         pos_update <= pos_update_nxt;
+        uart_state <= uart_state_nxt ;
     end
 end
 
 always_comb begin
-    if(pos_update == 0) begin
-        data_to_transmit_nxt = {xpos[4:0], 3'b001};
-        pos_update_nxt = 1'b1;
-    end
-    else begin
-        data_to_transmit_nxt = {xpos[9:5], 3'b010};
-        pos_update_nxt = 1'b0;
+    if(!tx_full && uart_state == READY)
+        uart_state_nxt = SEND ;
+    else if(tx_full && uart_state == WAIT)
+        uart_state_nxt = READY ;
+    else 
+        uart_state_nxt = uart_state ;
+
+    if(uart_state == SEND) begin
+        if(pos_update == 0) begin
+            data_to_transmit_nxt = {xpos[4:0], 3'b001};
+            pos_update_nxt = 1'b1;
+        end
+        else begin
+            data_to_transmit_nxt = {xpos[9:5], 3'b010};
+            pos_update_nxt = 1'b0;
+        end
+        uart_state_nxt = WAIT ;
     end
 
 end
