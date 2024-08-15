@@ -24,6 +24,7 @@
 logic [7:0] w_data_nxt;
 logic [1:0] module_counter, module_counter_nxt;
 logic wr_uart_nxt;
+logic tx_tick, tx_tick_nxt;
 
  //logic
 
@@ -32,11 +33,13 @@ logic wr_uart_nxt;
         w_data <= '0;
         module_counter <= '0;
         wr_uart <= '0;
+        tx_tick <= 1'b1;
     end
     else begin
         w_data <= w_data_nxt;
         module_counter <= module_counter_nxt;
         wr_uart <= wr_uart_nxt;
+        tx_tick <= tx_tick_nxt;
     end
  end
 
@@ -67,9 +70,15 @@ logic wr_uart_nxt;
                 w_data_nxt = data_game_state_sel;
             end
         endcase
+        if(tx_tick) begin
+            module_counter_nxt = module_counter + 1;
+            tx_tick_nxt = 1'b0;
+        end
+        else begin
+            module_counter_nxt = module_counter;
+            tx_tick_nxt = 1'b0;
+        end
         
-        module_counter_nxt = module_counter + 1;
-
         if(wr_uart) begin
             wr_uart_nxt = 1'b0;
         end
@@ -79,6 +88,7 @@ logic wr_uart_nxt;
     end
     else begin
         wr_uart_nxt = 1'b0;
+        tx_tick_nxt = 1'b1;
         w_data_nxt = w_data;
         module_counter_nxt = module_counter;
     end
