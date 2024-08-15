@@ -46,12 +46,13 @@ g_state game_state;
 g_mode game_mode;
 wire [9:0] shot_xpos, shot_ypos;
 wire [7:0] read_data, w_data;
-wire connect_corrected, game_starts, enemy_shooter, is_shooted;
+wire connect_corrected, game_starts, enemy_shooter;
 wire rx_empty, rd_uart, tx_full, wr_uart;
 wire [7:0] data_game_state_sel, data_gloves_control, data_mouse_control, data_score_control;
 wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
 wire [9:0] keeper_pos;
+wire shot_taken, enemy_input, enemy_is_scored, player_output;
 
 /**
  * Signals assignments
@@ -142,7 +143,6 @@ game_state_sel u_game_state_sel(
     .connect_corrected,
     .enemy_shooter,
     .game_starts,
-    .is_shooted,
     .data_to_transmit(data_game_state_sel) // connect
 );
 
@@ -160,7 +160,9 @@ gloves_control u_gloves_control(
     .shot_ypos,
     .data_to_transmit(data_gloves_control), // shot_pos,
     .end_gk,
-    .tx_full
+    .tx_full,
+    .game_mode,
+    .enemy_input
 );
 
 score_control u_score_control(
@@ -175,7 +177,9 @@ score_control u_score_control(
     .match_result,
     .score_player,
     .score_enemy,
-    .is_scored(is_shooted),
+    .is_scored(enemy_is_scored),
+    .game_mode,
+    .player_output,
     .data_to_transmit(data_score_control) // score data
 );
 
@@ -214,9 +218,22 @@ shoot_control u_shoot_control(
     .is_scored(is_scored_sh),
     .round_done(round_done_sh),
     .end_sh,
+    .game_mode,
+    .enemy_input,
+    .enemy_is_scored,
+    .shot_taken,
 
     .in(vga_glovesctl),
     .out(vga_shootctl)
+ );
+
+ output_mux u_output_mux(
+    .clk,
+    .rst,
+    .game_state,
+    .round_done(round_done_gk),
+    .shot_taken,
+    .player_output
  );
 
 uart u_uart(
@@ -255,9 +272,10 @@ uart_decoder u_uart_decoder(
     .read_data,
     .x_shooter,
     .y_shooter,
-    .is_shooted,
     .enemy_shooter,
-    .game_starts
+    .game_starts,
+    .enemy_input,
+    .enemy_is_scored
 );
 
 endmodule

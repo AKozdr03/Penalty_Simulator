@@ -16,7 +16,6 @@ module game_state_sel(
     input logic match_end,
     input logic match_result,
     input logic game_starts,
-    input logic is_shooted,
     input logic end_gk,
     input logic end_sh,
 
@@ -153,7 +152,7 @@ always_comb begin : next_game_state_controller
                             else
                                 game_state_nxt = LOSER ;
                         end
-                        else if (is_shooted) //POPRAWIĆ
+                        else if (end_gk)
                             game_state_nxt = SHOOTER ;
                         else   
                             game_state_nxt = KEEPER ;                                              
@@ -165,7 +164,7 @@ always_comb begin : next_game_state_controller
                             else
                                 game_state_nxt = LOSER ;
                         end
-                        else if (is_shooted) //POPRAWIĆ
+                        else if (end_sh)
                             game_state_nxt = KEEPER ;
                         else   
                             game_state_nxt = SHOOTER ; 

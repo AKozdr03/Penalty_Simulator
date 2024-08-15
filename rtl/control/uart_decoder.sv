@@ -15,16 +15,17 @@
     output logic rd_uart,
     output logic connect_corrected,
     output logic enemy_shooter,
-    output logic is_shooted,
     output logic game_starts,
     output logic [9:0] keeper_pos,
     output logic [9:0] x_shooter,
     output logic [9:0] y_shooter,
-    output logic [2:0]  opponent_score
+    output logic [2:0]  opponent_score,
+    output logic enemy_input,
+    output logic enemy_is_scored
 );
 
 // Local variables
-logic connect_corrected_nxt, is_shooted_nxt, enemy_shooter_nxt,game_starts_nxt, rd_uart_nxt;
+logic connect_corrected_nxt, enemy_shooter_nxt,game_starts_nxt, rd_uart_nxt, enemy_input_nxt, enemy_is_scored_nxt;
 logic [9:0] keeper_pos_nxt, x_shooter_nxt, y_shooter_nxt;
 logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt,  x_shooter_ow_2, x_shooter_ow_2_nxt, y_shooter_ow_nxt;
 logic [2:0]  opponent_score_nxt;
@@ -42,11 +43,12 @@ always_ff @(posedge clk) begin : data_passed_through
         keeper_pos_ow <= '0;
         x_shooter_ow <= '0;
         y_shooter_ow <= '0;
-        is_shooted <= '0;
         enemy_shooter <= '0;
         game_starts <= '0;
         rd_uart <= '0;
         x_shooter_ow_2 <= '0;
+        enemy_input <= '0 ;
+        enemy_is_scored <= '0 ;
         //tick_transmit_c <= '0;
     end
     else begin
@@ -59,10 +61,11 @@ always_ff @(posedge clk) begin : data_passed_through
         x_shooter_ow <= x_shooter_ow_nxt;
         x_shooter_ow_2 <= x_shooter_ow_2_nxt;
         y_shooter_ow <= y_shooter_ow_nxt;
-        is_shooted <= is_shooted_nxt;
         enemy_shooter <= enemy_shooter_nxt;
         game_starts <= game_starts_nxt;
         rd_uart <= rd_uart_nxt;
+        enemy_input <= enemy_input_nxt ;
+        enemy_is_scored <= enemy_is_scored_nxt ;
        // tick_transmit_c <= tick_transmit_c_nxt;
     end
 end
@@ -77,7 +80,7 @@ end
  * 100 - shot x position 2 part [x_shooter[9:5]] 
  * 101 - shot y position 1 part [y_shooter[4:0]]
  * 110 - shot y position 2 part [y_shooter[9:5]] - there is x_shooter and y_shooter updated
- * 111 - opponent score for display [opponent_score], read_data[6] is information if shoot is ended [is_shooted]
+ * 111 - data from score_control: [7]-multipurpose output, [6]-is_scored, [5:3]-score_player
 */
 
  always_comb begin : uart_decoding_module
@@ -111,7 +114,8 @@ end
                 opponent_score_nxt = opponent_score;
                 keeper_pos_ow_nxt = keeper_pos_ow;
                 keeper_pos_nxt = keeper_pos;
-                is_shooted_nxt = is_shooted;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
 
             end
@@ -124,7 +128,8 @@ end
                 y_shooter_ow_nxt = y_shooter_ow;
                 opponent_score_nxt = opponent_score;
                 connect_corrected_nxt = connect_corrected;
-                is_shooted_nxt = is_shooted;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
@@ -137,8 +142,9 @@ end
                 y_shooter_ow_nxt = y_shooter_ow;     
                 keeper_pos_ow_nxt = keeper_pos_ow;
                 opponent_score_nxt = opponent_score;
-                connect_corrected_nxt = connect_corrected;   
-                is_shooted_nxt = is_shooted;   
+                connect_corrected_nxt = connect_corrected;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
@@ -152,7 +158,8 @@ end
                 y_shooter_ow_nxt = y_shooter_ow;
                 opponent_score_nxt = opponent_score;
                 connect_corrected_nxt = connect_corrected;
-                is_shooted_nxt = is_shooted;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
@@ -167,7 +174,8 @@ end
                 y_shooter_ow_nxt = y_shooter_ow;
                 opponent_score_nxt = opponent_score;
                 connect_corrected_nxt = connect_corrected;
-                is_shooted_nxt = is_shooted;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
             end
@@ -179,8 +187,9 @@ end
                 x_shooter_ow_nxt = x_shooter_ow;
                 y_shooter_nxt = y_shooter;
                 opponent_score_nxt = opponent_score;
-                connect_corrected_nxt = connect_corrected; 
-                is_shooted_nxt = is_shooted;     
+                connect_corrected_nxt = connect_corrected;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;     
                 enemy_shooter_nxt = enemy_shooter;   
                 game_starts_nxt = game_starts;  
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
@@ -193,15 +202,17 @@ end
                 keeper_pos_ow_nxt = keeper_pos_ow;
                 y_shooter_ow_nxt = y_shooter_ow;
                 opponent_score_nxt = opponent_score;
-                connect_corrected_nxt = connect_corrected;  
-                is_shooted_nxt = is_shooted;     
+                connect_corrected_nxt = connect_corrected;
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;    
                 enemy_shooter_nxt = enemy_shooter;    
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
             end
             3'b111: begin
                 opponent_score_nxt = read_data[5:3];
-                is_shooted_nxt = read_data[6];
+                enemy_is_scored_nxt = read_data[6];
+                enemy_input_nxt = read_data[7];
                 x_shooter_nxt = x_shooter;
                 y_shooter_nxt = y_shooter;
                 x_shooter_ow_nxt = x_shooter_ow;
@@ -222,7 +233,8 @@ end
                 keeper_pos_ow_nxt = keeper_pos_ow;
                 keeper_pos_nxt = keeper_pos;
                 connect_corrected_nxt = 1'b0; // because it is sign that something in connection is broken
-                is_shooted_nxt = is_shooted; 
+                enemy_input_nxt = enemy_input ;
+                enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
@@ -246,7 +258,8 @@ end
         keeper_pos_ow_nxt = keeper_pos_ow;
         x_shooter_ow_nxt = x_shooter_ow;
         y_shooter_ow_nxt = y_shooter_ow;
-        is_shooted_nxt = is_shooted;
+        enemy_input_nxt = enemy_input ;
+        enemy_is_scored_nxt = enemy_is_scored ;
         enemy_shooter_nxt = enemy_shooter;
         game_starts_nxt = game_starts;
         x_shooter_ow_2_nxt = x_shooter_ow_2;
