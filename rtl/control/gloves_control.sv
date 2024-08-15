@@ -14,6 +14,7 @@
     input g_state game_state,
     input logic [9:0] shot_xpos,
     input logic [9:0] shot_ypos,
+    input wire tx_full,
 
     output logic is_scored,
     output logic round_done,
@@ -29,7 +30,8 @@
  //params
 
  localparam CROSS_WIDTH = 100 ;
-
+ typedef enum bit [1:0] {WAIT, READY, SEND} uart_machine;
+ uart_machine uart_state, uart_state_nxt ;
 //variables
 
  //For 65MHz - 1tick = 15.38ns
@@ -104,35 +106,45 @@
     if(rst) begin
         data_to_transmit <= 8'b00000000;
         pos_update <= '0;
+        uart_state <= WAIT ;
     end
     else begin
         data_to_transmit <= data_to_transmit_nxt;
         pos_update <= pos_update_nxt;
+        uart_state <= uart_state_nxt ;
     end
 end
 
 always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I believe
-    if(pos_update == 2'b00) begin
-        data_to_transmit_nxt = {shot_xpos[4:0], 3'b001};
-        pos_update_nxt = 2'b01;
+    if(!tx_full && uart_state == READY)
+        uart_state_nxt = SEND ;
+    else if(tx_full && uart_state == WAIT)
+        uart_state_nxt = READY ;
+    else 
+        uart_state_nxt = uart_state ;
+    if(uart_state == SEND) begin
+        if(pos_update == 2'b00) begin
+            data_to_transmit_nxt = {shot_xpos[4:0], 3'b001};
+            pos_update_nxt = 2'b01;
+        end
+        else if(pos_update == 2'b01)  begin
+            data_to_transmit_nxt = {shot_xpos[9:5], 3'b010};
+            pos_update_nxt = 2'b10;
+        end
+        else if(pos_update == 2'b10)  begin
+            data_to_transmit_nxt = {shot_ypos[9:5], 3'b101};
+            pos_update_nxt = 2'b11;
+        end
+        else if(pos_update == 2'b11) begin
+            data_to_transmit_nxt = {shot_ypos[9:5], 3'b110};
+            pos_update_nxt = 2'b00;      
+        end
+        else begin
+            data_to_transmit_nxt = data_to_transmit;
+            pos_update_nxt = pos_update;
+        end
+        uart_state_nxt = WAIT ;
     end
-    else if(pos_update == 2'b01)  begin
-        data_to_transmit_nxt = {shot_xpos[9:5], 3'b010};
-        pos_update_nxt = 2'b10;
-    end
-    else if(pos_update == 2'b10)  begin
-        data_to_transmit_nxt = {shot_ypos[9:5], 3'b101};
-        pos_update_nxt = 2'b11;
-    end
-    else if(pos_update == 2'b11) begin
-        data_to_transmit_nxt = {shot_ypos[9:5], 3'b110};
-        pos_update_nxt = 2'b00;      
-    end
-    else begin
-        data_to_transmit_nxt = data_to_transmit;
-        pos_update_nxt = pos_update;
-    end
-
 end
 
  always_comb begin

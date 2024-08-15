@@ -113,7 +113,8 @@ mouse_control u_mouse_control(
     .in(vga_score),
     .out(vga_ms),
     .game_state,
-    .data_to_transmit(data_mouse_control) // keeper_pos
+    .data_to_transmit(data_mouse_control), // keeper_pos
+    .tx_full
 );
 
 
@@ -158,7 +159,8 @@ gloves_control u_gloves_control(
     .shot_xpos,
     .shot_ypos,
     .data_to_transmit(data_gloves_control), // shot_pos,
-    .end_gk
+    .end_gk,
+    .tx_full
 );
 
 score_control u_score_control(
