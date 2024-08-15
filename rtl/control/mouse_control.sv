@@ -10,12 +10,8 @@
     input wire clk, rst,
     input wire [11:0] xpos, ypos,
     input g_state game_state,
-<<<<<<< HEAD
-    
-=======
     input wire tx_full,
 
->>>>>>> 0096e607daacea1994a689d1ad3389fa7d3e8093
     output logic [7:0] data_to_transmit, // keeper_pos
     vga_if.in in,
     vga_if.out out
@@ -118,6 +114,11 @@ always_comb begin
             pos_update_nxt = 1'b0;
         end
         uart_state_nxt = WAIT ;
+    end
+    else begin
+        uart_state_nxt = uart_state;
+        data_to_transmit_nxt = data_to_transmit;
+        pos_update_nxt = pos_update;
     end
 
 end

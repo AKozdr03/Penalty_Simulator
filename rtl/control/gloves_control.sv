@@ -145,6 +145,11 @@ always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I beli
         end
         uart_state_nxt = WAIT ;
     end
+    else begin
+        uart_state_nxt = uart_state;
+        data_to_transmit_nxt = data_to_transmit;
+        pos_update_nxt = pos_update;
+    end
 end
 
  always_comb begin
