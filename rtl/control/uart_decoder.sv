@@ -80,7 +80,7 @@ end
  * 100 - shot x position 2 part [x_shooter[9:5]] 
  * 101 - shot y position 1 part [y_shooter[4:0]]
  * 110 - shot y position 2 part [y_shooter[9:5]] - there is x_shooter and y_shooter updated
- * 111 - data from score_control: [7]-multipurpose output, [6]-is_scored, [5:3]-score_player
+ * 111 - data from score_control: [7]-multipurpose input, [6]-is_scored, [5:3]-score_player
 */
 
  always_comb begin : uart_decoding_module

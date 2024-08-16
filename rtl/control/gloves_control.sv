@@ -411,8 +411,8 @@ end
                                     end_gk_nxt = 1'b0 ;
                                 end
                                 is_scored_nxt = 1'b0 ;
-                                rgb_nxt = in.rgb;
                                 round_done_nxt = 1'b0 ;
+                                rgb_nxt = in.rgb;
                             end
 
                 default:    begin

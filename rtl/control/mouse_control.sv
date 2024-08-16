@@ -107,11 +107,21 @@ always_comb begin
     if(uart_state == SEND) begin
         if(pos_update == 0) begin
             data_to_transmit_nxt = {xpos[4:0], 3'b001};
-            pos_update_nxt = 1'b1;
+            if(tx_full == 1) begin
+                pos_update_nxt = 1'b1;
+            end
+            else begin
+                pos_update_nxt = 1'b0;
+            end
         end
         else begin
             data_to_transmit_nxt = {xpos[9:5], 3'b010};
-            pos_update_nxt = 1'b0;
+            if(tx_full == 1) begin
+                pos_update_nxt = 1'b0;
+            end
+            else begin
+                pos_update_nxt = 1'b1;
+            end
         end
         uart_state_nxt = WAIT ;
     end
