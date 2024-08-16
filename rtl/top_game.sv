@@ -115,7 +115,8 @@ mouse_control u_mouse_control(
     .out(vga_ms),
     .game_state,
     .data_to_transmit(data_mouse_control), // keeper_pos
-    .tx_full
+    .tx_full,
+    .op_code_data(w_data[2:0])
 );
 
 
