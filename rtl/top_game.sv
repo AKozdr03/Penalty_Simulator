@@ -164,7 +164,8 @@ gloves_control u_gloves_control(
     .end_gk,
     .tx_full,
     .game_mode,
-    .enemy_input
+    .enemy_input,
+    .op_code_data(w_data[2:0])
 );
 
 score_control u_score_control(

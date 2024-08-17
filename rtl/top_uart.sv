@@ -55,21 +55,22 @@ logic tx_tick, tx_tick_nxt;
     if(tx_full == 1'b0) begin
         case(module_counter)
             2'b00: begin
-                w_data_nxt = data_game_state_sel;
+                w_data_nxt = data_game_state_sel; //000
             end
             2'b01: begin
-                w_data_nxt = data_gloves_control;
+                w_data_nxt = data_gloves_control; //011, 100, 101, 110 
             end
             2'b10: begin
-                w_data_nxt = data_score_control;
+                w_data_nxt = data_score_control; //111
             end
             2'b11: begin
-                w_data_nxt = data_mouse_control;
+                w_data_nxt = data_mouse_control; //001, 010
             end
             default: begin
                 w_data_nxt = data_game_state_sel;
             end
         endcase
+
         if(tx_tick) begin
             module_counter_nxt = module_counter + 1;
             tx_tick_nxt = 1'b0;

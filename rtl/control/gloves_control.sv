@@ -17,6 +17,7 @@
     input logic [9:0] shot_ypos,
     input logic enemy_input, //msb of uart with 111 opcode, informs that enemy has ended the round
     input wire tx_full,
+    input wire [2:0] op_code_data,
     
 
     output logic is_scored,
@@ -55,6 +56,7 @@
 
  logic [7:0] data_to_transmit_nxt;
  logic [1:0] pos_update, pos_update_nxt;
+ logic update_tick, update_tick_nxt;
  //delay
 
  delay #(
@@ -109,32 +111,75 @@
     if(rst) begin
         data_to_transmit <= 8'b00000000;
         pos_update <= '0;
+        update_tick <= '0;
         uart_state <= WAIT ;
     end
     else begin
         data_to_transmit <= data_to_transmit_nxt;
         pos_update <= pos_update_nxt;
         uart_state <= uart_state_nxt ;
+        update_tick <= update_tick_nxt;
     end
 end
 
 always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I believe
+    if(!tx_full && uart_state == READY)
+        uart_state_nxt = SEND ;
+    else if(tx_full && uart_state == WAIT)
+        uart_state_nxt = READY ;
+    else 
+        uart_state_nxt = uart_state ;
+
+    if((tx_full == 0) && (op_code_data == 3'b000)) begin 
+        update_tick_nxt = 1'b1;
+    end
+    else begin
+        update_tick_nxt = 1'b0;
+    end
+    
+    if(update_tick) begin
+        update_tick_nxt = 1'b0;
+    end
+    else begin
+        update_tick_nxt = update_tick;
+    end
+
     if(uart_state == SEND) begin
         if(pos_update == 2'b00) begin
-            data_to_transmit_nxt = {shot_xpos[4:0], 3'b001};
-            pos_update_nxt = 2'b01;
+            data_to_transmit_nxt = {shot_xpos[4:0], 3'b011};
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b01;
+            end
+            else begin
+                pos_update_nxt = 2'b00;
+            end
         end
         else if(pos_update == 2'b01)  begin
-            data_to_transmit_nxt = {shot_xpos[9:5], 3'b010};
-            pos_update_nxt = 2'b10;
+            data_to_transmit_nxt = {shot_xpos[9:5], 3'b100};
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b10;
+            end
+            else begin
+                pos_update_nxt = 2'b01;
+            end
         end
         else if(pos_update == 2'b10)  begin
             data_to_transmit_nxt = {shot_ypos[9:5], 3'b101};
-            pos_update_nxt = 2'b11;
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b11;
+            end
+            else begin
+                pos_update_nxt = 2'b10;
+            end
         end
         else if(pos_update == 2'b11) begin
             data_to_transmit_nxt = {shot_ypos[9:5], 3'b110};
-            pos_update_nxt = 2'b00;      
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b00;
+            end
+            else begin
+                pos_update_nxt = 2'b11;
+            end    
         end
         else begin
             data_to_transmit_nxt = data_to_transmit;
