@@ -14,7 +14,7 @@ module score_control(
     input logic is_scored,
     input g_mode game_mode,
     input logic shot_taken,
-
+    input logic [2:0] opponent_score,
 
     output logic match_end,     // 1 = match ended
     output logic match_result,   // 1 = match won by player, 0 = match lost 
@@ -99,7 +99,7 @@ always_comb begin
             end
 
             else if(game_state == SHOOTER) begin
-                if(round_done_sh) begin    //logic assigned to counting the score
+                if(round_done_sh) begin
                     if(is_scored_sh) begin
                         score_player_nxt = score_player + 1 ;
                         score_enemy_nxt = score_enemy ;
@@ -136,10 +136,41 @@ always_comb begin
             end
         end
         MULTI: begin
-            score_player_nxt = 3'b0 ;
-            score_enemy_nxt = 3'b0 ;
-            match_end_nxt = 1'b0 ;
-            match_result_nxt = 1'b0 ;
+            if(game_state == KEEPER) begin
+                if(round_done_gk) begin    //logic assigned to counting the score
+                    if(is_scored_gk) begin
+                        score_player_nxt = score_player ;
+                        score_enemy_nxt = opponent_score + 1 ;
+                    end
+                    else begin
+                        score_player_nxt = score_player + 1;
+                        score_enemy_nxt = opponent_score;
+                    end
+                end
+                else begin
+                    score_player_nxt = score_player ;
+                    score_enemy_nxt = opponent_score ;
+                end
+            end
+            else begin
+                score_player_nxt = score_player;
+                score_enemy_nxt = opponent_score ;
+                match_end_nxt = 1'b0 ;
+                match_result_nxt = 1'b0 ;
+            end
+
+            if(score_player == 5) begin     //logic assigned to end the match upon reaching the final score
+                match_end_nxt = 1'b1 ;  
+                match_result_nxt = 1'b1;
+            end
+            else if(score_enemy == 5) begin
+                match_end_nxt = 1'b1 ;
+                match_result_nxt = 1'b0;
+            end
+            else begin
+                match_end_nxt = 1'b0 ;
+                match_result_nxt = 1'b0;
+            end
         end
     endcase
 end

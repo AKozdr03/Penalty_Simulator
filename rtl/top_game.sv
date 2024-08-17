@@ -53,6 +53,7 @@ wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
 wire [9:0] keeper_pos;
 wire shot_taken, enemy_input, enemy_is_scored ;
+wire [2:0] opponent_score;
 
 /**
  * Signals assignments
@@ -181,7 +182,8 @@ score_control u_score_control(
     .is_scored(enemy_is_scored),
     .game_mode,
     .shot_taken,
-    .data_to_transmit(data_score_control) // score data
+    .data_to_transmit(data_score_control), // score data
+    .opponent_score
 );
 
 draw_score u_draw_score(
@@ -269,7 +271,7 @@ uart_decoder u_uart_decoder(
     .rx_empty,
     .connect_corrected,
     .keeper_pos,
-    .opponent_score(), // do podłączenia
+    .opponent_score,
     .read_data,
     .x_shooter,
     .y_shooter,
