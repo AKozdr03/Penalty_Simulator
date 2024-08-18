@@ -369,8 +369,14 @@ end
                             end
 
                 COUNTDOWN:  begin //time to react
-                                if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                //     rgb_nxt = 12'h0_0_F;
+                                // else 
+                                //     rgb_nxt = in.rgb;
+
+                                if(in.hcount >= 200 && in.hcount <= (200 + CROSS_WIDTH)
+                                && in.vcount >= 300 && in.vcount <= (300 + CROSS_WIDTH) ) 
                                     rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -390,13 +396,20 @@ end
                             end
 
                 RESULT:     begin //calculating result
-                                if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
-                                && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) ) begin
+                                // if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
+                                // && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) ) begin
+                                //     state_nxt = MISS ;
+                                // end
+                                // else begin
+                                //     state_nxt = GOAL ; 
+                                // end   
+                                if(xpos >= 200 && xpos <= (200 + CROSS_WIDTH)
+                                && ypos >= 300 && ypos <= (300 + CROSS_WIDTH) ) begin
                                     state_nxt = MISS ;
                                 end
                                 else begin
                                     state_nxt = GOAL ; 
-                                end                     
+                                end                   
                                 rgb_nxt = in.rgb ;
                                 is_scored_nxt = 1'b0 ;
                                 counter_nxt = '0 ;
