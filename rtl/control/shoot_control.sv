@@ -23,7 +23,7 @@
     input logic [9:0] keeper_pos,
     input wire left_clicked,
     input wire tx_full,
-    input wire [2:0] op_code_data,
+    input logic [2:0] op_code_data,
 
     input logic enemy_input, //msb of uart with 111 opcode, informs that enemy has ended the round
     input logic enemy_is_scored, //is_scored from uart
@@ -112,18 +112,11 @@ always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I beli
     else 
         uart_state_nxt = uart_state ;
 
-    if((tx_full == 0) && (op_code_data == 3'b000)) begin 
+    if((tx_full == 0) && (op_code_data == 3'b111)) begin 
         update_tick_nxt = 1'b1;
     end
     else begin
         update_tick_nxt = 1'b0;
-    end
-    
-    if(update_tick) begin
-        update_tick_nxt = 1'b0;
-    end
-    else begin
-        update_tick_nxt = update_tick;
     end
 
     if(uart_state == SEND) begin
@@ -363,6 +356,8 @@ end
             shot_taken_nxt = 1'b0 ;
             gk_left_edge_nxt = 0 ;
             gk_right_edge_nxt = 0;
+            shot_pos_x_out_nxt = '0 ;
+            shot_pos_y_out_nxt = '0 ;
         end
         MULTI: begin
             case(state)
@@ -376,8 +371,6 @@ end
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = '0 ;
-                                shot_pos_y_out_nxt = '0 ;
                             end
                 ENGAGE:     begin //this is a safety measure for the delay of state machine
                                 if(game_state == SHOOTER) begin
@@ -390,8 +383,6 @@ end
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = '0 ;
-                                shot_pos_y_out_nxt = '0 ;
                             end
 
                 COUNTDOWN:  begin //actually just waiting for the shot to be made
@@ -403,13 +394,9 @@ end
                                     
                                 if(left_clicked) begin
                                     state_nxt = RESULT ;
-                                    shot_pos_x_out_nxt = xpos[9:0] ;
-                                    shot_pos_y_out_nxt = ypos [9:0] ;
                                 end
                                 else begin
                                     state_nxt = COUNTDOWN ;
-                                    shot_pos_x_out_nxt = '0 ;
-                                    shot_pos_y_out_nxt = '0 ;
                                 end
                                 shot_taken_nxt = 1'b0 ;
                                 counter_nxt = '0;
@@ -445,8 +432,6 @@ end
 
                                 shot_taken_nxt = 1'b1 ;
                                 end_sh_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = shot_pos_x_out ;
-                                shot_pos_y_out_nxt = shot_pos_y_out ;
 
                             end
                 GOAL:       begin //goal scored
@@ -466,8 +451,6 @@ end
                                 end
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = shot_pos_x_out ;
-                                shot_pos_y_out_nxt = shot_pos_y_out ;
                             end
                 
                 MISS:       begin //shot saved
@@ -487,8 +470,6 @@ end
                                 end
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = shot_pos_x_out ;
-                                shot_pos_y_out_nxt = shot_pos_y_out ;
                             end
                 TERMINATE:  begin 
                                 if(counter == 13003901) begin
@@ -503,8 +484,6 @@ end
                                 end
                                 rgb_nxt = in.rgb;
                                 shot_taken_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = '0 ;
-                                shot_pos_y_out_nxt = '0 ;
                             end
 
                 default:    begin
@@ -513,8 +492,6 @@ end
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
-                                shot_pos_x_out_nxt = '0 ;
-                                shot_pos_y_out_nxt = '0 ;
                             end
             endcase
             //leftovers from solo
@@ -534,6 +511,9 @@ end
                 gk_left_edge_nxt = keeper_pos - GK_HALF_WIDTH ;
                 gk_right_edge_nxt = keeper_pos + GK_HALF_WIDTH ;
             end
+            //sending position
+            shot_pos_x_out_nxt = xpos[9:0] ;
+            shot_pos_y_out_nxt = ypos[9:0] ;
 
         end
     endcase

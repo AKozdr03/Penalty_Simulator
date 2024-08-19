@@ -106,7 +106,7 @@ always_ff @(posedge clk) begin : data_passed_through
             x_ow_nxt = xpos ;
             y_ow_nxt = ypos[9:0] ;
         end
-        addr_nxt = imag_y * GLOVES_WIDTH + imag_x;
+        addr_nxt = imag_y * GLOVES_WIDTH + imag_x; //MOŻNA NAPRAWIĆ DWUKROTNIE MNOŻĄC PRZEZ MNIEJSZE WARTOŚCI
     end
     else begin
         addr_nxt = '0;

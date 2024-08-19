@@ -182,7 +182,9 @@ score_control u_score_control(
     .shot_taken,
     .data_to_transmit(data_score_control), // score data
     .opponent_score,
-    .enemy_input
+    .enemy_input,
+    .end_gk,
+    .end_sh
 );
 
 draw_score u_draw_score(
@@ -231,15 +233,6 @@ shoot_control u_shoot_control(
     .in(vga_glovesctl),
     .out(vga_shootctl)
  );
-
-//  output_mux u_output_mux(
-//     .clk,
-//     .rst,
-//     .game_state,
-//     .round_done(round_done_gk),
-//     .shot_taken,
-//     .player_output
-//  );
 
 uart u_uart(
     .clk,

@@ -49,6 +49,8 @@
  logic [10:0] hcount_d, vcount_d;
  logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
+ logic [9:0] shot_xpos_saved, shot_ypos_saved, shot_xpos_saved_nxt, shot_ypos_saved_nxt ;
+
  
  //delay
 
@@ -81,6 +83,9 @@
         state <= IDLE;
         counter <= '0;
         end_gk <= '0;
+
+        shot_xpos_saved <= '0 ;
+        shot_ypos_saved <= '0 ;
     end 
     else begin
         out.vcount <= vcount_d;
@@ -97,6 +102,9 @@
         state <= state_nxt;
         counter <= counter_nxt ;
         end_gk <= end_gk_nxt;
+
+        shot_xpos_saved <= shot_xpos_saved_nxt ;
+        shot_ypos_saved <= shot_ypos_saved_nxt ;
     end
  end
 
@@ -235,6 +243,9 @@
                                 end_gk_nxt = 1'b0;
                             end
             endcase
+            //leftovers from multi 
+            shot_xpos_saved_nxt = '0 ;
+            shot_ypos_saved_nxt = '0 ;
         end
         MULTI: begin
             case(state)
@@ -249,6 +260,8 @@
                                 is_scored_nxt = 1'b0 ;
                                 end_gk_nxt = 1'b0;
                                 round_done_nxt = 1'b0 ;
+                                shot_xpos_saved_nxt = '0 ;
+                                shot_ypos_saved_nxt = '0 ;
                             end
 
                 ENGAGE:      begin //waiting for shot to be made
@@ -263,6 +276,19 @@
                                 else begin
                                     state_nxt = IDLE ;
                                 end
+
+                                //calculations
+                                if(shot_xpos > 1023)
+                                    shot_xpos_saved_nxt = 1023;
+                                else
+                                    shot_xpos_saved_nxt = shot_xpos ;
+
+                                if(shot_ypos > 767)
+                                    shot_ypos_saved_nxt = 767;
+                                else
+                                    shot_ypos_saved_nxt = shot_ypos ;
+                                //
+
                                 rgb_nxt = in.rgb ;
                                 is_scored_nxt = 1'b0 ;
                                 end_gk_nxt = 1'b0;
@@ -271,14 +297,8 @@
                             end
 
                 COUNTDOWN:  begin //time to react
-                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                                //     rgb_nxt = 12'h0_0_F;
-                                // else 
-                                //     rgb_nxt = in.rgb;
-
-                                if(in.hcount >= 200 && in.hcount <= (200 + CROSS_WIDTH)
-                                && in.vcount >= 300 && in.vcount <= (300 + CROSS_WIDTH) ) 
+                                if(in.hcount >= shot_xpos_saved && in.hcount <= (shot_xpos_saved + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos_saved && in.vcount <= (shot_ypos_saved + CROSS_WIDTH) ) 
                                     rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -295,33 +315,30 @@
                                 is_scored_nxt = 1'b0 ;
                                 end_gk_nxt = 1'b0;
                                 round_done_nxt = 1'b0 ;
+                                shot_xpos_saved_nxt = shot_xpos_saved ;
+                                shot_ypos_saved_nxt = shot_ypos_saved ;
                             end
 
                 RESULT:     begin //calculating result
-                                // if(xpos >= shot_xpos && xpos <= (shot_xpos + CROSS_WIDTH)
-                                // && ypos >= shot_ypos && ypos <= (shot_ypos + CROSS_WIDTH) ) begin
-                                //     state_nxt = MISS ;
-                                // end
-                                // else begin
-                                //     state_nxt = GOAL ; 
-                                // end   
-                                if(xpos >= 200 && xpos <= (200 + CROSS_WIDTH)
-                                && ypos >= 300 && ypos <= (300 + CROSS_WIDTH) ) begin
+                                if(xpos >= shot_xpos_saved && xpos <= (shot_xpos_saved + CROSS_WIDTH)
+                                && ypos >= shot_ypos_saved && ypos <= (shot_ypos_saved + CROSS_WIDTH) ) begin
                                     state_nxt = MISS ;
                                 end
                                 else begin
                                     state_nxt = GOAL ; 
-                                end                   
+                                end      
                                 rgb_nxt = in.rgb ;
                                 is_scored_nxt = 1'b0 ;
                                 counter_nxt = '0 ;
                                 end_gk_nxt = 1'b0;
                                 round_done_nxt = 1'b0 ;
+                                shot_xpos_saved_nxt = shot_xpos_saved ;
+                                shot_ypos_saved_nxt = shot_ypos_saved ;
 
                             end
                 GOAL:       begin
-                                if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                if(in.hcount >= shot_xpos_saved && in.hcount <= (shot_xpos_saved + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos_saved && in.vcount <= (shot_ypos_saved + CROSS_WIDTH) ) 
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -337,12 +354,14 @@
                                 is_scored_nxt = 1'b1;
                                 round_done_nxt = 1'b1 ;
                                 end_gk_nxt = 1'b0;
+                                shot_xpos_saved_nxt = shot_xpos_saved ;
+                                shot_ypos_saved_nxt = shot_ypos_saved ;
                                 
                             end
                 
                 MISS:       begin
-                                if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                if(in.hcount >= shot_xpos_saved && in.hcount <= (shot_xpos_saved + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos_saved && in.vcount <= (shot_ypos_saved + CROSS_WIDTH) ) 
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -358,6 +377,8 @@
                                 is_scored_nxt = 1'b0;
                                 round_done_nxt = 1'b1 ;
                                 end_gk_nxt = 1'b0;
+                                shot_xpos_saved_nxt = shot_xpos_saved ;
+                                shot_ypos_saved_nxt = shot_ypos_saved ;
                             end
                 TERMINATE:  begin
                                 if(counter == 13003901) begin
@@ -373,6 +394,8 @@
                                 is_scored_nxt = 1'b0 ;
                                 round_done_nxt = 1'b0 ;
                                 rgb_nxt = in.rgb;
+                                shot_xpos_saved_nxt = '0 ;
+                                shot_ypos_saved_nxt = '0 ;
                             end
 
                 default:    begin
@@ -382,8 +405,12 @@
                                 is_scored_nxt = 1'b0 ;
                                 end_gk_nxt = 1'b0;
                                 round_done_nxt = 1'b0 ;
+                                shot_xpos_saved_nxt = '0 ;
+                                shot_ypos_saved_nxt = '0 ;
                             end
             endcase
+
+            
         end
     endcase
  end
