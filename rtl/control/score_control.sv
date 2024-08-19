@@ -11,7 +11,7 @@ module score_control(
     input g_state game_state,
     input logic is_scored_gk, is_scored_sh,
     input logic round_done_gk, round_done_sh,
-    input logic is_scored, // enemy is scored
+    input logic enemy_is_scored, enemy_input, // enemy_input - enemy shot_taken or round_done_gk
     input g_mode game_mode,
     input logic shot_taken,
     input logic [2:0] opponent_score,
@@ -67,13 +67,13 @@ end
 always_comb begin : data_to_transmit_controller
     case(game_state)
         KEEPER: begin
-            data_to_transmit_nxt = {round_done_gk, is_scored, score_player, 3'b111};
+            data_to_transmit_nxt = {round_done_gk, is_scored_gk, score_player, 3'b111};
         end
         SHOOTER: begin
-            data_to_transmit_nxt = {shot_taken, is_scored, score_player, 3'b111};
+            data_to_transmit_nxt = {shot_taken, 1'b0, score_player, 3'b111};
         end
         default: begin
-            data_to_transmit_nxt = {1'b0, is_scored, score_player, 3'b111};
+            data_to_transmit_nxt = {1'b0, 1'b0, score_player, 3'b111};
         end
     endcase
 end
@@ -137,13 +137,13 @@ always_comb begin
         end
         MULTI: begin
             if(game_state == KEEPER) begin
-                if(shot_taken) begin    //logic assigned to counting the score
-                    if(is_scored) begin
+                if(round_done_gk) begin    //logic assigned to counting the score
+                    if(is_scored_gk) begin
                         score_player_nxt = score_player ;
                         score_enemy_nxt = opponent_score;
                     end
                     else begin
-                        score_player_nxt = score_player + 1;
+                        score_player_nxt = score_player;
                         score_enemy_nxt = opponent_score;
                     end
                 end
@@ -154,13 +154,13 @@ always_comb begin
             end
 
             else if(game_state == SHOOTER) begin
-                if(round_done_gk) begin
-                    if(is_scored) begin // keeper scored
-                        score_player_nxt = score_player;
+                if(enemy_input) begin
+                    if(enemy_is_scored) begin // keeper scored
+                        score_player_nxt = score_player + 1;
                         score_enemy_nxt = opponent_score ;
                     end
                     else begin
-                        score_player_nxt = score_player + 1;
+                        score_player_nxt = score_player;
                         score_enemy_nxt = opponent_score;
                     end
                 end

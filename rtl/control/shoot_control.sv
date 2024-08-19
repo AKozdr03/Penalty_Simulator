@@ -305,17 +305,26 @@
                                  else 
                                     rgb_nxt = in.rgb;
 
-                                if(enemy_input)
-                                    if(enemy_is_scored) begin
-                                        state_nxt = GOAL ;
+                                if(enemy_input) begin
+                                    if(counter == 10) begin
+                                        if(enemy_is_scored) begin
+                                            state_nxt = GOAL ;
+                                        end
+                                        else begin
+                                            state_nxt = MISS ;
+                                        end
+                                        counter_nxt = 0 ;
                                     end
                                     else begin
-                                        state_nxt = MISS ;
+                                        state_nxt = RESULT ;
+                                        counter_nxt = counter + 1 ;
                                     end
-                                else
+                                end
+                                else begin
                                     state_nxt = RESULT ;
+                                    counter_nxt = 0 ;
+                                end
 
-                                counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b1 ;
                                 end_sh_nxt = 1'b0 ;
 

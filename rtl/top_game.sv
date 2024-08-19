@@ -180,11 +180,12 @@ score_control u_score_control(
     .match_result,
     .score_player,
     .score_enemy,
-    .is_scored(enemy_is_scored),
+    .enemy_is_scored(enemy_is_scored),
     .game_mode,
     .shot_taken,
     .data_to_transmit(data_score_control), // score data
-    .opponent_score
+    .opponent_score,
+    .enemy_input
 );
 
 draw_score u_draw_score(
