@@ -48,7 +48,7 @@ wire [9:0] shot_xpos, shot_ypos;
 wire [7:0] read_data, w_data;
 wire connect_corrected, game_starts, enemy_shooter;
 wire rx_empty, rd_uart, tx_full, wr_uart;
-wire [7:0] data_game_state_sel, data_gloves_control, data_mouse_control, data_score_control;
+wire [7:0] data_game_state_sel, data_shoot_control, data_mouse_control, data_score_control;
 wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
 wire [9:0] keeper_pos;
@@ -160,12 +160,9 @@ gloves_control u_gloves_control(
     .round_done(round_done_gk),
     .shot_xpos,
     .shot_ypos,
-    .data_to_transmit(data_gloves_control), // shot_pos,
     .end_gk,
-    .tx_full,
     .game_mode,
-    .enemy_input,
-    .op_code_data(w_data[2:0])
+    .enemy_input
 );
 
 score_control u_score_control(
@@ -227,6 +224,9 @@ shoot_control u_shoot_control(
     .enemy_input,
     .enemy_is_scored,
     .shot_taken,
+    .data_to_transmit(data_shoot_control), // shot_pos,
+    .tx_full,
+    .op_code_data(w_data[2:0]),
 
     .in(vga_glovesctl),
     .out(vga_shootctl)
@@ -258,7 +258,7 @@ top_uart u_top_uart(
     .clk,
     .rst,
     .data_game_state_sel,
-    .data_gloves_control,
+    .data_shoot_control,
     .data_mouse_control,
     .data_score_control,
     .tx_full,

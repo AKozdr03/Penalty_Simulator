@@ -73,14 +73,14 @@ end
 /*
  * OPCODES
  * 
- * 000 - synchronization data  (number which ensure us that communication is corrected [0] which start state have opponent [4] and if game starts [3]) [connect_corrected]
- * 001 - gloves position part 1 (required to draw keeper on second screen) [keeper_pos[4:0]]
+ * 000 - synchronization data  (number which ensure us that communication is corrected [0] which start state have opponent [4] and if game starts [3]) [connect_corrected] - from game_state_sel
+ * 001 - gloves position part 1 (required to draw keeper on second screen) [keeper_pos[4:0]] - from mouse_ctl
  * 010 - gloves position part 2 (required to draw keeper on second screen) [keeper_pos[9:5]]  - there is keeper_pos updated
- * 011 - shot x position 1 part [x_shooter[4:0]]
- * 100 - shot x position 2 part [x_shooter[9:5]] 
+ * 011 - shot x position 1 part [x_shooter[4:0]] - from shoot_ctl
+ * 100 - shot x position 2 part [x_shooter[9:5]]
  * 101 - shot y position 1 part [y_shooter[4:0]]
  * 110 - shot y position 2 part [y_shooter[9:5]] - there is x_shooter and y_shooter updated
- * 111 - data from score_control: [7]-multipurpose input, [6]-is_scored, [5:3]-score_player
+ * 111 - data from score_control: [7]-multipurpose input, [6]-is_scored, [5:3]-score_player - from score_ctl
 */
 
  always_comb begin : uart_decoding_module

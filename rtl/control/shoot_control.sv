@@ -22,6 +22,8 @@
     input logic [11:0] ypos,
     input logic [9:0] keeper_pos,
     input wire left_clicked,
+    input wire tx_full,
+    input wire [2:0] op_code_data,
 
     input logic enemy_input, //msb of uart with 111 opcode, informs that enemy has ended the round
     input logic enemy_is_scored, //is_scored from uart
@@ -30,6 +32,7 @@
     output logic round_done,
     output logic end_sh,
     output logic shot_taken,
+    output logic [7:0] data_to_transmit, // shot_pos
 
 
     vga_if.in in,   
@@ -48,6 +51,9 @@
  typedef enum bit [2:0] {IDLE, ENGAGE, COUNTDOWN, RESULT, GOAL, MISS, TERMINATE} shoot_state;
  shoot_state state, state_nxt ;
 
+ typedef enum bit [1:0] {WAIT, READY, SEND} uart_machine;
+ uart_machine uart_state, uart_state_nxt ;
+
  logic [25:0] counter, counter_nxt;
 
  logic [11:0] rgb_nxt;
@@ -61,6 +67,13 @@
  
  logic [9:0] gk_left_edge, gk_left_edge_nxt, gk_right_edge, gk_right_edge_nxt ;
 
+ logic [9:0] shot_pos_x_out_nxt, shot_pos_y_out_nxt ;
+ logic [9:0] shot_pos_x_out, shot_pos_y_out;
+ 
+
+ logic [7:0] data_to_transmit_nxt;
+ logic [1:0] pos_update, pos_update_nxt;
+ logic update_tick, update_tick_nxt;
  //delay
 
  delay #(
@@ -75,6 +88,99 @@
  );
 
  //logic
+
+ always_ff @(posedge clk) begin : data_transmision
+    if(rst) begin
+        data_to_transmit <= 8'b00000000;
+        pos_update <= '0;
+        update_tick <= '0;
+        uart_state <= WAIT ;
+    end
+    else begin
+        data_to_transmit <= data_to_transmit_nxt;
+        pos_update <= pos_update_nxt;
+        uart_state <= uart_state_nxt ;
+        update_tick <= update_tick_nxt;
+    end
+end
+
+always_comb begin // it is stable for 1s so can be transmitted in 4 ticks I believe
+    if(!tx_full && uart_state == READY)
+        uart_state_nxt = SEND ;
+    else if(tx_full && uart_state == WAIT)
+        uart_state_nxt = READY ;
+    else 
+        uart_state_nxt = uart_state ;
+
+    if((tx_full == 0) && (op_code_data == 3'b000)) begin 
+        update_tick_nxt = 1'b1;
+    end
+    else begin
+        update_tick_nxt = 1'b0;
+    end
+    
+    if(update_tick) begin
+        update_tick_nxt = 1'b0;
+    end
+    else begin
+        update_tick_nxt = update_tick;
+    end
+
+    if(uart_state == SEND) begin
+        if(pos_update == 2'b00) begin
+            data_to_transmit_nxt = {shot_pos_x_out[4:0], 3'b011};
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b01;
+            end
+            else begin
+                pos_update_nxt = 2'b00;
+            end
+        end
+        else if(pos_update == 2'b01)  begin
+            data_to_transmit_nxt = {shot_pos_x_out[9:5], 3'b100};
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b10;
+            end
+            else begin
+                pos_update_nxt = 2'b01;
+            end
+        end
+        else if(pos_update == 2'b10)  begin
+            data_to_transmit_nxt = {shot_pos_y_out[9:5], 3'b101};
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b11;
+            end
+            else begin
+                pos_update_nxt = 2'b10;
+            end
+        end
+        else if(pos_update == 2'b11) begin
+            data_to_transmit_nxt = {shot_pos_y_out[9:5], 3'b110};
+            if(update_tick == 1'b1) begin
+                pos_update_nxt = 2'b00;
+            end
+            else begin
+                pos_update_nxt = 2'b11;
+            end    
+        end
+        else begin
+            data_to_transmit_nxt = data_to_transmit;
+            pos_update_nxt = pos_update;
+        end
+        uart_state_nxt = WAIT ;
+    end
+    else begin
+        if(!tx_full && uart_state == READY)
+            uart_state_nxt = SEND ;
+        else if(tx_full && uart_state == WAIT)
+            uart_state_nxt = READY ;
+        else 
+            uart_state_nxt = uart_state ;
+            
+        data_to_transmit_nxt = data_to_transmit;
+        pos_update_nxt = pos_update;
+    end
+end
 
  always_ff @(posedge clk) begin
     if(rst) begin
@@ -94,6 +200,8 @@
         shot_taken <= '0 ;
         gk_left_edge <= '0 ;
         gk_right_edge <= '0 ;
+        shot_pos_x_out <= '0 ;
+        shot_pos_y_out <= '0 ;
     end
     else begin
         out.vcount <= vcount_d;
@@ -112,6 +220,8 @@
         shot_taken <= shot_taken_nxt ;
         gk_left_edge <= gk_left_edge_nxt ;
         gk_right_edge <= gk_right_edge_nxt ;
+        shot_pos_x_out <= shot_pos_x_out_nxt ;
+        shot_pos_y_out <= shot_pos_y_out_nxt ;
     end
  end
 
@@ -266,6 +376,8 @@
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = '0 ;
+                                shot_pos_y_out_nxt = '0 ;
                             end
                 ENGAGE:     begin //this is a safety measure for the delay of state machine
                                 if(game_state == SHOOTER) begin
@@ -278,6 +390,8 @@
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = '0 ;
+                                shot_pos_y_out_nxt = '0 ;
                             end
 
                 COUNTDOWN:  begin //actually just waiting for the shot to be made
@@ -289,9 +403,13 @@
                                     
                                 if(left_clicked) begin
                                     state_nxt = RESULT ;
+                                    shot_pos_x_out_nxt = xpos[9:0] ;
+                                    shot_pos_y_out_nxt = ypos [9:0] ;
                                 end
                                 else begin
                                     state_nxt = COUNTDOWN ;
+                                    shot_pos_x_out_nxt = '0 ;
+                                    shot_pos_y_out_nxt = '0 ;
                                 end
                                 shot_taken_nxt = 1'b0 ;
                                 counter_nxt = '0;
@@ -327,6 +445,8 @@
 
                                 shot_taken_nxt = 1'b1 ;
                                 end_sh_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = shot_pos_x_out ;
+                                shot_pos_y_out_nxt = shot_pos_y_out ;
 
                             end
                 GOAL:       begin //goal scored
@@ -346,6 +466,8 @@
                                 end
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = shot_pos_x_out ;
+                                shot_pos_y_out_nxt = shot_pos_y_out ;
                             end
                 
                 MISS:       begin //shot saved
@@ -365,6 +487,8 @@
                                 end
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = shot_pos_x_out ;
+                                shot_pos_y_out_nxt = shot_pos_y_out ;
                             end
                 TERMINATE:  begin 
                                 if(counter == 13003901) begin
@@ -379,6 +503,8 @@
                                 end
                                 rgb_nxt = in.rgb;
                                 shot_taken_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = '0 ;
+                                shot_pos_y_out_nxt = '0 ;
                             end
 
                 default:    begin
@@ -387,6 +513,8 @@
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
+                                shot_pos_x_out_nxt = '0 ;
+                                shot_pos_y_out_nxt = '0 ;
                             end
             endcase
             //leftovers from solo

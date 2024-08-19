@@ -13,7 +13,7 @@
     input wire tx_full,
     input wire [7:0] data_mouse_control,
     input wire [7:0] data_game_state_sel,
-    input wire [7:0] data_gloves_control,
+    input wire [7:0] data_shoot_control,
     input wire [7:0] data_score_control,
     
     output logic wr_uart,
@@ -58,7 +58,7 @@ logic tx_tick, tx_tick_nxt;
                 w_data_nxt = data_game_state_sel; //000
             end
             2'b01: begin
-                w_data_nxt = data_gloves_control; //011, 100, 101, 110 
+                w_data_nxt = data_shoot_control; //011, 100, 101, 110 
             end
             2'b10: begin
                 w_data_nxt = data_score_control; //111
