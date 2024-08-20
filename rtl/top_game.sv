@@ -52,7 +52,7 @@ wire [7:0] data_game_state_sel, data_shoot_control, data_mouse_control, data_sco
 wire [9:0] x_shooter, y_shooter;
 wire end_sh, end_gk;
 wire [9:0] keeper_pos;
-wire shot_taken, enemy_input, enemy_is_scored ;
+wire shot_taken, enemy_input, enemy_is_scored, back_to_start ;
 wire [2:0] opponent_score;
 
 /**
@@ -145,7 +145,8 @@ game_state_sel u_game_state_sel(
     .connect_corrected,
     .enemy_shooter,
     .game_starts,
-    .data_to_transmit(data_game_state_sel) // connect
+    .data_to_transmit(data_game_state_sel), // connect
+    .back_to_start
 );
 
 gloves_control u_gloves_control(
@@ -273,7 +274,8 @@ uart_decoder u_uart_decoder(
     .enemy_shooter,
     .game_starts,
     .enemy_input,
-    .enemy_is_scored
+    .enemy_is_scored,
+    .back_to_start
 );
 
 endmodule
