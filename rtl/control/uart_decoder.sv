@@ -21,11 +21,12 @@
     output logic [9:0] y_shooter,
     output logic [2:0]  opponent_score,
     output logic enemy_input,
-    output logic enemy_is_scored
+    output logic enemy_is_scored,
+    output logic back_to_start
 );
 
 // Local variables
-logic connect_corrected_nxt, enemy_shooter_nxt,game_starts_nxt, rd_uart_nxt, enemy_input_nxt, enemy_is_scored_nxt;
+logic connect_corrected_nxt, enemy_shooter_nxt,game_starts_nxt, rd_uart_nxt, enemy_input_nxt, enemy_is_scored_nxt, back_to_start_nxt;
 logic [9:0] keeper_pos_nxt, x_shooter_nxt, y_shooter_nxt;
 logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt,  x_shooter_ow_2, x_shooter_ow_2_nxt, y_shooter_ow_nxt;
 logic [2:0]  opponent_score_nxt;
@@ -49,6 +50,7 @@ always_ff @(posedge clk) begin : data_passed_through
         x_shooter_ow_2 <= '0;
         enemy_input <= '0 ;
         enemy_is_scored <= '0 ;
+        back_to_start <= '0;
         //tick_transmit_c <= '0;
     end
     else begin
@@ -66,6 +68,7 @@ always_ff @(posedge clk) begin : data_passed_through
         rd_uart <= rd_uart_nxt;
         enemy_input <= enemy_input_nxt ;
         enemy_is_scored <= enemy_is_scored_nxt ;
+        back_to_start <= back_to_start_nxt;
        // tick_transmit_c <= tick_transmit_c_nxt;
     end
 end
@@ -73,7 +76,7 @@ end
 /*
  * OPCODES
  * 
- * 000 - synchronization data  (number which ensure us that communication is corrected [0] which start state have opponent [4] and if game starts [3]) [connect_corrected] - from game_state_sel
+ * 000 - synchronization data  (number which ensure us that communication is corrected [3] which start state have opponent [7], if game starts [6], if second basys have to go to start [5]) [connect_corrected] - from game_state_sel
  * 001 - gloves position part 1 (required to draw keeper on second screen) [keeper_pos[4:0]] - from mouse_ctl
  * 010 - gloves position part 2 (required to draw keeper on second screen) [keeper_pos[9:5]]  - there is keeper_pos updated
  * 011 - shot x position 1 part [x_shooter[4:0]] - from shoot_ctl
@@ -91,21 +94,31 @@ end
                     connect_corrected_nxt = 1'b1;
                     enemy_shooter_nxt = 1'b1;
                     game_starts_nxt = 1'b1;
+                    back_to_start_nxt = 1'b0;
                 end
                 else if(read_data[7:3] == 5'b01001) begin
                     connect_corrected_nxt = 1'b1;
                     enemy_shooter_nxt = 1'b0;
                     game_starts_nxt = 1'b1;
+                    back_to_start_nxt = 1'b0;
                 end
                 else if(read_data[7:3] == 5'b00001) begin
                     connect_corrected_nxt = 1'b1;
                     enemy_shooter_nxt = 1'b0;
                     game_starts_nxt = 1'b0;
-                end                      
+                    back_to_start_nxt = 1'b0;
+                end    
+                else if(read_data[7:3] == 5'b00101) begin
+                    connect_corrected_nxt = 1'b1;
+                    enemy_shooter_nxt = 1'b0;
+                    game_starts_nxt = 1'b0;    
+                    back_to_start_nxt = 1'b1;              
+                end
                 else begin
                     connect_corrected_nxt = 1'b0;
                     enemy_shooter_nxt = 1'b0;
                     game_starts_nxt = 1'b0;
+                    back_to_start_nxt = 1'b0;
                 end
                 x_shooter_nxt = x_shooter;
                 y_shooter_nxt = y_shooter;
@@ -133,6 +146,7 @@ end
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
+                back_to_start_nxt = back_to_start;
             end
             3'b010: begin
                 keeper_pos_nxt = {read_data[7:3] , keeper_pos_ow};
@@ -148,6 +162,7 @@ end
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
+                back_to_start_nxt = back_to_start;
             end
             3'b011: begin
                 x_shooter_ow_nxt = read_data[7:3]; 
@@ -163,6 +178,7 @@ end
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
+                back_to_start_nxt = back_to_start;
             end
             3'b100: begin
                 x_shooter_ow_2_nxt = read_data[7:3];
@@ -178,6 +194,7 @@ end
                 enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
+                back_to_start_nxt = back_to_start;
             end
             3'b101: begin
                 y_shooter_ow_nxt = read_data[7:3]; 
@@ -193,6 +210,7 @@ end
                 enemy_shooter_nxt = enemy_shooter;   
                 game_starts_nxt = game_starts;  
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
+                back_to_start_nxt = back_to_start;
             end
             3'b110: begin
                 y_shooter_nxt = {read_data[7:3] , y_shooter_ow}; //update y
@@ -208,6 +226,7 @@ end
                 enemy_shooter_nxt = enemy_shooter;    
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
+                back_to_start_nxt = back_to_start;
             end
             3'b111: begin
                 opponent_score_nxt = read_data[5:3];
@@ -222,7 +241,8 @@ end
                 connect_corrected_nxt = connect_corrected;     
                 enemy_shooter_nxt = enemy_shooter;    
                 game_starts_nxt = game_starts;
-                x_shooter_ow_2_nxt = x_shooter_ow_2;    
+                x_shooter_ow_2_nxt = x_shooter_ow_2;   
+                back_to_start_nxt = back_to_start; 
             end
             default: begin
                 opponent_score_nxt = opponent_score;
@@ -238,6 +258,7 @@ end
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
+                back_to_start_nxt = back_to_start;
             end
         endcase
         if(rd_uart == 1'b0) begin
@@ -264,6 +285,7 @@ end
         game_starts_nxt = game_starts;
         x_shooter_ow_2_nxt = x_shooter_ow_2;
         rd_uart_nxt = 1'b0;
+        back_to_start_nxt = back_to_start;
         /*if(tick_transmit_c < 15) begin // prevention against overflow
             tick_transmit_c_nxt = tick_transmit_c + 1;
         end

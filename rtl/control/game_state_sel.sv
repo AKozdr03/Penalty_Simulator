@@ -18,6 +18,7 @@ module game_state_sel(
     input logic game_starts,
     input logic end_gk,
     input logic end_sh,
+    input logic back_to_start,
 
     output logic [7:0] data_to_transmit, //synchronization data
     output g_state game_state,
@@ -56,6 +57,8 @@ end
 always_comb begin : data_to_transmit_controller
     if(left_clicked)
         data_to_transmit_nxt = 8'b11001000;
+    else if(right_clicked)
+        data_to_transmit_nxt = 8'b00101000;
     else if(game_starts)
         data_to_transmit_nxt = 8'b01001000;
     else
@@ -170,7 +173,7 @@ always_comb begin : next_game_state_controller
                             game_state_nxt = SHOOTER ; 
                     end
                     WINNER: begin
-                        if(right_clicked) begin
+                        if(right_clicked || (back_to_start == 1'b1)) begin
                             game_state_nxt = START;
                         end
                         else begin
@@ -178,7 +181,7 @@ always_comb begin : next_game_state_controller
                         end
                     end
                     LOSER: begin
-                        if(right_clicked) begin
+                        if(right_clicked || (back_to_start == 1'b1)) begin
                             game_state_nxt = START;
                         end
                         else begin
