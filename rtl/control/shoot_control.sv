@@ -69,7 +69,7 @@
 
  logic [9:0] shot_pos_x_out_nxt, shot_pos_y_out_nxt ;
  logic [9:0] shot_pos_x_out, shot_pos_y_out;
- 
+
 
  logic [7:0] data_to_transmit_nxt;
  logic [1:0] pos_update, pos_update_nxt;
@@ -511,6 +511,7 @@ end
                 gk_left_edge_nxt = keeper_pos - GK_HALF_WIDTH ;
                 gk_right_edge_nxt = keeper_pos + GK_HALF_WIDTH ;
             end
+
             //sending position
             shot_pos_x_out_nxt = xpos[9:0] ;
             shot_pos_y_out_nxt = ypos[9:0] ;

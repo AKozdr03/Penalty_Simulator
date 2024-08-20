@@ -28,6 +28,7 @@ logic pos_update, pos_update_nxt;
 typedef enum bit [1:0] {WAIT, READY, SEND} uart_machine;
 uart_machine uart_state, uart_state_nxt ;
 logic update_tick, update_tick_nxt;
+logic [11:0] xpos_out, xpos_out_nxt ;
 
 //Interfaces
 vga_if out_mouse();
@@ -73,6 +74,8 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hsync  <= '0;
         out.hblnk  <= '0;
         out.rgb    <= '0;
+
+        xpos_out <= '0 ;
     end 
     else begin
         out.vcount <= out_sel.vcount;
@@ -82,6 +85,8 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hsync  <= out_sel.hsync;
         out.hblnk  <= out_sel.hblnk;
         out.rgb    <= out_sel.rgb;
+
+        xpos_out <= xpos_out_nxt ;
     end
  end
 
@@ -121,7 +126,7 @@ always_comb begin
     
     if(uart_state == SEND) begin
         if(pos_update == 0) begin
-            data_to_transmit_nxt = {xpos[4:0], 3'b001};
+            data_to_transmit_nxt = {xpos_out[4:0], 3'b001};
             if(update_tick == 1'b1) begin
                 pos_update_nxt = 1'b1;
             end
@@ -130,7 +135,7 @@ always_comb begin
             end
         end
         else begin
-            data_to_transmit_nxt = {xpos[9:5], 3'b010};
+            data_to_transmit_nxt = {xpos_out[9:5], 3'b010};
             if(update_tick == 1'b1) begin
                 pos_update_nxt = 1'b0;
             end
@@ -154,26 +159,35 @@ always_comb begin
 
 end
 
- always_comb begin : mouse_selector
-    if(game_state == KEEPER) begin
-        out_sel.hblnk = out_gloves.hblnk;
-        out_sel.hcount = out_gloves.hcount;
-        out_sel.hsync = out_gloves.hsync;
-        out_sel.rgb = out_gloves.rgb;
-        out_sel.vblnk = out_gloves.vblnk;
-        out_sel.vcount = out_gloves.vcount;
-        out_sel.vsync = out_gloves.vsync;
+always_comb begin : uart_data_processing
+    if(xpos > 1023) begin
+        xpos_out_nxt = 1023 ;
     end
-    else begin
-        out_sel.hblnk = out_mouse.hblnk;
-        out_sel.hcount = out_mouse.hcount;
-        out_sel.hsync = out_mouse.hsync;
-        out_sel.rgb = out_mouse.rgb;
-        out_sel.vblnk = out_mouse.vblnk;
-        out_sel.vcount = out_mouse.vcount;
-        out_sel.vsync = out_mouse.vsync;
+    else begin 
+        xpos_out_nxt = xpos ;
     end
+end
 
- end
+always_comb begin : mouse_selector
+if(game_state == KEEPER) begin
+    out_sel.hblnk = out_gloves.hblnk;
+    out_sel.hcount = out_gloves.hcount;
+    out_sel.hsync = out_gloves.hsync;
+    out_sel.rgb = out_gloves.rgb;
+    out_sel.vblnk = out_gloves.vblnk;
+    out_sel.vcount = out_gloves.vcount;
+    out_sel.vsync = out_gloves.vsync;
+end
+else begin
+    out_sel.hblnk = out_mouse.hblnk;
+    out_sel.hcount = out_mouse.hcount;
+    out_sel.hsync = out_mouse.hsync;
+    out_sel.rgb = out_mouse.rgb;
+    out_sel.vblnk = out_mouse.vblnk;
+    out_sel.vcount = out_mouse.vcount;
+    out_sel.vsync = out_mouse.vsync;
+end
+
+end
 
 endmodule

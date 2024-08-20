@@ -32,7 +32,7 @@ g_state game_state_nxt;
 g_mode game_mode_nxt;
 
 logic [7:0] data_to_transmit_nxt;
-logic [4:0] counter_c, counter_c_nxt ;
+logic [20:0] counter_c, counter_c_nxt ;
 
 //logic
 always_ff @(posedge clk) begin : data_passed_through
@@ -146,7 +146,7 @@ always_comb begin : next_game_state_controller
             if(connect_corrected) begin
                 case(game_state)
                     START: begin
-                    if(counter_c == 20) begin
+                    if(counter_c == 1_000_000) begin
                         if(enemy_shooter && game_starts) begin
                             game_state_nxt = SHOOTER;
                         end
