@@ -32,16 +32,19 @@ g_state game_state_nxt;
 g_mode game_mode_nxt;
 
 logic [7:0] data_to_transmit_nxt;
+logic [4:0] counter, counter_nxt ;
 
 //logic
 always_ff @(posedge clk) begin : data_passed_through
     if(rst) begin
         game_state <= START;
         game_mode <= MULTI;
+        counter <= '0 ;
     end
     else begin
         game_state <= game_state_nxt ;
         game_mode <= game_mode_nxt ;
+        counter <= counter_nxt ;
     end
 end
 
@@ -136,17 +139,30 @@ always_comb begin : next_game_state_controller
                     game_state_nxt = START;
                 end
             endcase
+            //leftovers from multi
+            counter = '0 ;
         end
         MULTI: begin
             if(connect_corrected) begin
                 case(game_state)
                     START: begin
-                    if(enemy_shooter && game_starts)
-                        game_state_nxt = SHOOTER;
-                    else if (game_starts)
-                        game_state_nxt = KEEPER;
-                    else
+                    if(counter == 20) begin
+                        if(enemy_shooter && game_starts) begin
+                            game_state_nxt = SHOOTER;
+                        end
+                        else if (game_starts) begin
+                            game_state_nxt = KEEPER;
+                        end
+                        else begin
+                            game_state_nxt = START;
+                        end
+                        counter_nxt = counter ;
+                    end
+                    else begin
                         game_state_nxt = START;
+                        counter_nxt = counter + 1 ;
+                    end
+
                     end
                     KEEPER: begin
                         if(match_end) begin
@@ -158,7 +174,8 @@ always_comb begin : next_game_state_controller
                         else if (end_gk)
                             game_state_nxt = SHOOTER ;
                         else   
-                            game_state_nxt = KEEPER ;                                              
+                            game_state_nxt = KEEPER ;   
+                        counter_nxt = '0 ;
                     end
                     SHOOTER: begin
                         if(match_end) begin
@@ -171,6 +188,7 @@ always_comb begin : next_game_state_controller
                             game_state_nxt = KEEPER ;
                         else   
                             game_state_nxt = SHOOTER ; 
+                        counter_nxt = '0 ;
                     end
                     WINNER: begin
                         if(right_clicked || (back_to_start == 1'b1)) begin
@@ -179,6 +197,7 @@ always_comb begin : next_game_state_controller
                         else begin
                             game_state_nxt = WINNER;
                         end
+                        counter_nxt = '0 ;
                     end
                     LOSER: begin
                         if(right_clicked || (back_to_start == 1'b1)) begin
@@ -187,14 +206,21 @@ always_comb begin : next_game_state_controller
                         else begin
                             game_state_nxt = LOSER;
                         end
+                        counter_nxt = '0 ;
                     end
                     default: begin
                         game_state_nxt = START;
+                        counter_nxt = '0 ;
                     end
                 endcase
             end
             else
                 game_state_nxt = START;
+                counter_nxt = '0 ;
+        end
+        default: begin
+            game_state_nxt = START;
+            counter_nxt = '0 ;
         end
     endcase
     
