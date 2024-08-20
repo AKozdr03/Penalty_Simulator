@@ -27,7 +27,8 @@ logic [11:0] x_ow, x_ow_nxt;
 logic [9:0] y_ow, y_ow_nxt;
 
 logic [11:0] rgb_nxt;
-logic [19:0] addr_nxt;
+logic [19:0] addr_1, addr_2, addr_3 ;
+logic [19:0] addr_nxt, addr_1_nxt, addr_2_nxt, addr_3_nxt;
 logic [10:0] imag_x, imag_x_nxt;
 logic [10:0] imag_y, imag_y_nxt;
 logic [11:0] rgb_d;
@@ -51,6 +52,9 @@ always_ff @(posedge clk) begin : data_passed_through
         y_ow <= '0;
         imag_x <= '0;
         imag_y <= '0;
+        addr_1 <= '0 ;
+        addr_2 <= '0 ;
+        addr_3 <= '0 ;
 
     end else begin
         out.vcount <= vcount_d;
@@ -66,11 +70,14 @@ always_ff @(posedge clk) begin : data_passed_through
         y_ow <= y_ow_nxt;
         imag_x <= imag_x_nxt;
         imag_y <= imag_y_nxt;
+        addr_1 <= addr_1_nxt ;
+        addr_2 <= addr_2_nxt ;
+        addr_3 <= addr_3_nxt ;
     end
  end
 
  delay #(
-    .CLK_DEL(3),
+    .CLK_DEL(6), //3
     .WIDTH(38)
  )
  u_gloves_delay(
@@ -106,10 +113,17 @@ always_ff @(posedge clk) begin : data_passed_through
             x_ow_nxt = xpos ;
             y_ow_nxt = ypos[9:0] ;
         end
-        addr_nxt = imag_y * GLOVES_WIDTH + imag_x; //MOŻNA NAPRAWIĆ DWUKROTNIE MNOŻĄC PRZEZ MNIEJSZE WARTOŚCI
+        addr_1_nxt = imag_y * 5 ;
+        addr_2_nxt = addr_1 * 5 ;
+        addr_3_nxt = addr_2 * 4 ;
+        addr_nxt = addr_3 + imag_x ;
+
     end
     else begin
         addr_nxt = '0;
+        addr_1_nxt = '0 ;
+        addr_2_nxt = '0 ;
+        addr_3_nxt = '0 ;
         x_ow_nxt = x_ow ;
         y_ow_nxt = y_ow ;
         imag_y_nxt = imag_y;
