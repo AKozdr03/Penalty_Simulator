@@ -219,7 +219,6 @@ always_comb begin : next_game_state_controller
             counter_c_nxt = '0 ;
         end
     endcase
-    
 end
 
 endmodule

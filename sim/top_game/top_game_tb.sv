@@ -39,7 +39,7 @@ localparam CLK100_PERIOD = 10;  //100 MHz
  * Local variables and signals
  */
 
-logic clk, rst, clk100MHz, solo_enable;
+logic clk, rst, clk100MHz, solo_enable, rx;
 wire vs, hs;
 wire [3:0] r, g, b;
 
@@ -64,6 +64,9 @@ end
 
 top_game dut (
     .ps2_clk(),
+    .conn_led(),
+    .rx,
+    .tx(),
     .ps2_data(),
     .clk(clk),
     .rst(rst),
@@ -94,6 +97,7 @@ tiff_writer #(
 
 initial begin
     rst = 1'b0;
+    rx = 1'b0;
     # 30 rst = 1'b1;
     # 30 rst = 1'b0;
     # 30 solo_enable = 1'b1;
