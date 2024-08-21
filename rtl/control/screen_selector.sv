@@ -16,13 +16,13 @@
 );
 
 import game_pkg::*;
-
+import draw_pkg::*;
 //Local variables
 
-// wire [11:0] char_xy_end ;
-// wire [6:0] char_code_end ;
-// wire [3:0] char_line_end ;
-// wire [7:0] char_pixels_end ;
+wire [11:0] char_xy_title, char_xy_solo, char_xy_instr, char_xy_end_l, char_xy_end_w ;
+wire [6:0] char_code_title, char_code_solo, char_code_instr, char_code_end_l, char_code_end_w  ;
+wire [3:0] char_line_title, char_line_solo, char_line_instr, char_line_end_l, char_line_end_w  ;
+wire [7:0] char_pixels_title, char_pixels_solo, char_pixels_instr, char_pixels_end_l, char_pixels_end_w ;
 
 // Interfaces
 vga_if in_screen_end();
@@ -36,13 +36,18 @@ vga_if in_win();
 
 vga_if out_sel();
 
+vga_if in_screen_start();
+vga_if in_solo();
+vga_if in_title();
+vga_if in_end_l();
+vga_if in_end_w();
 // submodules
 
 draw_screen_start u_draw_screen_start(
     .clk,
     .rst,
     .in,
-    .out(in_start)
+    .out(in_screen_start)
 );
 
 draw_screen_gk u_draw_screen(
@@ -64,23 +69,23 @@ draw_screen_lose u_draw_screen_lose(
     .clk,
     .rst,
     .in,
-    .out(in_lose)
+    .out(in_end_l)
 );
 
 draw_screen_win u_draw_screen_win(
     .clk,
     .rst,
     .in,
-    .out(in_win)
+    .out(in_end_w)
 );
 
-// DRAW TEXT START - for future text writing
-/*
+// DRAW TEXT 
 
 write_text
      #(
-    .BEGIN_TXT_X(512),
-    .BEGIN_TXT_Y(384)
+    .BEGIN_TXT_X(450),
+    .BEGIN_TXT_Y(380),
+    .TXT_COLOUR(BLACK)
     ) 
     u_write_title (
     .clk,
@@ -88,7 +93,7 @@ write_text
     .char_pixels(char_pixels_title),
     .char_xy(char_xy_title),
     .char_line(char_line_title),
-    .in(in_screen_in),
+    .in(in_screen_start),
     .out(in_title)
 );
 
@@ -99,7 +104,7 @@ font_rom u_font_rom_title (
     .char_line_pixels(char_pixels_title)
 );
 
-char_rom_16x16 u_char_rom_16x16_title(
+char_rom_title u_char_rom_16x16_title(
     .clk,
     .char_xy(char_xy_title),
     .char_code(char_code_title)
@@ -107,8 +112,9 @@ char_rom_16x16 u_char_rom_16x16_title(
 
 write_text
 #(
-    .BEGIN_TXT_X(150),
-    .BEGIN_TXT_Y(700)
+    .BEGIN_TXT_X(50),
+    .BEGIN_TXT_Y(570),
+    .TXT_COLOUR(BLACK)
     ) 
      u_write_solo_mode (
     .clk,
@@ -127,7 +133,7 @@ font_rom u_font_rom_solo (
     .char_line_pixels(char_pixels_solo)
 );
 
-char_rom_16x16 u_char_rom_16x16_solo(
+char_rom_solo u_char_rom_16x16_solo(
     .clk,
     .char_xy(char_xy_solo),
     .char_code(char_code_solo)
@@ -135,14 +141,15 @@ char_rom_16x16 u_char_rom_16x16_solo(
 
 write_text
      #(
-    .BEGIN_TXT_X(900),
-    .BEGIN_TXT_Y(700)
+    .BEGIN_TXT_X(700),
+    .BEGIN_TXT_Y(570),
+    .TXT_COLOUR(BLACK)
     )
      u_write_instruction (
     .clk,
     .rst,
     .char_pixels(char_pixels_instr),
-    .char_xy(char_xy_intsr),
+    .char_xy(char_xy_instr),
     .char_line(char_line_instr),
     .in(in_solo),
     .out(in_start)
@@ -155,13 +162,71 @@ font_rom u_font_rom_inst (
     .char_line_pixels(char_pixels_instr)
 );
 
-char_rom_16x16 u_char_rom_16x16_instr(
+char_rom_instr u_char_rom_16x16_instr(
     .clk,
     .char_xy(char_xy_instr),
     .char_code(char_code_instr)
 );
-*/
 
+// TEXT ON ENDING SCREENS
+write_text
+#(
+    .BEGIN_TXT_X(700),
+    .BEGIN_TXT_Y(700),
+    .TXT_COLOUR(BLACK)
+    ) 
+     u_write_end_l (
+    .clk,
+    .rst,
+    .char_pixels(char_pixels_end_l),
+    .char_xy(char_xy_end_l),
+    .char_line(char_line_end_l),
+    .in(in_end_l),
+    .out(in_lose)
+);
+
+font_rom u_font_rom_end_l (
+    .clk,
+    .char_line(char_line_end_l),
+    .char_code(char_code_end_l),
+    .char_line_pixels(char_pixels_end_l)
+);
+
+char_rom_end u_char_rom_16x16_end_l(
+    .clk,
+    .char_xy(char_xy_end_l),
+    .char_code(char_code_end_l)
+);
+
+
+write_text
+#(
+    .BEGIN_TXT_X(700),
+    .BEGIN_TXT_Y(700),
+    .TXT_COLOUR(BLACK)
+    ) 
+     u_write_end_w (
+    .clk,
+    .rst,
+    .char_pixels(char_pixels_end_w),
+    .char_xy(char_xy_end_w),
+    .char_line(char_line_end_w),
+    .in(in_end_w),
+    .out(in_win)
+);
+
+font_rom u_font_rom_end_w (
+    .clk,
+    .char_line(char_line_end_w),
+    .char_code(char_code_end_w),
+    .char_line_pixels(char_pixels_end_w)
+);
+
+char_rom_end u_char_rom_16x16_end_w(
+    .clk,
+    .char_xy(char_xy_end_w),
+    .char_code(char_code_end_w)
+);
  //logic 
 
 always_ff @(posedge clk) begin : data_passed_through

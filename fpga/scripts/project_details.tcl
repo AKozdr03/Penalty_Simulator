@@ -42,7 +42,6 @@ set sv_files {
     ../rtl/draw/draw_mouse.sv
     ../rtl/draw/draw_keeper.sv
     ../rtl/draw/draw_gloves.sv
-    ../rtl/draw/draw_char.sv
     ../rtl/draw/draw_score.sv
     ../rtl/uart/uart.sv
     ../rtl/uart/uart_tx.sv
@@ -68,6 +67,9 @@ set sv_files {
     ../rtl/text/write_text.sv
     ../rtl/text/font_rom.sv
     ../rtl/text/char_rom_score.sv
+    ../rtl/text/char_rom_title.sv
+    ../rtl/text/char_rom_solo.sv
+    ../rtl/text/char_rom_instr.sv
     ../rtl/text/char_rom_end.sv
     ../rtl/top_uart.sv
     ../rtl/top_game.sv

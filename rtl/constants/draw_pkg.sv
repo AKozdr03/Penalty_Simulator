@@ -24,6 +24,7 @@ localparam BLUE_START = 12'h0_3_8 ;
 localparam GREEN_START = 12'h0_8_4 ;
 localparam YELLOW_START = 12'hE_C_0 ;
 localparam BLACK_START = 12'h2_2_2 ;
+localparam RED = 12'hF_0_0;
 
 //bg gk screen
 localparam GK_POST_OUTER_EDGE = 20 ;

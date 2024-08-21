@@ -18,7 +18,6 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/draw/draw_mouse.sv \
         ../../rtl/draw/draw_gloves.sv \
         ../../rtl/draw/draw_keeper.sv \
-        ../../rtl/draw/draw_char.sv \
         ../../rtl/draw/draw_score.sv \
         ../../rtl/rom/gloves_rom.sv \
         ../../rtl/rom/goalkeeper_rom.sv \
@@ -43,10 +42,13 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/control/gloves_control.sv \
         ../../rtl/control/scale_pos_control.sv \
         ../../rtl/text/char_rom_score.sv \
+        ../../rtl/text/char_rom_title.sv \
+        ../../rtl/text/char_rom_solo.sv \
+        ../../rtl/text/char_rom_instr.sv \
+        ../../rtl/text/char_rom_end.sv \
         ../../rtl/text/font_rom.sv \
         ../../rtl/text/write_text.sv \
         ../../rtl/control/shoot_control.sv \
-        ../../rtl/text/char_rom_end.sv \
         ../common/tiff_writer.sv \
         top_game_tb.sv
 vhdl work ../../rtl/mouse_vhd/MouseCtl.vhd\

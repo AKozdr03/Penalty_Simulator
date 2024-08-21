@@ -24,6 +24,8 @@
     vga_if.out out
 );
 
+import draw_pkg::*;
+
 //interfaces
 
 vga_if out_score();
@@ -44,7 +46,8 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
 write_text #(
     .BEGIN_TXT_X(930),
-    .BEGIN_TXT_Y(20)
+    .BEGIN_TXT_Y(20),
+    .TXT_COLOUR(RED)
     ) 
 u_write_text_score(
     .clk,

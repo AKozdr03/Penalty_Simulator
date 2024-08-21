@@ -1,16 +1,18 @@
 /**
  * MTM UEC2
- * Author: Aron Lampart
+ * Author: Andrzej Kozdrowski, Aron Lampart
  *
  * Description:
  * Draw text.
  */
 
  `timescale 1 ns / 1 ps
-
+ import vga_pkg::*;
+ import draw_pkg::*;
  module write_text 	#(parameter
     BEGIN_TXT_X = 930,
-    BEGIN_TXT_Y = 20
+    BEGIN_TXT_Y = 20,
+    TXT_COLOUR = BLACK
     )
     (
      input  logic clk,
@@ -24,8 +26,8 @@
      vga_if.out out
  );
  
- import vga_pkg::*;
- import draw_pkg::*;
+
+
  
  /**
   * Local variables and signals
@@ -102,7 +104,7 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
         end
         else
             if(char_pixels[7-3'(hcount_d - BEGIN_TXT_X)]) begin
-                rgb_nxt = 12'hF_0_0 ; //red
+                rgb_nxt = TXT_COLOUR ; 
             end
             else begin
                 rgb_nxt = rgb_d;
