@@ -101,24 +101,23 @@ always_comb begin : next_game_state_controller
                         else
                             game_state_nxt = LOSER ;
                     end
-                    else if(end_gk)
-                        game_state_nxt = SHOOTER ;
-                    else
+                    else begin
                         game_state_nxt = KEEPER ;
+                    end
                     
                 end
-                SHOOTER: begin //added in limited version for initial testing
-                    if(match_end) begin
-                        if(match_result)
-                            game_state_nxt = WINNER ;
-                        else
-                            game_state_nxt = LOSER ;
-                    end
-                    else if(end_sh)
-                        game_state_nxt = KEEPER ;
-                    else
-                        game_state_nxt = SHOOTER ;
-                end
+                // SHOOTER: begin //added in limited version for initial testing
+                //     if(match_end) begin
+                //         if(match_result)
+                //             game_state_nxt = WINNER ;
+                //         else
+                //             game_state_nxt = LOSER ;
+                //     end
+                //     else if(end_sh)
+                //         game_state_nxt = KEEPER ;
+                //     else
+                //         game_state_nxt = SHOOTER ;
+                // end
                 WINNER: begin
                     if(right_clicked) begin
                         game_state_nxt = START;

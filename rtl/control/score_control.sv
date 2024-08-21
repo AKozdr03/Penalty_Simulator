@@ -96,7 +96,7 @@ always_comb begin
                         score_enemy_nxt = score_enemy + 1 ;
                     end
                     else begin
-                        score_player_nxt = score_player;
+                        score_player_nxt = score_player + 1; //
                         score_enemy_nxt = score_enemy;
                     end
                 end
