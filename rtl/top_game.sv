@@ -54,6 +54,7 @@ wire end_sh, end_gk;
 wire [9:0] keeper_pos;
 wire shot_taken, enemy_input, enemy_is_scored, back_to_start ;
 wire [2:0] opponent_score;
+wire [9:0] scaled_shot_xpos, scaled_shot_ypos;
 
 /**
  * Signals assignments
@@ -159,8 +160,8 @@ gloves_control u_gloves_control(
     .ypos,
     .is_scored(is_scored_gk),
     .round_done(round_done_gk),
-    .shot_xpos,
-    .shot_ypos,
+    .shot_xpos(scaled_shot_xpos),
+    .shot_ypos(scaled_shot_ypos),
     .end_gk,
     .game_mode,
     .enemy_input
@@ -209,6 +210,15 @@ ball_control u_ball_control(
     .shot_ypos, // pozycja piłki po strzale (y)
     .x_shooter, 
     .y_shooter 
+);
+
+scale_pos_control u_scale_pos_control(
+    .clk,
+    .rst,
+    .shot_xpos,
+    .shot_ypos,
+    .scaled_shot_xpos,
+    .scaled_shot_ypos
 );
 
 shoot_control u_shoot_control(
