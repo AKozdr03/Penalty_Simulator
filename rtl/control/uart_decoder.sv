@@ -174,7 +174,7 @@ end
                 opponent_score_nxt = opponent_score;
                 connect_corrected_nxt = connect_corrected;
                 enemy_input_nxt = enemy_input ;
-                enemy_is_scored_nxt = enemy_is_scored ;;
+                enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;
                 game_starts_nxt = game_starts;
                 x_shooter_ow_2_nxt = x_shooter_ow_2;
