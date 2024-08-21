@@ -41,7 +41,6 @@ set sv_files {
     ../rtl/vga_timing.sv
     ../rtl/draw/draw_mouse.sv
     ../rtl/draw/draw_keeper.sv
-    ../rtl/draw/draw_ball.sv
     ../rtl/draw/draw_gloves.sv
     ../rtl/draw/draw_char.sv
     ../rtl/draw/draw_score.sv
@@ -53,11 +52,9 @@ set sv_files {
     ../rtl/screens/draw_screen_gk.sv
     ../rtl/screens/draw_screen_shooter.sv
     ../rtl/screens/draw_screen_start.sv
-    ../rtl/screens/draw_screen_end.sv
     ../rtl/screens/draw_screen_win.sv
     ../rtl/screens/draw_screen_lose.sv
     ../rtl/rom/goalkeeper_rom.sv
-    ../rtl/rom/ball_rom.sv
     ../rtl/rom/gloves_rom.sv
     ../rtl/control/screen_selector.sv
     ../rtl/control/game_state_sel.sv
@@ -92,7 +89,6 @@ set vhdl_files {
 
 # Specify files for a memory initialization     -- EDIT
 set mem_files {
-    ../rtl/data/ball.dat
     ../rtl/data/keeper.dat
     ../rtl/data/gloves.dat
 }

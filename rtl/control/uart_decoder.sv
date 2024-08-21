@@ -30,7 +30,7 @@ logic connect_corrected_nxt, enemy_shooter_nxt,game_starts_nxt, rd_uart_nxt, ene
 logic [9:0] keeper_pos_nxt, x_shooter_nxt, y_shooter_nxt;
 logic [4:0] keeper_pos_ow, keeper_pos_ow_nxt,  x_shooter_ow, y_shooter_ow, x_shooter_ow_nxt,  x_shooter_ow_2, x_shooter_ow_2_nxt, y_shooter_ow_nxt;
 logic [2:0]  opponent_score_nxt;
-logic [20:0] tick_transmit_c, tick_transmit_c_nxt;
+//logic [20:0] tick_transmit_c, tick_transmit_c_nxt;
 
 //Logic
 
@@ -51,7 +51,7 @@ always_ff @(posedge clk) begin : data_passed_through
         enemy_input <= '0 ;
         enemy_is_scored <= '0 ;
         back_to_start <= '0;
-        tick_transmit_c <= '0;
+        //tick_transmit_c <= '0;
     end
     else begin
         connect_corrected <= connect_corrected_nxt;
@@ -69,7 +69,7 @@ always_ff @(posedge clk) begin : data_passed_through
         enemy_input <= enemy_input_nxt ;
         enemy_is_scored <= enemy_is_scored_nxt ;
         back_to_start <= back_to_start_nxt;
-        tick_transmit_c <= tick_transmit_c_nxt;
+        //tick_transmit_c <= tick_transmit_c_nxt;
     end
 end
 
@@ -268,7 +268,7 @@ end
             rd_uart_nxt = 1'b0;
         end
         
-        tick_transmit_c_nxt = 0;
+        //tick_transmit_c_nxt = 0;
     end
     else begin
         connect_corrected_nxt = connect_corrected;
@@ -286,19 +286,19 @@ end
         x_shooter_ow_2_nxt = x_shooter_ow_2;
         rd_uart_nxt = 1'b0;
         back_to_start_nxt = back_to_start;
-        if(tick_transmit_c < 21'd1_000_000) begin // prevention against overflow
+        /*if(tick_transmit_c < 21'd1_000_000) begin // prevention against overflow
             tick_transmit_c_nxt = tick_transmit_c + 1;
         end
         else begin
             tick_transmit_c_nxt = 21'd1_000_001;
-        end
+        end*/
     end
-    if(tick_transmit_c >= 21'd1_000_000) begin // this is because if uart send nothing it is sign that connection is not corrected
+    /*if(tick_transmit_c >= 21'd1_000_000) begin // this is because if uart send nothing it is sign that connection is not corrected
         connect_corrected_nxt = 1'b0;
     end
     else begin
         connect_corrected_nxt = connect_corrected;
-    end
+    end*/
 end
 
 endmodule
