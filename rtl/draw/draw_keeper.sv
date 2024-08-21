@@ -24,9 +24,9 @@ import draw_pkg::*;
 
 
 // local variables
-localparam Y_POS_KEEPER = 250;
+localparam Y_POS_KEEPER = 280;
 localparam KEEPER_LENGTH = 300;
-localparam KEEPER_WIDTH = 200;
+localparam KEEPER_WIDTH = 300;
 
 logic [11:0] rgb_nxt;
 logic [19:0] addr_1, addr_2, addr_3 ;
@@ -87,11 +87,11 @@ always_ff @(posedge clk) begin : data_passed_through
  
  always_comb begin : keeper_drawing
     if((in.hcount >= keeper_x_pos) && (in.hcount < (keeper_x_pos + KEEPER_WIDTH)) && (in.vcount >= Y_POS_KEEPER) && (in.vcount < (Y_POS_KEEPER + KEEPER_LENGTH) )) begin
-        imag_y_nxt = Y_POS_KEEPER;
+        imag_y_nxt = in.vcount - Y_POS_KEEPER;
         imag_x_nxt = in.hcount - keeper_x_pos;
-        addr_1_nxt = imag_y * 5 ;
+        addr_1_nxt = imag_y * 6 ;
         addr_2_nxt = addr_1 * 5 ;
-        addr_3_nxt = addr_2 * 4 ;
+        addr_3_nxt = addr_2 * 10 ;
         addr_nxt = addr_3 + imag_x ;
 
     end

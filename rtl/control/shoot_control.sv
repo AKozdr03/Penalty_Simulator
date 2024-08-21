@@ -65,7 +65,7 @@
  logic [10:0] hcount_d, vcount_d;
  logic hblnk_d, vblnk_d, hsync_d, vsync_d;
  
- logic [9:0] gk_left_edge, gk_left_edge_nxt, gk_right_edge, gk_right_edge_nxt ;
+ logic [9:0] gk_left_edge, gk_left_edge_nxt;
 
  logic [9:0] shot_pos_x_out_nxt, shot_pos_y_out_nxt ;
  logic [9:0] shot_pos_x_out, shot_pos_y_out;
@@ -214,7 +214,6 @@ end
         end_sh <= '0 ;
         shot_taken <= '0 ;
         gk_left_edge <= '0 ;
-        gk_right_edge <= '0 ;
         shot_pos_x_out <= '0 ;
         shot_pos_y_out <= '0 ;
     end
@@ -234,7 +233,6 @@ end
         end_sh <= end_sh_nxt ;
         shot_taken <= shot_taken_nxt ;
         gk_left_edge <= gk_left_edge_nxt ;
-        gk_right_edge <= gk_right_edge_nxt ;
         shot_pos_x_out <= shot_pos_x_out_nxt ;
         shot_pos_y_out <= shot_pos_y_out_nxt ;
     end
@@ -377,7 +375,6 @@ end
             //leftovers from multi 
             shot_taken_nxt = 1'b0 ;
             gk_left_edge_nxt = 0 ;
-            gk_right_edge_nxt = 0;
             shot_pos_x_out_nxt = '0 ;
             shot_pos_y_out_nxt = '0 ;
         end
@@ -504,15 +501,12 @@ end
             //calculations
             if(keeper_pos < 255) begin
                 gk_left_edge_nxt = 255 - GK_HALF_WIDTH;
-                gk_right_edge_nxt = 255 + GK_HALF_WIDTH ;
             end
             else if(keeper_pos > 769) begin
                 gk_left_edge_nxt = 769 - GK_HALF_WIDTH ;
-                gk_right_edge_nxt = 769 + GK_HALF_WIDTH ;
             end
             else begin
                 gk_left_edge_nxt = keeper_pos - GK_HALF_WIDTH ;
-                gk_right_edge_nxt = keeper_pos + GK_HALF_WIDTH ;
             end
 
             //sending position
