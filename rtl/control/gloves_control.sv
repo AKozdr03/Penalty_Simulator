@@ -129,7 +129,7 @@
 
                 ENGAGE:      begin
                                 if(game_state == KEEPER) begin
-                                    if(counter == 65019506) begin
+                                    if(counter == 65_000_000) begin // time = 1s
                                         state_nxt = COUNTDOWN ;
                                         counter_nxt = '0 ;
                                     end
@@ -155,7 +155,7 @@
                                 else 
                                     rgb_nxt = in.rgb;
                                 
-                                if(counter == 65019506) begin
+                                if(counter == 32_500_000) begin // time = 0.5s
                                     state_nxt = RESULT ;
                                     counter_nxt = '0;
                                 end
@@ -190,7 +190,7 @@
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                     round_done_nxt = 1'b1 ;
@@ -211,7 +211,7 @@
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                     round_done_nxt = 1'b1 ;
@@ -303,7 +303,7 @@
                                 else 
                                     rgb_nxt = in.rgb;
                                 
-                                if(counter == 65019506) begin
+                                if(counter == 32_500_000) begin // time = 0.5s
                                     state_nxt = RESULT ;
                                     counter_nxt = '0;
                                 end
@@ -342,7 +342,7 @@
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time - 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                 end
@@ -365,7 +365,7 @@
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time - 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                 end
@@ -381,7 +381,7 @@
                                 shot_ypos_saved_nxt = shot_ypos_saved ;
                             end
                 TERMINATE:  begin
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time - 0.25s
                                     state_nxt = IDLE ;
                                     counter_nxt = '0;
                                     end_gk_nxt = 1'b1;

@@ -298,7 +298,7 @@ end
                                 else 
                                     rgb_nxt = in.rgb;
 
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                     round_done_nxt = 1'b1 ;
@@ -320,7 +320,7 @@ end
                                 else 
                                     rgb_nxt = in.rgb;
 
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                     round_done_nxt = 1'b1 ;
@@ -441,7 +441,7 @@ end
                                 else 
                                     rgb_nxt = in.rgb;
 
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                 end
@@ -460,7 +460,7 @@ end
                                 else 
                                     rgb_nxt = in.rgb;
 
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
                                 end
@@ -472,7 +472,7 @@ end
                                 end_sh_nxt = 1'b0 ;
                             end
                 TERMINATE:  begin 
-                                if(counter == 13003901) begin
+                                if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = IDLE ;
                                     counter_nxt = '0;
                                     end_sh_nxt = 1'b1 ;
