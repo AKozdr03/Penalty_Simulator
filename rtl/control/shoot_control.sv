@@ -74,10 +74,13 @@
  logic [7:0] data_to_transmit_nxt;
  logic [1:0] pos_update, pos_update_nxt;
  logic update_tick, update_tick_nxt;
+
+ wire [11:0] rgb_keeper;
+ wire [19:0] addr_keeper;
  //delay
 
  delay #(
-    .CLK_DEL(1),
+    .CLK_DEL(7),
     .WIDTH(26)
  )
  u_delay_vga(
@@ -86,6 +89,25 @@
     .din({in.hblnk, in.hcount, in.hsync, in.vblnk, in.vcount, in.vsync}),
     .dout({hblnk_d,hcount_d,hsync_d, vblnk_d, vcount_d, vsync_d})
  );
+
+ vga_if keeper_out();
+
+ //submodules
+ draw_keeper u_draw_keeper(
+    .clk,
+    .rst,
+    .in(in),
+    .out(keeper_out),
+    .keeper_x_pos(gk_left_edge),
+    .pixel_addr(addr_keeper),
+    .rgb_pixel(rgb_keeper)
+);
+
+goalkeeper_rom u_goalkeeper_rom(
+    .clk,
+    .addrA(addr_keeper),
+    .dout(rgb_keeper)
+);
 
  //logic
 
@@ -386,11 +408,7 @@ end
                             end
 
                 COUNTDOWN:  begin //actually just waiting for the shot to be made
-                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
-                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
-                                    rgb_nxt = 12'h0_0_F;
-                                 else 
-                                    rgb_nxt = in.rgb;
+                                rgb_nxt = keeper_out.rgb;
                                     
                                 if(left_clicked) begin
                                     state_nxt = RESULT ;
@@ -404,12 +422,7 @@ end
                             end
 
                 RESULT:     begin //waiting for info from enemy basys if the shot was saved or not
-                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
-                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
-                                    rgb_nxt = 12'h0_0_F;
-                                 else 
-                                    rgb_nxt = in.rgb;
-
+                                rgb_nxt = keeper_out.rgb;
                                 if(enemy_input) begin
                                     if(counter == 10) begin
                                         if(enemy_is_scored) begin
@@ -435,12 +448,7 @@ end
 
                             end
                 GOAL:       begin //goal scored
-                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
-                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
-                                    rgb_nxt = 12'h0_F_0;
-                                else 
-                                    rgb_nxt = in.rgb;
-
+                                rgb_nxt = keeper_out.rgb;
                                 if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
@@ -454,12 +462,7 @@ end
                             end
                 
                 MISS:       begin //shot saved
-                                if(in.hcount >= gk_left_edge && in.hcount <= gk_right_edge     //keeper test drawing
-                                && in.vcount >= GK_BOTTOM && in.vcount <= GK_TOP ) 
-                                    rgb_nxt = 12'hF_0_0;
-                                else 
-                                    rgb_nxt = in.rgb;
-
+                                rgb_nxt = keeper_out.rgb;
                                 if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
