@@ -89,6 +89,6 @@ set vhdl_files {
 
 # Specify files for a memory initialization     -- EDIT
 set mem_files {
-    ../rtl/data/keeper.dat
+    ../rtl/data/keeper_200x300.dat
     ../rtl/data/gloves.dat
 }

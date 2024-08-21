@@ -8,7 +8,11 @@
 
  `timescale 1 ns / 1 ps
 
- module write_text (
+ module write_text 	#(parameter
+    BEGIN_TXT_X = 930,
+    BEGIN_TXT_Y = 20
+    )
+    (
      input  logic clk,
      input  logic rst,
      input  logic [7:0] char_pixels,
@@ -35,8 +39,6 @@
 logic [10:0] hcount_d, vcount_d;
 logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
-  localparam BEGIN_TXT_X = 930;
-  localparam BEGIN_TXT_Y = 20;
 
   //Modules
 

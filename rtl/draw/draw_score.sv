@@ -42,7 +42,11 @@ logic hblnk_d, vblnk_d, hsync_d, vsync_d;
 
 //modules
 
-write_text u_write_text_score(
+write_text #(
+    .BEGIN_TXT_X(930),
+    .BEGIN_TXT_Y(20)
+    ) 
+u_write_text_score(
     .clk,
     .rst,
     .char_pixels(char_pixels_end),

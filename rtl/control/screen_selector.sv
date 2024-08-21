@@ -74,36 +74,91 @@ draw_screen_win u_draw_screen_win(
     .out(in_win)
 );
 
-// DRAW SCREEN END - for future text writing
+// DRAW TEXT START - for future text writing
 /*
-draw_screen_end u_draw_screen_end(
+
+write_text
+     #(
+    .BEGIN_TXT_X(512),
+    .BEGIN_TXT_Y(384)
+    ) 
+    u_write_title (
     .clk,
     .rst,
-    .in,
-    .out(in_screen_end)
+    .char_pixels(char_pixels_title),
+    .char_xy(char_xy_title),
+    .char_line(char_line_title),
+    .in(in_screen_in),
+    .out(in_title)
 );
 
-write_text u_write_text_end (
+font_rom u_font_rom_title (
+    .clk,
+    .char_line(char_line_title),
+    .char_code(char_code_title),
+    .char_line_pixels(char_pixels_title)
+);
+
+char_rom_16x16 u_char_rom_16x16_title(
+    .clk,
+    .char_xy(char_xy_title),
+    .char_code(char_code_title)
+);
+
+write_text
+#(
+    .BEGIN_TXT_X(150),
+    .BEGIN_TXT_Y(700)
+    ) 
+     u_write_solo_mode (
     .clk,
     .rst,
-    .char_pixels(char_pixels_end),
-    .char_xy(char_xy_end),
-    .char_line(char_line_end),
-    .in(in_screen_end),
-    .out(in_end)
+    .char_pixels(char_pixels_solo),
+    .char_xy(char_xy_solo),
+    .char_line(char_line_solo),
+    .in(in_title),
+    .out(in_solo)
 );
 
-font_rom u_font_rom_end (
+font_rom u_font_rom_solo (
     .clk,
-    .char_line(char_line_end),
-    .char_code(char_code_end),
-    .char_line_pixels(char_pixels_end)
+    .char_line(char_line_solo),
+    .char_code(char_code_solo),
+    .char_line_pixels(char_pixels_solo)
 );
 
-char_rom_16x16 u_char_rom_16x16(
+char_rom_16x16 u_char_rom_16x16_solo(
     .clk,
-    .char_xy(char_xy_end),
-    .char_code(char_code_end)
+    .char_xy(char_xy_solo),
+    .char_code(char_code_solo)
+);
+
+write_text
+     #(
+    .BEGIN_TXT_X(900),
+    .BEGIN_TXT_Y(700)
+    )
+     u_write_instruction (
+    .clk,
+    .rst,
+    .char_pixels(char_pixels_instr),
+    .char_xy(char_xy_intsr),
+    .char_line(char_line_instr),
+    .in(in_solo),
+    .out(in_start)
+);
+
+font_rom u_font_rom_inst (
+    .clk,
+    .char_line(char_line_instr),
+    .char_code(char_code_instr),
+    .char_line_pixels(char_pixels_instr)
+);
+
+char_rom_16x16 u_char_rom_16x16_instr(
+    .clk,
+    .char_xy(char_xy_instr),
+    .char_code(char_code_instr)
 );
 */
 
