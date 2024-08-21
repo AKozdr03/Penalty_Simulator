@@ -28,8 +28,6 @@ localparam Y_POS_KEEPER = 250;
 localparam KEEPER_LENGTH = 300;
 localparam KEEPER_WIDTH = 200;
 
-logic [9:0] x_ow, x_ow_nxt;
-
 logic [11:0] rgb_nxt;
 logic [19:0] addr_1, addr_2, addr_3 ;
 logic [19:0] addr_nxt, addr_1_nxt, addr_2_nxt, addr_3_nxt;
@@ -51,8 +49,7 @@ always_ff @(posedge clk) begin : data_passed_through
         out.hblnk  <= '0;
         out.rgb    <= '0;
         pixel_addr <= '0;
-        
-        x_ow <= '0;
+
         imag_x <= '0;
         imag_y <= '0;
         addr_1 <= '0 ;
@@ -69,7 +66,6 @@ always_ff @(posedge clk) begin : data_passed_through
         out.rgb    <= rgb_nxt;
         pixel_addr <= addr_nxt;
 
-        x_ow <= x_ow_nxt;
         imag_x <= imag_x_nxt;
         imag_y <= imag_y_nxt;
         addr_1 <= addr_1_nxt ;
@@ -90,10 +86,9 @@ always_ff @(posedge clk) begin : data_passed_through
  );
  
  always_comb begin : keeper_drawing
-    if((in.hcount >= x_ow) && (in.hcount < (x_ow + KEEPER_WIDTH)) && (in.vcount >= Y_POS_KEEPER) && (in.vcount < (Y_POS_KEEPER + KEEPER_LENGTH) )) begin
+    if((in.hcount >= keeper_x_pos) && (in.hcount < (keeper_x_pos + KEEPER_WIDTH)) && (in.vcount >= Y_POS_KEEPER) && (in.vcount < (Y_POS_KEEPER + KEEPER_LENGTH) )) begin
         imag_y_nxt = Y_POS_KEEPER;
         imag_x_nxt = in.hcount - keeper_x_pos;
-        x_ow_nxt = keeper_x_pos ;
         addr_1_nxt = imag_y * 5 ;
         addr_2_nxt = addr_1 * 5 ;
         addr_3_nxt = addr_2 * 4 ;
@@ -105,12 +100,11 @@ always_ff @(posedge clk) begin : data_passed_through
         addr_1_nxt = '0 ;
         addr_2_nxt = '0 ;
         addr_3_nxt = '0 ;
-        x_ow_nxt = x_ow ;
         imag_y_nxt = imag_y;
         imag_x_nxt = imag_x;
     end
 
-    if((in.hcount >= x_ow) && (in.hcount < (x_ow + KEEPER_WIDTH)) && (in.vcount >= Y_POS_KEEPER)  && (in.vcount  < (Y_POS_KEEPER + KEEPER_LENGTH)) ) begin
+    if((in.hcount >= keeper_x_pos) && (in.hcount < (keeper_x_pos + KEEPER_WIDTH)) && (in.vcount >= Y_POS_KEEPER)  && (in.vcount  < (Y_POS_KEEPER + KEEPER_LENGTH)) ) begin
         if(rgb_pixel == BLACK) begin // this is to delete background of keeper image
             rgb_nxt = rgb_d;
         end
