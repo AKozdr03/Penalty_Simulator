@@ -34,51 +34,43 @@
         scaled_shot_xpos_nxt = shot_xpos - 120;  
     end
     else if((shot_xpos >= 255) && (shot_xpos < 355)) begin
-        scaled_shot_xpos_nxt = shot_xpos - 80;
+        scaled_shot_xpos_nxt = shot_xpos - 100;
     end
-    else if((shot_xpos >= 355) && (shot_xpos < 455)) begin
-        scaled_shot_xpos_nxt = shot_xpos - 40;
-    end
-    else if((shot_xpos >= 769) && (shot_xpos < 869)) begin
-        scaled_shot_xpos_nxt = shot_xpos + 120;
-    end
+    
     else if((shot_xpos >= 669) && (shot_xpos < 769)) begin
-        scaled_shot_xpos_nxt = shot_xpos + 80;
-    end
-    else if((shot_xpos >= 569) && (shot_xpos < 669)) begin
-        scaled_shot_xpos_nxt = shot_xpos + 80;
-        scaled_shot_ypos_nxt = shot_ypos;
-    end   
-    else if((shot_xpos <= 155)) begin
-        scaled_shot_xpos_nxt = '0;
-        scaled_shot_ypos_nxt = shot_ypos;      
-    end
-    else if((shot_xpos >= 869)) begin
-        scaled_shot_xpos_nxt = 10'd1000;
-        scaled_shot_ypos_nxt = shot_ypos;      
-    end
-    else begin
         scaled_shot_xpos_nxt = shot_xpos;
     end
+    else if((shot_xpos >= 769) && (shot_xpos < 869)) begin
+        scaled_shot_xpos_nxt = shot_xpos + 20 ;
+    end   
+
+    else if((shot_xpos <= 155)) begin
+        scaled_shot_xpos_nxt = '0;     
+    end
+    else if((shot_xpos >= 869)) begin
+        scaled_shot_xpos_nxt = 10'd1000;    
+    end
+    else begin
+        scaled_shot_xpos_nxt = shot_xpos - 50;
+    end
+
     // scaling shot_y_pos
 
-    if((shot_ypos >= 155) && (shot_ypos < 255)) begin
-        scaled_shot_ypos_nxt = shot_ypos + 80;  
+    if((shot_ypos > 195) && (shot_ypos <= 300)) begin
+        scaled_shot_ypos_nxt = shot_ypos - 85;  
     end
-    else if((shot_ypos >= 255) && (shot_ypos < 355)) begin
+    else if((shot_ypos >= 450) && (shot_ypos < 510)) begin
         scaled_shot_ypos_nxt = shot_ypos + 40;
     end
-    else if((shot_ypos >= 255) && (shot_ypos < 355)) begin
-        scaled_shot_ypos_nxt = shot_ypos - 80;
+    else if((shot_ypos >= 510) && (shot_ypos < 550)) begin
+        scaled_shot_ypos_nxt = 550;
     end
-    else if((shot_ypos >= 255) && (shot_ypos < 355)) begin
-        scaled_shot_ypos_nxt = shot_ypos - 40;
-    end
+
     else if(shot_ypos >= 550) begin
         scaled_shot_ypos_nxt = 10'd738;
     end
-    else if(shot_ypos <= 200) begin
-        scaled_shot_ypos_nxt = 10'd50;
+    else if(shot_ypos <= 195) begin
+        scaled_shot_ypos_nxt = 10'd0;
     end
     else begin
         scaled_shot_ypos_nxt = shot_ypos;
