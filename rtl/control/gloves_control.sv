@@ -308,11 +308,11 @@
                             end
 
                 COUNTDOWN:  begin //time to react
-                                if((((in.vcount + shot_xpos) >= (in.hcount + shot_ypos) && (in.vcount + shot_xpos) <= (in.hcount + shot_ypos + 2))
-                                || ((in.vcount  >= (SCREEN_LENGTH - in.hcount + shot_xpos + 100 - (SCREEN_LENGTH - shot_ypos))) 
-                                && (in.vcount  <= (SCREEN_LENGTH - in.hcount + shot_xpos + 102 - (SCREEN_LENGTH - shot_ypos)))))
-                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) ) 
+                                if((((in.vcount + shot_xpos_saved) >= (in.hcount + shot_ypos_saved) && (in.vcount + shot_xpos_saved) <= (in.hcount + shot_ypos_saved + 2))
+                                || ((in.vcount  >= (SCREEN_LENGTH - in.hcount + shot_xpos_saved + 100 - (SCREEN_LENGTH - shot_ypos_saved))) 
+                                && (in.vcount  <= (SCREEN_LENGTH - in.hcount + shot_xpos_saved + 102 - (SCREEN_LENGTH - shot_ypos_saved)))))
+                                &&(in.hcount >= shot_xpos_saved && in.hcount <= (shot_xpos_saved + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos_saved && in.vcount <= (shot_ypos_saved + CROSS_WIDTH) ) ) 
                                     rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -355,11 +355,11 @@
 
                             end
                 GOAL:       begin
-                                if((((in.vcount + shot_xpos) >= (in.hcount + shot_ypos) && (in.vcount + shot_xpos) <= (in.hcount + shot_ypos + 2))
-                                || ((in.vcount  >= (SCREEN_LENGTH - in.hcount + shot_xpos + 100 - (SCREEN_LENGTH - shot_ypos))) 
-                                && (in.vcount  <= (SCREEN_LENGTH - in.hcount + shot_xpos + 102 - (SCREEN_LENGTH - shot_ypos)))))
-                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) ) 
+                                if((((in.vcount + shot_xpos_saved) >= (in.hcount + shot_ypos_saved) && (in.vcount + shot_xpos_saved) <= (in.hcount + shot_ypos_saved + 2))
+                                || ((in.vcount  >= (SCREEN_LENGTH - in.hcount + shot_xpos_saved + 100 - (SCREEN_LENGTH - shot_ypos_saved))) 
+                                && (in.vcount  <= (SCREEN_LENGTH - in.hcount + shot_xpos_saved + 102 - (SCREEN_LENGTH - shot_ypos_saved)))))
+                                &&(in.hcount >= shot_xpos_saved && in.hcount <= (shot_xpos_saved + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos_saved && in.vcount <= (shot_ypos_saved + CROSS_WIDTH) ) )  
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -381,11 +381,11 @@
                             end
                 
                 MISS:       begin
-                                if((((in.vcount + shot_xpos) >= (in.hcount + shot_ypos) && (in.vcount + shot_xpos) <= (in.hcount + shot_ypos + 2))
-                                || ((in.vcount  >= (SCREEN_LENGTH - in.hcount + shot_xpos + 100 - (SCREEN_LENGTH - shot_ypos))) 
-                                && (in.vcount  <= (SCREEN_LENGTH - in.hcount + shot_xpos + 102 - (SCREEN_LENGTH - shot_ypos)))))
-                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) ) 
+                                if((((in.vcount + shot_xpos_saved) >= (in.hcount + shot_ypos_saved) && (in.vcount + shot_xpos_saved) <= (in.hcount + shot_ypos_saved + 2))
+                                || ((in.vcount  >= (SCREEN_LENGTH - in.hcount + shot_xpos_saved + 100 - (SCREEN_LENGTH - shot_ypos_saved))) 
+                                && (in.vcount  <= (SCREEN_LENGTH - in.hcount + shot_xpos_saved + 102 - (SCREEN_LENGTH - shot_ypos_saved)))))
+                                &&(in.hcount >= shot_xpos_saved && in.hcount <= (shot_xpos_saved + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos_saved && in.vcount <= (shot_ypos_saved + CROSS_WIDTH) ) ) 
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
