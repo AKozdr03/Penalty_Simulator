@@ -64,6 +64,9 @@
  
  logic [10:0] hcount_d, vcount_d;
  logic hblnk_d, vblnk_d, hsync_d, vsync_d;
+
+ logic [10:0] hcount_ds, vcount_ds;
+ logic hblnk_ds, vblnk_ds, hsync_ds, vsync_ds;
  
  logic [9:0] gk_left_edge, gk_left_edge_nxt;
 
@@ -75,19 +78,30 @@
  logic [1:0] pos_update, pos_update_nxt;
  logic update_tick, update_tick_nxt;
 
- wire [11:0] rgb_keeper;
- wire [19:0] addr_keeper;
+ logic [11:0] rgb_keeper, rgb_dk, rgb_d;
+ logic [19:0] addr_keeper;
  //delay
 
  delay #(
-    .CLK_DEL(7),
+    .CLK_DEL(6),
     .WIDTH(26)
  )
- u_delay_vga(
+ u_delay_shooter_vga(
     .clk,
     .rst,
     .din({in.hblnk, in.hcount, in.hsync, in.vblnk, in.vcount, in.vsync}),
-    .dout({hblnk_d,hcount_d,hsync_d, vblnk_d, vcount_d, vsync_d})
+    .dout({hblnk_ds,hcount_ds,hsync_ds, vblnk_ds, vcount_ds, vsync_ds})
+ );
+
+ delay #(
+    .CLK_DEL(1),
+    .WIDTH(12)
+ )
+ u_delay_keeper_vga(
+    .clk,
+    .rst,
+    .din(in.rgb),
+    .dout(rgb_dk)
  );
 
  vga_if keeper_out();
@@ -123,6 +137,27 @@ goalkeeper_rom u_goalkeeper_rom(
         pos_update <= pos_update_nxt;
         uart_state <= uart_state_nxt ;
         update_tick <= update_tick_nxt;
+    end
+end
+
+always_comb begin
+    if(game_state == SHOOTER) begin
+        vcount_d = vcount_ds;
+        vsync_d = vsync_ds;
+        vblnk_d = vblnk_ds;
+        hcount_d = hcount_ds;
+        hsync_d = hsync_ds;
+        hblnk_d = hblnk_ds;
+        rgb_d = in.rgb;
+    end
+    else begin
+        vcount_d = in.vcount;
+        vsync_d = in.vsync;
+        vblnk_d = in.vblnk;
+        hcount_d = in.hcount;
+        hsync_d = in.hsync;
+        hblnk_d = in.hblnk;
+        rgb_d = rgb_dk;
     end
 end
 
@@ -386,7 +421,7 @@ end
                                 else
                                     state_nxt = IDLE ;
 
-                                rgb_nxt = in.rgb ;
+                                rgb_nxt = rgb_d ;
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
@@ -398,7 +433,7 @@ end
                                 else begin
                                     state_nxt = IDLE ;
                                 end
-                                rgb_nxt = in.rgb ;
+                                rgb_nxt = rgb_d ;
                                 counter_nxt = '0 ;
                                 shot_taken_nxt = 1'b0 ;
                                 end_sh_nxt = 1'b0 ;
@@ -482,7 +517,7 @@ end
                                     counter_nxt = counter + 1 ;
                                     end_sh_nxt = 1'b0 ;
                                 end
-                                rgb_nxt = in.rgb;
+                                rgb_nxt = rgb_d;
                                 shot_taken_nxt = 1'b0 ;
                             end
 
