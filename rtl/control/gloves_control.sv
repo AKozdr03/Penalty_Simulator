@@ -149,16 +149,10 @@
                             end
 
                 COUNTDOWN:  begin
-                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                                //     rgb_nxt = 12'h0_0_F;
-                                // else 
-                                //     rgb_nxt = in.rgb;
-
-                                if(((in.vcount + shot_xpos) == (in.hcount + shot_ypos + 50))
-                                || (in.vcount  == (SCREEN_LENGTH - in.hcount + shot_xpos + 50 - (SCREEN_LENGTH - shot_ypos)))
-                                ||(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + 10)
-                                 && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + 10)))
+                                if((((in.vcount + shot_xpos) == (in.hcount + shot_ypos))
+                                || (in.vcount  == (SCREEN_LENGTH - in.hcount + shot_xpos + 100 - (SCREEN_LENGTH - shot_ypos))))
+                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) )
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -193,15 +187,10 @@
 
                             end
                 GOAL:       begin
-                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                                //     rgb_nxt = 12'hF_0_0;
-                                // else 
-                                //     rgb_nxt = in.rgb;
-                    if(((in.vcount + shot_xpos) == (in.hcount + shot_ypos))
-                    || ((in.vcount) == (SCREEN_WIDTH - in.hcount))
-                    ||(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + 10)
-                     && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + 10)))
+                                if((((in.vcount + shot_xpos) == (in.hcount + shot_ypos))
+                                || (in.vcount  == (SCREEN_LENGTH - in.hcount + shot_xpos + 100 - (SCREEN_LENGTH - shot_ypos))))
+                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                 && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) )
                                     rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -222,16 +211,10 @@
                             end
                 
                 MISS:       begin
-                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                                //     rgb_nxt = 12'h0_F_0;
-                                // else 
-                                //     rgb_nxt = in.rgb;
-
-                    if(((in.vcount + shot_xpos) == (in.hcount + shot_ypos))
-                    || ((in.vcount) == (SCREEN_WIDTH - in.hcount))
-                    ||(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + 10)
-                     && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + 10)))
+                                if((((in.vcount + shot_xpos) == (in.hcount + shot_ypos))
+                                || (in.vcount  == (SCREEN_LENGTH - in.hcount + shot_xpos + 100 - (SCREEN_LENGTH - shot_ypos))))
+                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) )
                                     rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
