@@ -320,7 +320,11 @@
                             end
 
                 RESULT:     begin //calculating result
-                                if(xpos >= shot_xpos_saved && xpos <= (shot_xpos_saved + CROSS_WIDTH)
+                                if(shot_xpos_saved == 10'd0 || shot_xpos_saved == 10'd1000
+                                || shot_ypos_saved == 10'd0 || shot_ypos_saved == 10'd738) begin
+                                    state_nxt = MISS ;
+                                end
+                                else if(xpos >= shot_xpos_saved && xpos <= (shot_xpos_saved + CROSS_WIDTH)
                                 && ypos >= shot_ypos_saved && ypos <= (shot_ypos_saved + CROSS_WIDTH) ) begin
                                     state_nxt = MISS ;
                                 end
