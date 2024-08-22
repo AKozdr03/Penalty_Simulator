@@ -149,8 +149,14 @@
                             end
 
                 COUNTDOWN:  begin
-                                if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                //     rgb_nxt = 12'h0_0_F;
+                                // else 
+                                //     rgb_nxt = in.rgb;
+
+                                if((in.hcount == (shot_xpos - in.vcount))
+                                || (in.hcount == (shot_xpos + in.vcount))) 
                                     rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
@@ -185,11 +191,17 @@
 
                             end
                 GOAL:       begin
-                                if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                                    rgb_nxt = 12'hF_0_0;
+                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                //     rgb_nxt = 12'hF_0_0;
+                                // else 
+                                //     rgb_nxt = in.rgb;
+                                if((in.hcount == (shot_xpos - in.vcount))
+                                || (in.hcount == (shot_xpos + in.vcount))) 
+                                    rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
+
                                 if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
@@ -206,11 +218,18 @@
                             end
                 
                 MISS:       begin
-                                if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
-                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
-                                    rgb_nxt = 12'h0_F_0;
+                                // if(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ) 
+                                //     rgb_nxt = 12'h0_F_0;
+                                // else 
+                                //     rgb_nxt = in.rgb;
+
+                                if((in.hcount == (shot_xpos - in.vcount))
+                                || (in.hcount == (shot_xpos + in.vcount))) 
+                                    rgb_nxt = 12'h0_0_F;
                                 else 
                                     rgb_nxt = in.rgb;
+
                                 if(counter == 16_250_000) begin // time = 0.25s
                                     state_nxt = TERMINATE ;
                                     counter_nxt = '0;
