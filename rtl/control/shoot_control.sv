@@ -80,7 +80,7 @@
  //delay
 
  delay #(
-    .CLK_DEL(7),
+    .CLK_DEL(1),
     .WIDTH(26)
  )
  u_delay_vga(
