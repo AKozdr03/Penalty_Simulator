@@ -215,6 +215,7 @@ ball_control u_ball_control(
 scale_pos_control u_scale_pos_control(
     .clk,
     .rst,
+    .game_mode,
     .shot_xpos,
     .shot_ypos,
     .scaled_shot_xpos,
