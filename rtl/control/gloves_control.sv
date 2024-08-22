@@ -155,9 +155,11 @@
                                 // else 
                                 //     rgb_nxt = in.rgb;
 
-                                if((in.hcount == (shot_xpos - in.vcount))
-                                || (in.hcount == (shot_xpos + in.vcount))) 
-                                    rgb_nxt = 12'h0_0_F;
+                                if((in.hcount  == (shot_xpos - (in.vcount + shot_ypos)))
+                                || ((SCREEN_WIDTH - in.hcount)  == (shot_xpos - (in.vcount + shot_ypos))))
+                                // &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                // && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ))
+                                    rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
                                 
@@ -196,9 +198,11 @@
                                 //     rgb_nxt = 12'hF_0_0;
                                 // else 
                                 //     rgb_nxt = in.rgb;
-                                if((in.hcount == (shot_xpos - in.vcount))
-                                || (in.hcount == (shot_xpos + in.vcount))) 
-                                    rgb_nxt = 12'h0_0_F;
+                                if(((in.vcount  == (shot_ypos + in.hcount - shot_xpos))
+                                || (in.vcount  == (shot_ypos - in.hcount + shot_xpos)))
+                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ))
+                                    rgb_nxt = 12'hF_0_0;
                                 else 
                                     rgb_nxt = in.rgb;
 
@@ -224,9 +228,11 @@
                                 // else 
                                 //     rgb_nxt = in.rgb;
 
-                                if((in.hcount == (shot_xpos - in.vcount))
-                                || (in.hcount == (shot_xpos + in.vcount))) 
-                                    rgb_nxt = 12'h0_0_F;
+                                if(((in.vcount  == (shot_ypos + in.hcount - shot_xpos))
+                                || (in.vcount  == (shot_ypos - in.hcount + shot_xpos)))
+                                &&(in.hcount >= shot_xpos && in.hcount <= (shot_xpos + CROSS_WIDTH)
+                                && in.vcount >= shot_ypos && in.vcount <= (shot_ypos + CROSS_WIDTH) ))
+                                    rgb_nxt = 12'h0_F_0;
                                 else 
                                     rgb_nxt = in.rgb;
 
