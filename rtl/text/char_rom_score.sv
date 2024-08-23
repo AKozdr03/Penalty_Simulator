@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 /**
  * MTM UEC2
- * Author: Aron Lampart
+ * Author: Andrzej Kozdrowski, Aron Lampart
  *
  * Description:
  * ROM with saved text.

@@ -274,6 +274,7 @@ top_uart u_top_uart(
 uart_decoder u_uart_decoder( 
     .clk,
     .rst,
+    .game_state,
     .rd_uart,
     .rx_empty,
     .connect_corrected,
