@@ -6,7 +6,7 @@
  * Next state controller.
  */
 
-module game_state_sel(
+ module game_state_sel(
     input wire clk, rst,
     input wire left_clicked,
     input wire right_clicked,
@@ -32,7 +32,7 @@ g_state game_state_nxt;
 g_mode game_mode_nxt;
 
 logic [7:0] data_to_transmit_nxt;
-logic [20:0] counter_c, left_c, left_c_nxt, counter_c_nxt ;
+logic [20:0] counter_c, counter_c_nxt ;
 
 //logic
 always_ff @(posedge clk) begin : data_passed_through
@@ -40,13 +40,11 @@ always_ff @(posedge clk) begin : data_passed_through
         game_state <= START;
         game_mode <= MULTI;
         counter_c <= '0 ;
-        left_c <= '0;
     end
     else begin
         game_state <= game_state_nxt ;
         game_mode <= game_mode_nxt ;
         counter_c <= counter_c_nxt ;
-        left_c <= left_c_nxt;
     end
 end
 
@@ -60,29 +58,14 @@ always_ff @(posedge clk) begin : data_transmision
 end
 
 always_comb begin : data_to_transmit_controller
-    if(left_clicked) begin
-        data_to_transmit_nxt = 8'b00001000;
-        left_c_nxt = left_c + 1;
-        if(left_c >= 1_500_000) begin
-            left_c_nxt = 1_500_000;
-        end
-    end
-    else if(left_c > 1_000_000) begin
+    if(left_clicked)
         data_to_transmit_nxt = 8'b11001000;
-        left_c_nxt = '0;
-    end
-    else if(right_clicked) begin
+    else if(right_clicked)
         data_to_transmit_nxt = 8'b00101000;
-        left_c_nxt = '0;
-    end
-    else if(game_starts) begin
+    else if(game_starts)
         data_to_transmit_nxt = 8'b01001000;
-        left_c_nxt = '0;
-    end
-    else begin
+    else
         data_to_transmit_nxt = 8'b00001000;
-        left_c_nxt = '0;
-    end
 end
 
 always_comb begin : next_game_mode_controller
