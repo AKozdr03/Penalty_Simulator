@@ -6,7 +6,7 @@
  * Next state controller.
  */
 
-module game_state_sel(
+ module game_state_sel(
     input wire clk, rst,
     input wire left_clicked,
     input wire right_clicked,
