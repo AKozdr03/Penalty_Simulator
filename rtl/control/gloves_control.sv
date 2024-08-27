@@ -261,13 +261,22 @@
         MULTI: begin
             case(state)
                 IDLE:       begin
-                                if(game_state == KEEPER)
-                                    state_nxt = ENGAGE ;
-                                else
+                                if(game_state == KEEPER) begin 
+                                    if(counter == 16_250_000) begin // time = 0.25s
+                                        state_nxt = ENGAGE ;
+                                        counter_nxt = '0 ;
+                                    end
+                                    else begin
+                                        state_nxt = IDLE ;
+                                        counter_nxt = counter + 1;
+                                    end
+                                end
+                                else begin
                                     state_nxt = IDLE ;
+                                    counter_nxt = '0 ;
+                                end
 
                                 rgb_nxt = in.rgb ;
-                                counter_nxt = '0 ;
                                 is_scored_nxt = 1'b0 ;
                                 end_gk_nxt = 1'b0;
                                 round_done_nxt = 1'b0 ;
