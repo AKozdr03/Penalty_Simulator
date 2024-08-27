@@ -26,16 +26,3 @@ interface timing_if;
     modport out (output vcount, hcount, vsync, vblnk, hsync, hblnk);
 
 endinterface
-
-//redundant if, left just in case
-/*interface control_if;
-    logic is_scored;
-    logic [3:0] round_counter;
-    logic [2:0] score;
-    g_state game_state;
-    g_mode game_mode;
-
-    modport in (input game_mode, game_state, is_scored, score, round_counter);
-    modport out (output game_mode, game_state, is_scored, score, round_counter);
-    
-endinterface*/

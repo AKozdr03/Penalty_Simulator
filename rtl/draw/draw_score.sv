@@ -6,8 +6,7 @@
  * Module writing the score.
  */
 
- //imports -    for some reason this module, contrary to all others, only works when the package
- //             is imported before the declaration of game_state input. I do not know why.
+ //imports 
 
  import game_pkg::*;
 

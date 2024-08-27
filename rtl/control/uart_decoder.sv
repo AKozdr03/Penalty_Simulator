@@ -70,7 +70,6 @@ always_ff @(posedge clk) begin : data_passed_through
         enemy_input <= enemy_input_nxt ;
         enemy_is_scored <= enemy_is_scored_nxt ;
         back_to_start <= back_to_start_nxt;
-        //tick_transmit_c <= tick_transmit_c_nxt;
     end
 end
 
@@ -292,7 +291,7 @@ end
                 y_shooter_ow_nxt = y_shooter_ow;
                 keeper_pos_ow_nxt = keeper_pos_ow;
                 keeper_pos_nxt = keeper_pos;
-                connect_corrected_nxt = 1'b0; // because it is sign that something in connection is broken
+                connect_corrected_nxt = 1'b0; 
                 enemy_input_nxt = enemy_input ;
                 enemy_is_scored_nxt = enemy_is_scored ;
                 enemy_shooter_nxt = enemy_shooter;

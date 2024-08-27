@@ -75,7 +75,7 @@ always_ff @(posedge clk) begin : data_passed_through
  end
 
  delay #(
-    .CLK_DEL(6), //3
+    .CLK_DEL(6),
     .WIDTH(38)
  )
  u_keeper_delay(
