@@ -89,7 +89,7 @@
         end
         default: begin
             scaled_shot_xpos_nxt = '0 ;
-            scaled_shot_ypos = '0 ;
+            scaled_shot_ypos_nxt = '0 ;
         end
     endcase
  end

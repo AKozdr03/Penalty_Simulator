@@ -49,7 +49,7 @@ module char_rom_solo
             12'h017: data = " "; 
             12'h018: data = "S"; 
             12'h019: data = "W";
-            12'h01a: data = "1"; 
+            12'h01a: data = "0"; 
             default: data = 7'h20; 
         endcase
     end
