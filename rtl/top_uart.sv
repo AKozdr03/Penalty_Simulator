@@ -23,6 +23,8 @@
  //local variables
 logic [7:0] w_data_nxt;
 logic [1:0] module_counter, module_counter_nxt;
+logic uart_sleep, uart_sleep_nxt;
+logic [9:0] sleep_counter, sleep_counter_nxt;
 logic wr_uart_nxt;
 logic tx_tick, tx_tick_nxt;
 
@@ -34,12 +36,16 @@ logic tx_tick, tx_tick_nxt;
         module_counter <= '0;
         wr_uart <= '0;
         tx_tick <= 1'b1;
+        uart_sleep <= '0;
+        sleep_counter <= '0;
     end
     else begin
         w_data <= w_data_nxt;
         module_counter <= module_counter_nxt;
         wr_uart <= wr_uart_nxt;
         tx_tick <= tx_tick_nxt;
+        uart_sleep <= uart_sleep_nxt;
+        sleep_counter <= sleep_counter_nxt;
     end
  end
 
@@ -71,7 +77,14 @@ logic tx_tick, tx_tick_nxt;
             end
         endcase
 
-        if(tx_tick) begin
+        if((wr_uart == 1'b0) && (uart_sleep == 1'b0)) begin
+            wr_uart_nxt = 1'b1;      
+        end
+        else begin
+            wr_uart_nxt = 1'b0;
+        end
+
+        if(tx_tick && (uart_sleep == 1'b0)) begin
             module_counter_nxt = module_counter + 1;
             tx_tick_nxt = 1'b0;
         end
@@ -79,19 +92,24 @@ logic tx_tick, tx_tick_nxt;
             module_counter_nxt = module_counter;
             tx_tick_nxt = 1'b0;
         end
-        
-        if(wr_uart) begin
-            wr_uart_nxt = 1'b0;
+
+        if((module_counter == 3) && (sleep_counter < 600)) begin
+            uart_sleep_nxt = 1'b1;
+            sleep_counter_nxt = sleep_counter + 1;
         end
         else begin
-            wr_uart_nxt = 1'b1;
+            uart_sleep_nxt = 1'b0;
+            sleep_counter_nxt = '0;
         end
+    
     end
     else begin
         wr_uart_nxt = 1'b0;
         tx_tick_nxt = 1'b1;
         w_data_nxt = w_data;
         module_counter_nxt = module_counter;
+        uart_sleep_nxt = 1'b0;
+        sleep_counter_nxt = '0;
     end
 
  end

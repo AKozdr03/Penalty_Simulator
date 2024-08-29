@@ -58,14 +58,19 @@ always_ff @(posedge clk) begin : data_transmision
 end
 
 always_comb begin : data_to_transmit_controller
-    if(left_clicked)
-        data_to_transmit_nxt = 8'b11001000;
-    else if(right_clicked)
-        data_to_transmit_nxt = 8'b00101000;
-    else if(game_starts)
-        data_to_transmit_nxt = 8'b01001000;
-    else
+    if(game_mode == MULTI) begin
+        if(left_clicked)
+            data_to_transmit_nxt = 8'b11001000;
+        else if(right_clicked)
+            data_to_transmit_nxt = 8'b00101000;
+        else if(game_starts)
+            data_to_transmit_nxt = 8'b01001000;
+        else
+            data_to_transmit_nxt = 8'b00001000;
+    end
+    else begin
         data_to_transmit_nxt = 8'b00001000;
+    end
 end
 
 always_comb begin : next_game_mode_controller
