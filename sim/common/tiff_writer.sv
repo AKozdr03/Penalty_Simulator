@@ -7,7 +7,7 @@
  * 2023  AGH University of Science and Technology
  * MTM UEC2
  * Piotr Kaczmarczyk
- * Andrzej Kozdrowski
+ * Andrzej Kozdrowski, Aron Lampart
  * Description:
  * Top testbenches' auxiliary submodule.
  * It creates a .tiff image file.

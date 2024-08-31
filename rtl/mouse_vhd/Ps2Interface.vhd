@@ -183,7 +183,7 @@ architecture Behavioral of Ps2Interface is
 -- CONSTANTS
 ------------------------------------------------------------------------
 
--- Values are valid for a 100MHz clk. Please adjust for other
+-- Values are valid for a 65MHz clk. Please adjust for other
 -- frequencies if necessary!
 
 -- For 65MHz - 1tick = 15.38ns

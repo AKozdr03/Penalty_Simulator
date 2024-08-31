@@ -27,7 +27,7 @@ sv work ../../rtl/constants/game_pkg.sv \
         ../../rtl/screens/draw_screen_win.sv \
         ../../rtl/screens/draw_screen_lose.sv \
         ../../rtl/top_game.sv \
-        ../../rtl/top_uart.sv \
+        ../../rtl/uart/top_uart.sv \
         ../../rtl/uart/fifo.sv \
         ../../rtl/uart/mod_m_counter.sv \
         ../../rtl/uart/uart_rx.sv \

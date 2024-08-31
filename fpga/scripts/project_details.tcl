@@ -71,7 +71,7 @@ set sv_files {
     ../rtl/text/char_rom_solo.sv
     ../rtl/text/char_rom_instr.sv
     ../rtl/text/char_rom_end.sv
-    ../rtl/top_uart.sv
+    ../rtl/uart/top_uart.sv
     ../rtl/top_game.sv
     rtl/top_basys3.sv
 }

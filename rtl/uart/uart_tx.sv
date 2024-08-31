@@ -1,4 +1,9 @@
-//Listing 8.3
+/*
+ * This code is from file "fpga_vlog_sample_chapter_UART" which was shared in laboratory excercises
+ * If you want see all file, look at "doc" folder
+ * Listing 8.3
+ */
+
 module uart_tx
    #(
      parameter DBIT = 8,     // # data bits

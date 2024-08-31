@@ -1,4 +1,8 @@
-// Listing 4.20
+/*
+ * This code is from file "fpga_vlog_sample_chapter_UART" which was shared in laboratory excercises
+ * If you want see all file, look at "doc" folder
+ * Listing 4.20
+ */
 module fifo
    #(
     parameter B=8, // number of bits in a word
